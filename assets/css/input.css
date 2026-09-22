@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #ea5b1c;
+  --color-primary-light: #f3894f;
+  --color-primary-dark: #c2470f;
+  --color-dark: #0d0d0d;
+  --color-dark-soft: #161616;
+  --color-wine: #3a2229;
+  --color-cream: #f6f1e9;
+
+  --font-display: "Playfair Display", serif;
+  --font-sans: "Poppins", sans-serif;
+}
+
+:root {
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Scroll-reveal: elements start hidden, JS adds .is-visible when in view */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s var(--ease-out-soft), transform 0.7s var(--ease-out-soft);
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Circular rotating text badge */
+.spin-slow {
+  animation: spin 16s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #111111;
+}
+::-webkit-scrollbar-thumb {
+  background: #ea5b1c;
+  border-radius: 9999px;
+}
+
+/* Offcanvas mobile menu */
+#mobile-menu {
+  transform: translateX(100%);
+  transition: transform 0.4s var(--ease-out-soft);
+}
+#mobile-menu.is-open {
+  transform: translateX(0);
+}
+
+#mobile-menu-backdrop {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s var(--ease-out-soft);
+}
+#mobile-menu-backdrop.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Hero slides cross-fade */
+.hero-slide {
+  opacity: 0;
+  transition: opacity 1s var(--ease-out-soft);
+}
+.hero-slide.is-active {
+  opacity: 1;
+}
