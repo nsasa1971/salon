@@ -55,22 +55,32 @@ blogPanel?.querySelectorAll('a').forEach((link) => link.addEventListener('click'
 
 /* ---------- Booking modal ---------- */
 const bookingModal = document.getElementById('booking-modal');
+const bookingModalBackdrop = document.getElementById('booking-modal-backdrop');
 const bookingModalClose = document.getElementById('booking-modal-close');
 
 const openBookingModal = () => {
   closeMenu();
-  bookingModal?.showModal();
+  closeBlogPanel();
+  bookingModal?.show();
+  bookingModalBackdrop?.classList.add('is-open');
+  document.body.classList.add('overflow-hidden');
+};
+
+const closeBookingModal = () => {
+  bookingModal?.close();
+  bookingModalBackdrop?.classList.remove('is-open');
+  document.body.classList.remove('overflow-hidden');
 };
 
 document.querySelectorAll('[data-open-booking]').forEach((btn) => {
   btn.addEventListener('click', openBookingModal);
 });
 
-bookingModalClose?.addEventListener('click', () => bookingModal.close());
+bookingModalClose?.addEventListener('click', closeBookingModal);
+bookingModalBackdrop?.addEventListener('click', closeBookingModal);
 
-bookingModal?.addEventListener('click', (e) => {
-  const panel = bookingModal.querySelector(':scope > div');
-  if (panel && !panel.contains(e.target)) bookingModal.close();
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && bookingModal?.open) closeBookingModal();
 });
 
 /* ---------- Hero slider with live water-ripple background ---------- */
@@ -325,10 +335,9 @@ document.querySelectorAll('[data-form]').forEach((form) => {
     }
     form.reset();
 
-    const dialog = form.closest('dialog');
-    if (dialog) {
+    if (form.closest('dialog')) {
       window.setTimeout(() => {
-        dialog.close();
+        closeBookingModal();
         feedback?.classList.add('hidden');
       }, 1600);
     }
