@@ -34,22 +34,54 @@ menuCloseBtn?.addEventListener('click', closeMenu);
 mobileBackdrop?.addEventListener('click', closeMenu);
 mobileMenu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
 
-/* ---------- Hero slider ---------- */
-const heroSlides = Array.from(document.querySelectorAll('.hero-slide'));
+/* ---------- Hero slider (water-surface wipe transition) ---------- */
+const heroBg = document.getElementById('hero-bg');
+const waveTransition = document.getElementById('wave-transition');
 const heroDots = Array.from(document.querySelectorAll('[data-hero-dot]'));
+
+const heroSlideBackgrounds = [
+  'bg-gradient-to-br from-wine via-[#2a171c] to-dark',
+  'bg-gradient-to-tr from-primary-dark/70 via-wine to-dark',
+  'bg-gradient-to-bl from-dark via-wine to-primary-dark/50',
+];
+
 let heroIndex = 0;
 let heroTimer;
+let heroTransitioning = false;
+const HERO_WAVE_DURATION = 750;
 
-const showHeroSlide = (index) => {
-  heroSlides.forEach((slide, i) => slide.classList.toggle('is-active', i === index));
-  heroDots.forEach((dot, i) => {
-    dot.classList.toggle('bg-primary', i === index);
-    dot.classList.toggle('bg-white/40', i !== index);
-  });
-  heroIndex = index;
+const updateHeroDots = () => {
+  heroDots.forEach((dot, i) => dot.classList.toggle('is-active', i === heroIndex));
 };
 
-const nextHeroSlide = () => showHeroSlide((heroIndex + 1) % heroSlides.length);
+const setHeroBackground = (index) => {
+  heroBg.className = `absolute inset-0 transition-[background] duration-700 ${heroSlideBackgrounds[index]}`;
+};
+
+const goToHeroSlide = (index) => {
+  if (heroTransitioning || index === heroIndex || !waveTransition) return;
+  heroTransitioning = true;
+
+  waveTransition.classList.add('is-flooding');
+
+  window.setTimeout(() => {
+    setHeroBackground(index);
+    heroIndex = index;
+    updateHeroDots();
+
+    waveTransition.classList.remove('is-flooding');
+    waveTransition.classList.add('is-receding');
+
+    window.setTimeout(() => {
+      waveTransition.classList.add('no-anim');
+      waveTransition.classList.remove('is-receding');
+      requestAnimationFrame(() => waveTransition.classList.remove('no-anim'));
+      heroTransitioning = false;
+    }, HERO_WAVE_DURATION);
+  }, HERO_WAVE_DURATION);
+};
+
+const nextHeroSlide = () => goToHeroSlide((heroIndex + 1) % heroSlideBackgrounds.length);
 
 const startHeroAutoplay = () => {
   clearInterval(heroTimer);
@@ -58,13 +90,14 @@ const startHeroAutoplay = () => {
 
 heroDots.forEach((dot, i) => {
   dot.addEventListener('click', () => {
-    showHeroSlide(i);
+    goToHeroSlide(i);
     startHeroAutoplay();
   });
 });
 
-if (heroSlides.length) {
-  showHeroSlide(0);
+if (heroDots.length) {
+  setHeroBackground(0);
+  updateHeroDots();
   startHeroAutoplay();
 }
 
@@ -168,3 +201,68 @@ document.querySelectorAll('[data-form]').forEach((form) => {
     form.reset();
   });
 });
+
+/* ---------- Custom cursor: ring + dot, with text-color reveal ---------- */
+if (window.matchMedia('(pointer: fine)').matches) {
+  const cursorDot = document.getElementById('cursor-dot');
+  const cursorRing = document.getElementById('cursor-ring');
+  const revealTargets = Array.from(document.querySelectorAll('[data-cursor-text]'));
+
+  const DOT_RADIUS = 4;
+  const RING_RADIUS = 22;
+  const RING_RADIUS_HOVER = 52;
+  const RING_EASE = 0.18;
+
+  let mouseX = -100;
+  let mouseY = -100;
+  let ringX = mouseX;
+  let ringY = mouseY;
+  let isHovering = false;
+  let hasMoved = false;
+
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    if (!hasMoved) {
+      hasMoved = true;
+      cursorDot.style.opacity = '1';
+      cursorRing.style.opacity = '1';
+    }
+  });
+
+  document.addEventListener('mouseover', (e) => {
+    isHovering = !!e.target.closest('[data-cursor-hover], [data-cursor-text], a, button');
+    cursorRing.classList.toggle('is-hover', isHovering);
+  });
+
+  document.addEventListener('mouseleave', () => {
+    cursorDot.style.opacity = '0';
+    cursorRing.style.opacity = '0';
+  });
+
+  const tick = () => {
+    cursorDot.style.transform = `translate3d(${mouseX - DOT_RADIUS}px, ${mouseY - DOT_RADIUS}px, 0)`;
+
+    ringX += (mouseX - ringX) * RING_EASE;
+    ringY += (mouseY - ringY) * RING_EASE;
+    const ringRadius = isHovering ? RING_RADIUS_HOVER : RING_RADIUS;
+    cursorRing.style.width = `${ringRadius * 2}px`;
+    cursorRing.style.height = `${ringRadius * 2}px`;
+    cursorRing.style.transform = `translate3d(${ringX - ringRadius}px, ${ringY - ringRadius}px, 0)`;
+
+    revealTargets.forEach((el) => {
+      const reveal = el.querySelector('.cursor-text__reveal');
+      if (!reveal) return;
+      const rect = el.getBoundingClientRect();
+      const inside =
+        mouseX >= rect.left && mouseX <= rect.right && mouseY >= rect.top && mouseY <= rect.bottom;
+      const radius = inside ? RING_RADIUS_HOVER : 0;
+      reveal.style.clipPath = `circle(${radius}px at ${mouseX - rect.left}px ${mouseY - rect.top}px)`;
+    });
+
+    requestAnimationFrame(tick);
+  };
+
+  document.documentElement.classList.add('has-custom-cursor');
+  requestAnimationFrame(tick);
+}

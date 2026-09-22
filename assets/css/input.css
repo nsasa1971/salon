@@ -75,11 +75,155 @@ html {
   pointer-events: auto;
 }
 
-/* Hero slides cross-fade */
-.hero-slide {
-  opacity: 0;
-  transition: opacity 1s var(--ease-out-soft);
+/* ============ Nav links with decorative "+" ============ */
+.nav-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
 }
-.hero-slide.is-active {
+.cursor-text__plus {
+  color: var(--color-primary);
+  font-size: 0.65em;
+  margin-left: 1px;
+}
+
+/* ============ Cursor text-color reveal ============ */
+[data-cursor-text] {
+  position: relative;
+}
+.cursor-text__reveal {
+  position: absolute;
+  inset: 0;
+  left: 0;
+  top: 0;
+  color: var(--color-primary-light);
+  clip-path: circle(0px at 50% 50%);
+  pointer-events: none;
+  white-space: nowrap;
+  will-change: clip-path;
+}
+.cursor-text__reveal--block {
+  white-space: normal;
+}
+
+/* ============ Custom cursor ============ */
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-radius: 9999px;
+  pointer-events: none;
+  z-index: 200;
+  will-change: transform;
+  transform: translate3d(-100px, -100px, 0);
+}
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--color-primary);
+  transition: opacity 0.2s ease, background-color 0.3s ease;
+}
+.cursor-ring {
+  width: 44px;
+  height: 44px;
+  border: 1.5px solid rgba(255, 255, 255, 0.55);
+  transition: opacity 0.2s ease, border-color 0.3s ease, background-color 0.3s ease;
+}
+.cursor-ring.is-hover {
+  border-color: var(--color-primary);
+  background: rgba(234, 91, 28, 0.08);
+}
+html.has-custom-cursor,
+html.has-custom-cursor a,
+html.has-custom-cursor button {
+  cursor: none;
+}
+@media (pointer: coarse), (hover: none) {
+  .cursor-dot,
+  .cursor-ring {
+    display: none;
+  }
+}
+
+/* ============ Hero slide dots ============ */
+.hero-dot {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  border-radius: 9999px;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  transition: border-color 0.3s var(--ease-out-soft), width 0.3s var(--ease-out-soft), height 0.3s var(--ease-out-soft);
+}
+.hero-dot__fill {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.4);
+  transition: background-color 0.3s ease;
+}
+.hero-dot.is-active {
+  width: 26px;
+  height: 26px;
+  border-color: var(--color-primary);
+}
+.hero-dot.is-active .hero-dot__fill {
+  background: var(--color-primary);
+}
+
+/* ============ Hero slide water-wipe transition ============ */
+#wave-transition .wave-layer {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: translateY(100%);
+  transition: transform 750ms cubic-bezier(0.34, 1.15, 0.64, 1);
+}
+#wave-transition.is-flooding .wave-layer,
+#wave-transition.is-receding .wave-layer {
   opacity: 1;
+}
+#wave-transition .wave-layer--back {
+  background:
+    radial-gradient(120% 140% at 30% 0%, rgba(234, 91, 28, 0.45), transparent 60%),
+    var(--color-dark);
+}
+#wave-transition .wave-layer--front {
+  background-color: var(--color-dark-soft);
+  transition-delay: 90ms;
+}
+#wave-transition .wave-layer::before {
+  content: "";
+  position: absolute;
+  left: -10%;
+  right: -10%;
+  top: -1px;
+  height: 46px;
+  transform: translateY(-97%);
+  background-repeat: repeat-x;
+  background-size: 220px 46px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 46'%3E%3Cpath d='M0 23c15-23 40-23 55 0s40 23 55 0 40-23 55 0 40 23 55 0v23H0z' fill='%23ffffff' fill-opacity='0.14'/%3E%3C/svg%3E");
+  animation: waveScroll 4s linear infinite;
+}
+@keyframes waveScroll {
+  from {
+    background-position-x: 0;
+  }
+  to {
+    background-position-x: -220px;
+  }
+}
+#wave-transition.is-flooding .wave-layer {
+  transform: translateY(0%);
+}
+#wave-transition.is-receding .wave-layer {
+  transform: translateY(-100%);
+  transition-timing-function: var(--ease-out-soft);
+}
+#wave-transition.no-anim .wave-layer {
+  transition: none !important;
 }
