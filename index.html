@@ -97,24 +97,29 @@
 <!-- ============ HERO ============ -->
 <section id="home" class="relative isolate flex min-h-screen items-center overflow-hidden bg-wine">
 
-  <!-- Active slide background (swapped by JS once the wave fully covers the screen) -->
-  <div id="hero-bg" class="absolute inset-0 bg-gradient-to-br from-wine via-[#2a171c] to-dark transition-[background] duration-700"></div>
+  <!-- Rippling water-distorted background. Canvas renders a live WebGL ripple simulation
+       over the current slide's texture; the div behind it is a plain CSS fallback used
+       only if WebGL is unavailable. -->
+  <div id="hero-bg-fallback" class="absolute inset-0 hidden bg-cover bg-center"></div>
+  <canvas id="hero-ripple" class="absolute inset-0 h-full w-full"></canvas>
   <div class="absolute inset-0 bg-gradient-to-r from-dark/90 via-dark/50 to-dark/10"></div>
-  <div class="absolute inset-0 bg-black/20"></div>
-
-  <!-- Water-surface wipe transition between slides -->
-  <div id="wave-transition" class="pointer-events-none absolute inset-0 z-20 overflow-hidden" aria-hidden="true">
-    <div class="wave-layer wave-layer--back"></div>
-    <div class="wave-layer wave-layer--front"></div>
-  </div>
+  <div class="absolute inset-0 bg-black/15"></div>
 
   <!-- Social rail -->
   <div class="absolute left-6 top-1/2 z-10 hidden -translate-y-1/2 flex-col items-center gap-5 lg:flex">
     <span class="mb-2 rotate-180 text-xs uppercase tracking-[0.3em] [writing-mode:vertical-rl]">We Social</span>
-    <a href="#" aria-label="Facebook" class="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-sm backdrop-blur-sm transition hover:bg-primary" data-cursor-hover>f</a>
-    <a href="#" aria-label="Twitter / X" class="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-sm backdrop-blur-sm transition hover:bg-primary" data-cursor-hover>x</a>
-    <a href="#" aria-label="Instagram" class="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-sm backdrop-blur-sm transition hover:bg-primary" data-cursor-hover>ig</a>
-    <a href="#" aria-label="LinkedIn" class="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-sm backdrop-blur-sm transition hover:bg-primary" data-cursor-hover>in</a>
+    <a href="#" aria-label="Facebook" class="flex h-10 w-10 items-center justify-center rounded-full bg-black/40 backdrop-blur-sm transition hover:bg-primary" data-cursor-hover>
+      <svg viewBox="0 0 24 24" class="h-4 w-4 fill-current"><path d="M13.5 21v-8.2h2.75l.41-3.2h-3.16V7.55c0-.93.26-1.56 1.6-1.56h1.7V3.14C15.98 3.1 15 3 13.85 3c-2.4 0-4.05 1.47-4.05 4.16v2.44H7v3.2h2.8V21h3.7z"/></svg>
+    </a>
+    <a href="#" aria-label="Twitter / X" class="flex h-10 w-10 items-center justify-center rounded-full bg-black/40 backdrop-blur-sm transition hover:bg-primary" data-cursor-hover>
+      <svg viewBox="0 0 24 24" class="h-4 w-4 fill-current"><path d="M18.9 3H21l-5.4 6.2L22 21h-6.2l-4.4-5.9L6.3 21H3.9l5.8-6.6L4 3h6.3l4 5.4L18.9 3zm-1 16.2h1.2L8.2 4.7H6.9l11 14.5z"/></svg>
+    </a>
+    <a href="#" aria-label="Instagram" class="flex h-10 w-10 items-center justify-center rounded-full bg-black/40 backdrop-blur-sm transition hover:bg-primary" data-cursor-hover>
+      <svg viewBox="0 0 24 24" class="h-4 w-4 fill-current"><path d="M12 2.2c2.7 0 3 0 4.1.06 1.05.05 1.6.22 2 .37.5.2.85.42 1.22.8.38.37.6.72.8 1.22.15.4.32.95.37 2 .05 1.1.06 1.4.06 4.1s0 3-.06 4.1c-.05 1.05-.22 1.6-.37 2-.2.5-.42.85-.8 1.22-.37.38-.72.6-1.22.8-.4.15-.95.32-2 .37-1.1.05-1.4.06-4.1.06s-3 0-4.1-.06c-1.05-.05-1.6-.22-2-.37-.5-.2-.85-.42-1.22-.8a3.3 3.3 0 01-.8-1.22c-.15-.4-.32-.95-.37-2-.05-1.1-.06-1.4-.06-4.1s0-3 .06-4.1c.05-1.05.22-1.6.37-2 .2-.5.42-.85.8-1.22.37-.38.72-.6 1.22-.8.4-.15.95-.32 2-.37C9 2.2 9.3 2.2 12 2.2zm0 1.8c-2.65 0-2.96 0-4 .06-.9.04-1.4.19-1.72.32-.43.17-.74.37-1.06.7-.32.31-.52.62-.7 1.05-.13.32-.28.82-.32 1.72-.05 1.04-.06 1.35-.06 4s0 2.96.06 4c.04.9.19 1.4.32 1.72.18.43.38.74.7 1.06.32.32.63.52 1.06.7.32.13.82.28 1.72.32 1.04.05 1.35.06 4 .06s2.96 0 4-.06c.9-.04 1.4-.19 1.72-.32.43-.18.74-.38 1.06-.7.32-.32.52-.63.7-1.06.13-.32.28-.82.32-1.72.05-1.04.06-1.35.06-4s0-2.96-.06-4c-.04-.9-.19-1.4-.32-1.72a2.8 2.8 0 00-.7-1.06 2.8 2.8 0 00-1.06-.7c-.32-.13-.82-.28-1.72-.32-1.04-.05-1.35-.06-4-.06zm0 3.06a4.94 4.94 0 110 9.88 4.94 4.94 0 010-9.88zm0 1.8a3.14 3.14 0 100 6.28 3.14 3.14 0 000-6.28zm5.1-1.99a1.15 1.15 0 11-2.3 0 1.15 1.15 0 012.3 0z"/></svg>
+    </a>
+    <a href="#" aria-label="LinkedIn" class="flex h-10 w-10 items-center justify-center rounded-full bg-black/40 backdrop-blur-sm transition hover:bg-primary" data-cursor-hover>
+      <svg viewBox="0 0 24 24" class="h-4 w-4 fill-current"><path d="M6.94 8.5H3.56V21h3.38V8.5zM5.25 3a1.96 1.96 0 100 3.92A1.96 1.96 0 005.25 3zM21 21v-6.9c0-3.7-2-5.42-4.6-5.42-2.1 0-3.05 1.16-3.57 1.97V8.5H9.44S9.5 9.6 9.44 21h3.39v-6.98c0-.37.02-.75.13-1.02.3-.75 1-1.53 2.16-1.53 1.52 0 2.13 1.16 2.13 2.86V21H21z"/></svg>
+    </a>
   </div>
 
   <div class="relative z-10 mx-auto w-full max-w-7xl px-6 pt-28 lg:pl-24 lg:pr-10">
@@ -414,6 +419,7 @@
 <div id="cursor-ring" class="cursor-ring" aria-hidden="true"></div>
 
 <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<script src="assets/js/ripple.js"></script>
 <script src="assets/js/main.js"></script>
 </body>
 </html>

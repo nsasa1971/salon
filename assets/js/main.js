@@ -34,54 +34,82 @@ menuCloseBtn?.addEventListener('click', closeMenu);
 mobileBackdrop?.addEventListener('click', closeMenu);
 mobileMenu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
 
-/* ---------- Hero slider (water-surface wipe transition) ---------- */
-const heroBg = document.getElementById('hero-bg');
-const waveTransition = document.getElementById('wave-transition');
+/* ---------- Hero slider with live water-ripple background ---------- */
+const heroSection = document.getElementById('home');
+const heroCanvas = document.getElementById('hero-ripple');
+const heroFallback = document.getElementById('hero-bg-fallback');
 const heroDots = Array.from(document.querySelectorAll('[data-hero-dot]'));
 
-const heroSlideBackgrounds = [
-  'bg-gradient-to-br from-wine via-[#2a171c] to-dark',
-  'bg-gradient-to-tr from-primary-dark/70 via-wine to-dark',
-  'bg-gradient-to-bl from-dark via-wine to-primary-dark/50',
+const heroSlideStops = [
+  { from: '#3a2229', via: '#2a171c', to: '#0d0d0d', angle: 135 },
+  { from: '#c2470f', via: '#3a2229', to: '#0d0d0d', angle: 45 },
+  { from: '#0d0d0d', via: '#3a2229', to: '#c2470f', angle: 225 },
 ];
+
+const ripple =
+  heroCanvas && window.RippleCanvas ? new window.RippleCanvas(heroCanvas, { resolution: 300 }) : null;
+const rippleSupported = !!ripple && ripple.supported;
+
+if (heroCanvas) heroCanvas.style.display = rippleSupported ? '' : 'none';
+if (heroFallback) heroFallback.classList.toggle('hidden', rippleSupported);
+
+const slideCanvas = document.createElement('canvas');
+slideCanvas.width = 512;
+slideCanvas.height = 512;
+const slideCtx = slideCanvas.getContext('2d');
+
+const paintHeroSlide = (index) => {
+  const stop = heroSlideStops[index];
+  const rad = (stop.angle * Math.PI) / 180;
+  const cx = 256;
+  const cy = 256;
+  const len = 360;
+  const x0 = cx - Math.cos(rad) * len;
+  const y0 = cy - Math.sin(rad) * len;
+  const x1 = cx + Math.cos(rad) * len;
+  const y1 = cy + Math.sin(rad) * len;
+  const gradient = slideCtx.createLinearGradient(x0, y0, x1, y1);
+  gradient.addColorStop(0, stop.from);
+  gradient.addColorStop(0.5, stop.via);
+  gradient.addColorStop(1, stop.to);
+  slideCtx.fillStyle = gradient;
+  slideCtx.fillRect(0, 0, 512, 512);
+
+  if (rippleSupported) {
+    ripple.setBackground(slideCanvas);
+  } else if (heroFallback) {
+    heroFallback.style.backgroundImage = `url(${slideCanvas.toDataURL()})`;
+  }
+};
 
 let heroIndex = 0;
 let heroTimer;
 let heroTransitioning = false;
-const HERO_WAVE_DURATION = 750;
 
 const updateHeroDots = () => {
   heroDots.forEach((dot, i) => dot.classList.toggle('is-active', i === heroIndex));
 };
 
-const setHeroBackground = (index) => {
-  heroBg.className = `absolute inset-0 transition-[background] duration-700 ${heroSlideBackgrounds[index]}`;
-};
-
 const goToHeroSlide = (index) => {
-  if (heroTransitioning || index === heroIndex || !waveTransition) return;
+  if (heroTransitioning || index === heroIndex) return;
   heroTransitioning = true;
 
-  waveTransition.classList.add('is-flooding');
+  if (rippleSupported) {
+    ripple.drop(0.5, 0.5, 0.55, 0.9);
+    ripple.drop(0.22, 0.62, 0.35, 0.6);
+    ripple.drop(0.78, 0.4, 0.35, 0.6);
+  }
 
   window.setTimeout(() => {
-    setHeroBackground(index);
+    paintHeroSlide(index);
     heroIndex = index;
     updateHeroDots();
-
-    waveTransition.classList.remove('is-flooding');
-    waveTransition.classList.add('is-receding');
-
-    window.setTimeout(() => {
-      waveTransition.classList.add('no-anim');
-      waveTransition.classList.remove('is-receding');
-      requestAnimationFrame(() => waveTransition.classList.remove('no-anim'));
-      heroTransitioning = false;
-    }, HERO_WAVE_DURATION);
-  }, HERO_WAVE_DURATION);
+    if (rippleSupported) ripple.drop(0.5, 0.5, 0.6, 0.65);
+    heroTransitioning = false;
+  }, 260);
 };
 
-const nextHeroSlide = () => goToHeroSlide((heroIndex + 1) % heroSlideBackgrounds.length);
+const nextHeroSlide = () => goToHeroSlide((heroIndex + 1) % heroSlideStops.length);
 
 const startHeroAutoplay = () => {
   clearInterval(heroTimer);
@@ -95,10 +123,46 @@ heroDots.forEach((dot, i) => {
   });
 });
 
+if (heroSection) {
+  const throttle = (fn, wait) => {
+    let last = 0;
+    return (...args) => {
+      const now = Date.now();
+      if (now - last >= wait) {
+        last = now;
+        fn(...args);
+      }
+    };
+  };
+
+  const dropAtEvent = (clientX, clientY, radius, strength) => {
+    if (!rippleSupported) return;
+    const rect = heroCanvas.getBoundingClientRect();
+    const x = (clientX - rect.left) / rect.width;
+    const y = 1 - (clientY - rect.top) / rect.height;
+    ripple.drop(x, y, radius, strength);
+  };
+
+  heroSection.addEventListener(
+    'mousemove',
+    throttle((e) => dropAtEvent(e.clientX, e.clientY, 0.05, 0.22), 55)
+  );
+
+  window.setInterval(() => {
+    if (!rippleSupported || !document.hasFocus()) return;
+    ripple.drop(0.15 + Math.random() * 0.7, 0.15 + Math.random() * 0.7, 0.07 + Math.random() * 0.05, 0.3 + Math.random() * 0.2);
+  }, 2600);
+
+  window.addEventListener('resize', () => {
+    if (rippleSupported) ripple.resize();
+  });
+}
+
 if (heroDots.length) {
-  setHeroBackground(0);
+  paintHeroSlide(0);
   updateHeroDots();
   startHeroAutoplay();
+  if (rippleSupported) ripple.start();
 }
 
 /* ---------- Interactive services switcher ---------- */
@@ -209,8 +273,8 @@ if (window.matchMedia('(pointer: fine)').matches) {
   const revealTargets = Array.from(document.querySelectorAll('[data-cursor-text]'));
 
   const DOT_RADIUS = 4;
-  const RING_RADIUS = 22;
-  const RING_RADIUS_HOVER = 52;
+  const RING_RADIUS = 16;
+  const RING_RADIUS_HOVER = 48;
   const RING_EASE = 0.18;
 
   let mouseX = -100;
