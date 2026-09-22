@@ -9,30 +9,49 @@ const onScrollHeader = () => {
 document.addEventListener('scroll', onScrollHeader, { passive: true });
 onScrollHeader();
 
-/* ---------- Mobile offcanvas menu ---------- */
+/* ---------- Header panel: nav menu (mobile) vs. blog preview (desktop) ----------
+   Both share the same trigger button. Below the xl: breakpoint the header nav is
+   hidden, so the grid-icon button opens the navigation menu; at xl: and up the nav
+   is already visible, so the same button instead opens a quick blog-post preview. */
 const menuOpenBtn = document.getElementById('menu-open');
 const menuCloseBtn = document.getElementById('menu-close');
 const mobileMenu = document.getElementById('mobile-menu');
 const mobileBackdrop = document.getElementById('mobile-menu-backdrop');
+const blogPanel = document.getElementById('blog-panel');
+const blogPanelBackdrop = document.getElementById('blog-panel-backdrop');
+const blogPanelClose = document.getElementById('blog-panel-close');
 
-const openMenu = () => {
-  mobileMenu.classList.add('is-open');
-  mobileBackdrop.classList.add('is-open');
+const isDesktopNav = () => window.matchMedia('(min-width: 1280px)').matches;
+
+const openPanel = (panel, backdrop) => {
+  panel.classList.add('is-open');
+  backdrop.classList.add('is-open');
   menuOpenBtn.setAttribute('aria-expanded', 'true');
   document.body.classList.add('overflow-hidden');
 };
 
-const closeMenu = () => {
-  mobileMenu.classList.remove('is-open');
-  mobileBackdrop.classList.remove('is-open');
+const closePanel = (panel, backdrop) => {
+  panel.classList.remove('is-open');
+  backdrop.classList.remove('is-open');
   menuOpenBtn.setAttribute('aria-expanded', 'false');
   document.body.classList.remove('overflow-hidden');
 };
 
-menuOpenBtn?.addEventListener('click', openMenu);
+const closeMenu = () => closePanel(mobileMenu, mobileBackdrop);
+const closeBlogPanel = () => closePanel(blogPanel, blogPanelBackdrop);
+
+menuOpenBtn?.addEventListener('click', () => {
+  if (isDesktopNav()) openPanel(blogPanel, blogPanelBackdrop);
+  else openPanel(mobileMenu, mobileBackdrop);
+});
+
 menuCloseBtn?.addEventListener('click', closeMenu);
 mobileBackdrop?.addEventListener('click', closeMenu);
-mobileMenu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
+mobileMenu?.querySelectorAll('a, button').forEach((el) => el.addEventListener('click', closeMenu));
+
+blogPanelClose?.addEventListener('click', closeBlogPanel);
+blogPanelBackdrop?.addEventListener('click', closeBlogPanel);
+blogPanel?.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeBlogPanel));
 
 /* ---------- Booking modal ---------- */
 const bookingModal = document.getElementById('booking-modal');
@@ -209,26 +228,26 @@ const serviceImage = document.getElementById('service-image');
 
 const serviceData = {
   '01': {
-    title: 'Bridal Makeup',
-    desc: 'Short placeholder description of this service — swap in your own copy.',
+    title: 'Šminkanje za Mlade',
+    desc: 'Kratak opis ove usluge — zamenite sopstvenim tekstom.',
     icon: 'M12 2a5 5 0 015 5c0 3-2 4-2 7h-6c0-3-2-4-2-7a5 5 0 015-5z',
     image: 'assets/images/service-bridal-makeup.webp',
   },
   '02': {
-    title: 'Hair Styling',
-    desc: 'Short placeholder description of this service — swap in your own copy.',
+    title: 'Stilizovanje Kose',
+    desc: 'Kratak opis ove usluge — zamenite sopstvenim tekstom.',
     icon: 'M12 21c-4.4-3-8-6.5-8-11a5 5 0 019-3 5 5 0 019 3c0 4.5-3.6 8-8 11z',
     image: 'assets/images/service-hair-styling.webp',
   },
   '03': {
-    title: 'Manicure & Nails',
-    desc: 'Short placeholder description of this service — swap in your own copy.',
+    title: 'Manikir i Nokti',
+    desc: 'Kratak opis ove usluge — zamenite sopstvenim tekstom.',
     icon: 'M4 4h16v4H4zM4 10h16v10H4z',
     image: 'assets/images/service-manicure.webp',
   },
   '04': {
-    title: 'Facial Treatment',
-    desc: 'Short placeholder description of this service — swap in your own copy.',
+    title: 'Tretman Lica',
+    desc: 'Kratak opis ove usluge — zamenite sopstvenim tekstom.',
     icon: 'M12 2l2.4 7.2H22l-6 4.4 2.3 7.2L12 16.4 5.7 20.8 8 13.6l-6-4.4h7.6z',
     image: 'assets/images/service-facial-treatment.webp',
   },
@@ -301,7 +320,7 @@ document.querySelectorAll('[data-form]').forEach((form) => {
     e.preventDefault();
     const feedback = form.querySelector('[data-form-feedback]');
     if (feedback) {
-      feedback.textContent = 'Thanks! Replace this with real form handling.';
+      feedback.textContent = 'Hvala! Zamenite ovo pravom obradom forme.';
       feedback.classList.remove('hidden');
     }
     form.reset();
@@ -348,7 +367,7 @@ if (window.matchMedia('(pointer: fine)').matches) {
 
   document.addEventListener('mouseover', (e) => {
     isNavHovering = !!e.target.closest('[data-cursor-nav]');
-    isHovering = !isNavHovering && !!e.target.closest('[data-cursor-hover], [data-cursor-text], a, button');
+    isHovering = !isNavHovering && !!e.target.closest('[data-cursor-text]');
     cursorRing.classList.toggle('is-hover', isHovering);
     cursorDot.classList.toggle('is-nav-hover', isNavHovering);
     cursorRing.classList.toggle('is-nav-hover', isNavHovering);

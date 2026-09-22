@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="sr-Latn" class="scroll-smooth">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>[Business Name] — Beauty &amp; Spa Salon Template</title>
-<meta name="description" content="Placeholder landing page template for a beauty &amp; spa salon — rebuilt with clean HTML, Tailwind CSS and modern JavaScript.">
+<title>[Naziv Biznisa] — Šablon za Frizerski i Spa Salon</title>
+<meta name="description" content="Placeholder početna stranica za frizerski i spa salon — izrađena čistim HTML-om, Tailwind CSS-om i modernim JavaScript-om.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="assets/css/style.css">
@@ -16,30 +16,30 @@
   <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 lg:px-10">
 
     <!-- Logo badge -->
-    <a href="#home" class="relative flex items-center gap-3 rounded-2xl rounded-r-[2.25rem] bg-white py-2.5 pl-3 pr-7 text-dark shadow-lg sm:py-3 sm:pl-4 sm:pr-9" data-cursor-hover>
+    <a href="#home" class="relative flex items-center gap-3 rounded-2xl rounded-r-[2.25rem] bg-white py-2.5 pl-3 pr-7 text-dark shadow-lg sm:py-3 sm:pl-4 sm:pr-9" data-cursor-nav>
       <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary font-display text-lg font-bold text-white">B</span>
       <span class="leading-tight">
-        <span class="block font-display text-lg tracking-wide sm:text-xl">[Business Name]</span>
-        <span class="block text-[10px] font-semibold uppercase tracking-[0.22em] text-primary">Tagline Goes Here</span>
+        <span class="block font-display text-lg tracking-wide sm:text-xl">[Naziv Biznisa]</span>
+        <span class="block text-[10px] font-semibold uppercase tracking-[0.22em] text-primary">Slogan Ide Ovde</span>
       </span>
     </a>
 
     <!-- Desktop nav -->
     <nav class="hidden items-center gap-8 text-sm font-medium uppercase tracking-wider xl:flex">
       <a href="#home" class="nav-link" data-cursor-nav>
-        Home<sup class="cursor-text__plus">+</sup>
+        Početna<sup class="cursor-text__plus">+</sup>
       </a>
       <a href="#about" class="nav-link" data-cursor-nav>
-        About<sup class="cursor-text__plus">+</sup>
+        O Nama<sup class="cursor-text__plus">+</sup>
       </a>
       <a href="#services" class="nav-link" data-cursor-nav>
-        Services<sup class="cursor-text__plus">+</sup>
+        Usluge<sup class="cursor-text__plus">+</sup>
       </a>
       <a href="#offers" class="nav-link" data-cursor-nav>
-        Offers<sup class="cursor-text__plus">+</sup>
+        Ponude<sup class="cursor-text__plus">+</sup>
       </a>
       <a href="#contact" class="nav-link" data-cursor-nav>
-        Contact Us
+        Kontakt
       </a>
     </nav>
 
@@ -47,10 +47,10 @@
     <div class="flex items-center gap-3 sm:gap-5">
       <button type="button" data-open-booking
         class="hidden rounded-full bg-primary px-6 py-3 text-xs font-semibold uppercase tracking-wider transition hover:bg-primary-dark sm:inline-block" data-cursor-nav>
-        Get Started Now
+        Zakažite Termin
       </button>
 
-      <button id="menu-open" aria-controls="mobile-menu" aria-expanded="false" aria-label="Open menu"
+      <button id="menu-open" aria-controls="mobile-menu" aria-expanded="false" aria-label="Otvori meni"
         class="grid h-11 w-11 shrink-0 grid-cols-3 place-items-center gap-[3px] rounded-full bg-white p-3 transition hover:bg-primary/90 [&_span]:hover:bg-white" data-cursor-nav>
         <span class="h-1 w-1 rounded-full bg-dark"></span><span class="h-1 w-1 rounded-full bg-dark"></span><span class="h-1 w-1 rounded-full bg-dark"></span>
         <span class="h-1 w-1 rounded-full bg-dark"></span><span class="h-1 w-1 rounded-full bg-dark"></span><span class="h-1 w-1 rounded-full bg-dark"></span>
@@ -60,27 +60,93 @@
   </div>
 </header>
 
-<!-- Mobile offcanvas menu -->
-<div id="mobile-menu-backdrop" class="fixed inset-0 z-50 bg-black/70"></div>
-<aside id="mobile-menu" class="fixed inset-y-0 right-0 z-50 flex w-80 max-w-[85vw] flex-col gap-8 bg-dark-soft p-8">
+<!-- Mobile offcanvas menu (shown below the xl: breakpoint, where the header nav is hidden) -->
+<div id="mobile-menu-backdrop" class="offcanvas-backdrop fixed inset-0 z-50 bg-black/70"></div>
+<aside id="mobile-menu" class="offcanvas-panel fixed inset-y-0 right-0 z-50 flex w-80 max-w-[85vw] flex-col gap-8 bg-dark-soft p-8">
   <div class="flex items-center justify-between">
-    <span class="font-display text-xl">[Business Name]</span>
-    <button id="menu-close" aria-label="Close menu" class="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 hover:border-primary">
+    <span class="font-display text-xl">[Naziv Biznisa]</span>
+    <button id="menu-close" aria-label="Zatvori meni" class="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 hover:border-primary" data-cursor-nav>
       <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
       </svg>
     </button>
   </div>
   <nav class="flex flex-col gap-6 text-lg font-medium uppercase tracking-wider">
-    <a href="#home" class="transition hover:text-primary-light">Home</a>
-    <a href="#about" class="transition hover:text-primary-light">About</a>
-    <a href="#services" class="transition hover:text-primary-light">Services</a>
-    <a href="#offers" class="transition hover:text-primary-light">Offers</a>
-    <a href="#contact" class="transition hover:text-primary-light">Contact Us</a>
+    <a href="#home" class="transition hover:text-primary-light" data-cursor-nav>Početna</a>
+    <a href="#about" class="transition hover:text-primary-light" data-cursor-nav>O Nama</a>
+    <a href="#services" class="transition hover:text-primary-light" data-cursor-nav>Usluge</a>
+    <a href="#offers" class="transition hover:text-primary-light" data-cursor-nav>Ponude</a>
+    <a href="#contact" class="transition hover:text-primary-light" data-cursor-nav>Kontakt</a>
   </nav>
-  <button type="button" data-open-booking class="mt-auto rounded-full bg-primary px-6 py-3 text-center text-xs font-semibold uppercase tracking-wider hover:bg-primary-dark">
-    Book Appointment
+  <button type="button" data-open-booking data-cursor-nav class="mt-auto rounded-full bg-primary px-6 py-3 text-center text-xs font-semibold uppercase tracking-wider hover:bg-primary-dark">
+    Zakažite Termin
   </button>
+</aside>
+
+<!-- Blog panel (shown at xl: and up, where the header nav already covers navigation —
+     the grid-icon button opens this quick blog preview instead of duplicating the menu) -->
+<div id="blog-panel-backdrop" class="offcanvas-backdrop fixed inset-0 z-50 bg-black/70"></div>
+<aside id="blog-panel" class="offcanvas-panel fixed inset-y-0 right-0 z-50 flex w-96 max-w-[90vw] flex-col gap-7 overflow-y-auto bg-white p-8 text-dark">
+  <div class="flex items-start justify-between">
+    <a href="#home" class="flex items-center gap-3" data-cursor-nav>
+      <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary font-display text-lg font-bold text-white">B</span>
+      <span class="leading-tight">
+        <span class="block font-display text-lg">[Naziv Biznisa]</span>
+        <span class="block text-[10px] font-semibold uppercase tracking-[0.22em] text-primary">Slogan Ide Ovde</span>
+      </span>
+    </a>
+    <button id="blog-panel-close" aria-label="Zatvori" class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-dark/15 transition hover:border-primary" data-cursor-nav>
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <p class="text-sm text-dark/60">
+    [Naziv Biznisa] pruža usluge lepote i nege sa pažnjom posvećenom svakom detalju — od stilizovanja kose do tretmana lica, u prostoru osmišljenom za vaš mir i opuštanje.
+  </p>
+
+  <div>
+    <h4 class="font-display text-lg">Najnovije Objave</h4>
+    <div class="mt-4 flex flex-col gap-5">
+      <a href="#" class="flex gap-3" data-cursor-nav>
+        <img src="assets/images/service-hair-styling.webp" alt="" loading="lazy" class="h-16 w-16 shrink-0 rounded-xl object-cover">
+        <span>
+          <span class="block font-display text-sm leading-snug">Kako Redovno Šišanje Doprinosi Zdravlju Kose</span>
+          <span class="mt-1.5 flex items-center gap-1.5 text-xs text-dark/45">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+              <rect x="3" y="5" width="18" height="16" rx="2" /><path stroke-linecap="round" d="M8 3v4M16 3v4M3 10h18" />
+            </svg>
+            8. januar 2026.
+          </span>
+        </span>
+      </a>
+      <a href="#" class="flex gap-3" data-cursor-nav>
+        <img src="assets/images/service-facial-treatment.webp" alt="" loading="lazy" class="h-16 w-16 shrink-0 rounded-xl object-cover">
+        <span>
+          <span class="block font-display text-sm leading-snug">Najbolji Saveti Za Negu Kože Kod Kuće</span>
+          <span class="mt-1.5 flex items-center gap-1.5 text-xs text-dark/45">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+              <rect x="3" y="5" width="18" height="16" rx="2" /><path stroke-linecap="round" d="M8 3v4M16 3v4M3 10h18" />
+            </svg>
+            8. januar 2026.
+          </span>
+        </span>
+      </a>
+      <a href="#" class="flex gap-3" data-cursor-nav>
+        <img src="assets/images/service-bridal-makeup.webp" alt="" loading="lazy" class="h-16 w-16 shrink-0 rounded-xl object-cover">
+        <span>
+          <span class="block font-display text-sm leading-snug">Kako Da Izaberete Šminku Za Veliki Dan</span>
+          <span class="mt-1.5 flex items-center gap-1.5 text-xs text-dark/45">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+              <rect x="3" y="5" width="18" height="16" rx="2" /><path stroke-linecap="round" d="M8 3v4M16 3v4M3 10h18" />
+            </svg>
+            8. januar 2026.
+          </span>
+        </span>
+      </a>
+    </div>
+  </div>
 </aside>
 
 <!-- ============ HERO ============ -->
@@ -96,17 +162,17 @@
 
   <!-- Social rail -->
   <div class="absolute left-6 top-1/2 z-10 hidden -translate-y-1/2 flex-col items-center gap-5 lg:flex">
-    <span class="mb-2 rotate-180 text-xs uppercase tracking-[0.3em] [writing-mode:vertical-rl]">We Social</span>
-    <a href="#" aria-label="Facebook" class="flex h-10 w-10 items-center justify-center rounded-full bg-black/40 backdrop-blur-sm transition hover:bg-primary" data-cursor-hover>
+    <span class="mb-2 rotate-180 text-xs uppercase tracking-[0.3em] [writing-mode:vertical-rl]">Pratite Nas</span>
+    <a href="#" aria-label="Facebook" class="flex h-10 w-10 items-center justify-center rounded-full bg-black/40 backdrop-blur-sm transition hover:bg-primary" data-cursor-nav>
       <svg viewBox="0 0 24 24" class="h-4 w-4 fill-current"><path d="M13.5 21v-8.2h2.75l.41-3.2h-3.16V7.55c0-.93.26-1.56 1.6-1.56h1.7V3.14C15.98 3.1 15 3 13.85 3c-2.4 0-4.05 1.47-4.05 4.16v2.44H7v3.2h2.8V21h3.7z"/></svg>
     </a>
-    <a href="#" aria-label="Twitter / X" class="flex h-10 w-10 items-center justify-center rounded-full bg-black/40 backdrop-blur-sm transition hover:bg-primary" data-cursor-hover>
+    <a href="#" aria-label="Twitter / X" class="flex h-10 w-10 items-center justify-center rounded-full bg-black/40 backdrop-blur-sm transition hover:bg-primary" data-cursor-nav>
       <svg viewBox="0 0 24 24" class="h-4 w-4 fill-current"><path d="M18.9 3H21l-5.4 6.2L22 21h-6.2l-4.4-5.9L6.3 21H3.9l5.8-6.6L4 3h6.3l4 5.4L18.9 3zm-1 16.2h1.2L8.2 4.7H6.9l11 14.5z"/></svg>
     </a>
-    <a href="#" aria-label="Instagram" class="flex h-10 w-10 items-center justify-center rounded-full bg-black/40 backdrop-blur-sm transition hover:bg-primary" data-cursor-hover>
+    <a href="#" aria-label="Instagram" class="flex h-10 w-10 items-center justify-center rounded-full bg-black/40 backdrop-blur-sm transition hover:bg-primary" data-cursor-nav>
       <svg viewBox="0 0 24 24" class="h-4 w-4 fill-current"><path d="M12 2.2c2.7 0 3 0 4.1.06 1.05.05 1.6.22 2 .37.5.2.85.42 1.22.8.38.37.6.72.8 1.22.15.4.32.95.37 2 .05 1.1.06 1.4.06 4.1s0 3-.06 4.1c-.05 1.05-.22 1.6-.37 2-.2.5-.42.85-.8 1.22-.37.38-.72.6-1.22.8-.4.15-.95.32-2 .37-1.1.05-1.4.06-4.1.06s-3 0-4.1-.06c-1.05-.05-1.6-.22-2-.37-.5-.2-.85-.42-1.22-.8a3.3 3.3 0 01-.8-1.22c-.15-.4-.32-.95-.37-2-.05-1.1-.06-1.4-.06-4.1s0-3 .06-4.1c.05-1.05.22-1.6.37-2 .2-.5.42-.85.8-1.22.37-.38.72-.6 1.22-.8.4-.15.95-.32 2-.37C9 2.2 9.3 2.2 12 2.2zm0 1.8c-2.65 0-2.96 0-4 .06-.9.04-1.4.19-1.72.32-.43.17-.74.37-1.06.7-.32.31-.52.62-.7 1.05-.13.32-.28.82-.32 1.72-.05 1.04-.06 1.35-.06 4s0 2.96.06 4c.04.9.19 1.4.32 1.72.18.43.38.74.7 1.06.32.32.63.52 1.06.7.32.13.82.28 1.72.32 1.04.05 1.35.06 4 .06s2.96 0 4-.06c.9-.04 1.4-.19 1.72-.32.43-.18.74-.38 1.06-.7.32-.32.52-.63.7-1.06.13-.32.28-.82.32-1.72.05-1.04.06-1.35.06-4s0-2.96-.06-4c-.04-.9-.19-1.4-.32-1.72a2.8 2.8 0 00-.7-1.06 2.8 2.8 0 00-1.06-.7c-.32-.13-.82-.28-1.72-.32-1.04-.05-1.35-.06-4-.06zm0 3.06a4.94 4.94 0 110 9.88 4.94 4.94 0 010-9.88zm0 1.8a3.14 3.14 0 100 6.28 3.14 3.14 0 000-6.28zm5.1-1.99a1.15 1.15 0 11-2.3 0 1.15 1.15 0 012.3 0z"/></svg>
     </a>
-    <a href="#" aria-label="LinkedIn" class="flex h-10 w-10 items-center justify-center rounded-full bg-black/40 backdrop-blur-sm transition hover:bg-primary" data-cursor-hover>
+    <a href="#" aria-label="LinkedIn" class="flex h-10 w-10 items-center justify-center rounded-full bg-black/40 backdrop-blur-sm transition hover:bg-primary" data-cursor-nav>
       <svg viewBox="0 0 24 24" class="h-4 w-4 fill-current"><path d="M6.94 8.5H3.56V21h3.38V8.5zM5.25 3a1.96 1.96 0 100 3.92A1.96 1.96 0 005.25 3zM21 21v-6.9c0-3.7-2-5.42-4.6-5.42-2.1 0-3.05 1.16-3.57 1.97V8.5H9.44S9.5 9.6 9.44 21h3.39v-6.98c0-.37.02-.75.13-1.02.3-.75 1-1.53 2.16-1.53 1.52 0 2.13 1.16 2.13 2.86V21H21z"/></svg>
     </a>
   </div>
@@ -114,24 +180,24 @@
   <div class="relative z-10 mx-auto w-full max-w-7xl px-6 pt-28 lg:pl-24 lg:pr-10">
     <div class="max-w-2xl" data-reveal>
       <p class="mb-4 text-sm font-semibold uppercase tracking-[0.3em] text-primary-light" data-cursor-text>
-        <span class="cursor-text__base">Welcome To [Business Name]</span><span class="cursor-text__reveal" aria-hidden="true">Welcome To [Business Name]</span>
+        <span class="cursor-text__base">Dobrodošli u [Naziv Biznisa]</span><span class="cursor-text__reveal" aria-hidden="true">Dobrodošli u [Naziv Biznisa]</span>
       </p>
       <h1 class="relative font-display text-5xl leading-tight sm:text-6xl lg:text-7xl" data-cursor-text>
-        <span class="cursor-text__base block">Your Elegant<br>Heading Goes Here</span>
-        <span class="cursor-text__reveal cursor-text__reveal--block" aria-hidden="true">Your Elegant<br>Heading Goes Here</span>
+        <span class="cursor-text__base block">Vaš Elegantan<br>Naslov Ide Ovde</span>
+        <span class="cursor-text__reveal cursor-text__reveal--block" aria-hidden="true">Vaš Elegantan<br>Naslov Ide Ovde</span>
       </h1>
       <p class="relative mt-6 max-w-lg text-white/70" data-cursor-text>
-        <span class="cursor-text__base block">Replace this paragraph with a short introduction to your business — what you offer,
-        who it's for, and why visitors should keep scrolling.</span>
-        <span class="cursor-text__reveal cursor-text__reveal--block" aria-hidden="true">Replace this paragraph with a short introduction to your business — what you offer,
-        who it's for, and why visitors should keep scrolling.</span>
+        <span class="cursor-text__base block">Zamenite ovaj pasus kratkim predstavljanjem vašeg biznisa — šta nudite,
+        kome je namenjeno, i zašto bi posetioci trebalo da nastave da skroluju.</span>
+        <span class="cursor-text__reveal cursor-text__reveal--block" aria-hidden="true">Zamenite ovaj pasus kratkim predstavljanjem vašeg biznisa — šta nudite,
+        kome je namenjeno, i zašto bi posetioci trebalo da nastave da skroluju.</span>
       </p>
       <div class="mt-9 flex flex-wrap gap-4">
-        <a href="#contact" class="rounded-full bg-primary px-8 py-4 text-xs font-semibold uppercase tracking-wider transition hover:bg-primary-dark" data-cursor-hover>
-          Book An Appointment
+        <a href="#contact" class="rounded-full bg-primary px-8 py-4 text-xs font-semibold uppercase tracking-wider transition hover:bg-primary-dark" data-cursor-nav>
+          Zakažite Termin
         </a>
-        <a href="#services" class="rounded-full border border-white/40 px-8 py-4 text-xs font-semibold uppercase tracking-wider transition hover:border-primary hover:text-primary-light" data-cursor-hover>
-          Explore Services
+        <a href="#services" class="rounded-full border border-white/40 px-8 py-4 text-xs font-semibold uppercase tracking-wider transition hover:border-primary hover:text-primary-light" data-cursor-nav>
+          Pogledajte Usluge
         </a>
       </div>
     </div>
@@ -139,9 +205,9 @@
 
   <!-- Slide dots -->
   <div class="absolute bottom-10 right-6 z-30 flex flex-col items-center gap-4 lg:right-10">
-    <button data-hero-dot class="hero-dot" aria-label="Go to slide 1" data-cursor-hover><span class="hero-dot__fill"></span></button>
-    <button data-hero-dot class="hero-dot" aria-label="Go to slide 2" data-cursor-hover><span class="hero-dot__fill"></span></button>
-    <button data-hero-dot class="hero-dot" aria-label="Go to slide 3" data-cursor-hover><span class="hero-dot__fill"></span></button>
+    <button data-hero-dot class="hero-dot" aria-label="Idi na slajd 1" data-cursor-nav><span class="hero-dot__fill"></span></button>
+    <button data-hero-dot class="hero-dot" aria-label="Idi na slajd 2" data-cursor-nav><span class="hero-dot__fill"></span></button>
+    <button data-hero-dot class="hero-dot" aria-label="Idi na slajd 3" data-cursor-nav><span class="hero-dot__fill"></span></button>
   </div>
 </section>
 
@@ -150,7 +216,7 @@
   <div class="mx-auto max-w-7xl px-6 lg:px-10">
 
     <div class="mb-16 text-center" data-reveal>
-      <h2 class="font-display text-4xl sm:text-5xl">About Us</h2>
+      <h2 class="font-display text-4xl sm:text-5xl">O Nama</h2>
       <svg class="mx-auto mt-5 h-10 w-10 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
         <path d="M12 21c0-6-4-9-9-9 5 0 9-3 9-9 0 6 4 9 9 9-5 0-9 3-9 9z" stroke-linejoin="round"/>
       </svg>
@@ -161,9 +227,9 @@
       <!-- Image collage + experience badge -->
       <div class="relative" data-reveal>
         <div class="grid grid-cols-2 gap-4">
-          <img src="assets/images/about-wide.webp" alt="Salon treatment in progress" loading="lazy"
+          <img src="assets/images/about-wide.webp" alt="Tretman u salonu u toku" loading="lazy"
             class="col-span-2 aspect-[4/3] rounded-2xl object-cover sm:col-span-1">
-          <img src="assets/images/about-square.webp" alt="Client portrait after treatment" loading="lazy"
+          <img src="assets/images/about-square.webp" alt="Portret klijentkinje nakon tretmana" loading="lazy"
             class="aspect-square rounded-2xl object-cover">
         </div>
 
@@ -174,7 +240,7 @@
               <path id="circlePath" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" />
             </defs>
             <text font-size="8" letter-spacing="2" fill="currentColor">
-              <textPath href="#circlePath">• YEARS OF EXPERIENCE • TRUSTED CARE </textPath>
+              <textPath href="#circlePath">• GODINA ISKUSTVA • POUZDANA NEGA </textPath>
             </text>
           </svg>
           <span class="font-display text-3xl text-primary-light">10</span>
@@ -183,36 +249,36 @@
 
       <!-- Copy -->
       <div data-reveal>
-        <p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-light">Since [Year]</p>
+        <p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-light">Od [Godina]</p>
         <h3 class="mt-3 font-display text-3xl leading-snug sm:text-4xl">
-          A Short Headline About Your Business
+          Kratak Naslov O Vašem Biznisu
         </h3>
         <p class="mt-5 text-white/70">
-          Replace this paragraph with your own story — what makes your business different,
-          the values behind it, and the experience customers can expect.
+          Zamenite ovaj pasus sopstvenom pričom — po čemu se vaš biznis izdvaja,
+          koje su vaše vrednosti, i kakvo iskustvo mogu očekivati klijenti.
         </p>
 
         <ul class="mt-8 grid gap-4 sm:grid-cols-2">
           <li class="flex items-center gap-3 text-sm text-white/80">
             <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/20 text-primary-light">✓</span>
-            Feature or value one
+            Prednost ili vrednost jedan
           </li>
           <li class="flex items-center gap-3 text-sm text-white/80">
             <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/20 text-primary-light">✓</span>
-            Feature or value two
+            Prednost ili vrednost dva
           </li>
           <li class="flex items-center gap-3 text-sm text-white/80">
             <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/20 text-primary-light">✓</span>
-            Feature or value three
+            Prednost ili vrednost tri
           </li>
           <li class="flex items-center gap-3 text-sm text-white/80">
             <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/20 text-primary-light">✓</span>
-            Feature or value four
+            Prednost ili vrednost četiri
           </li>
         </ul>
 
-        <a href="#contact" class="mt-9 inline-block rounded-full bg-primary px-8 py-4 text-xs font-semibold uppercase tracking-wider transition hover:bg-primary-dark">
-          Learn More
+        <a href="#contact" class="mt-9 inline-block rounded-full bg-primary px-8 py-4 text-xs font-semibold uppercase tracking-wider transition hover:bg-primary-dark" data-cursor-nav>
+          Saznajte Više
         </a>
       </div>
     </div>
@@ -224,23 +290,23 @@
   <div class="mx-auto max-w-7xl px-6 lg:px-10">
 
     <div class="mb-16 text-center" data-reveal>
-      <p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-light">What We Offer</p>
-      <h2 class="mt-3 font-display text-4xl sm:text-5xl">Our Services</h2>
+      <p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-light">Šta Nudimo</p>
+      <h2 class="mt-3 font-display text-4xl sm:text-5xl">Naše Usluge</h2>
     </div>
 
     <div class="grid items-center gap-14 lg:grid-cols-2">
 
       <!-- Image + floating card -->
       <div class="relative aspect-[4/5] overflow-hidden rounded-3xl" data-reveal>
-        <img id="service-image" src="assets/images/service-bridal-makeup.webp" alt="Bridal Makeup" loading="lazy"
+        <img id="service-image" src="assets/images/service-bridal-makeup.webp" alt="Šminkanje za Mlade" loading="lazy"
           class="absolute inset-0 h-full w-full object-cover transition-opacity duration-500">
 
         <div id="service-card" class="absolute -bottom-6 -right-6 flex w-56 flex-col items-center gap-3 rounded-full bg-cream p-10 text-center text-dark shadow-xl sm:w-64">
           <svg data-card-icon class="h-10 w-10 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
             <path d="M12 2a5 5 0 015 5c0 3-2 4-2 7h-6c0-3-2-4-2-7a5 5 0 015-5z" />
           </svg>
-          <h4 data-card-title class="font-display text-lg">Bridal Makeup</h4>
-          <p data-card-desc class="text-xs text-dark/70">Short placeholder description of this service.</p>
+          <h4 data-card-title class="font-display text-lg">Šminkanje za Mlade</h4>
+          <p data-card-desc class="text-xs text-dark/70">Kratak opis ove usluge — zamenite sopstvenim tekstom.</p>
         </div>
       </div>
 
@@ -249,28 +315,28 @@
         <button data-service="01" class="group flex items-center justify-between py-6 text-left opacity-100 transition-opacity">
           <span class="flex items-baseline gap-4">
             <span class="font-display text-sm text-primary-light">01</span>
-            <span data-service-title class="font-display text-2xl transition-colors group-hover:text-primary text-primary">Bridal Makeup</span>
+            <span data-service-title class="font-display text-2xl transition-colors group-hover:text-primary text-primary">Šminkanje za Mlade</span>
           </span>
           <span class="text-white/30 transition group-hover:translate-x-1 group-hover:text-primary">→</span>
         </button>
         <button data-service="02" class="group flex items-center justify-between py-6 text-left opacity-60 transition-opacity">
           <span class="flex items-baseline gap-4">
             <span class="font-display text-sm text-primary-light">02</span>
-            <span data-service-title class="font-display text-2xl transition-colors group-hover:text-primary">Hair Styling</span>
+            <span data-service-title class="font-display text-2xl transition-colors group-hover:text-primary">Stilizovanje Kose</span>
           </span>
           <span class="text-white/30 transition group-hover:translate-x-1 group-hover:text-primary">→</span>
         </button>
         <button data-service="03" class="group flex items-center justify-between py-6 text-left opacity-60 transition-opacity">
           <span class="flex items-baseline gap-4">
             <span class="font-display text-sm text-primary-light">03</span>
-            <span data-service-title class="font-display text-2xl transition-colors group-hover:text-primary">Manicure &amp; Nails</span>
+            <span data-service-title class="font-display text-2xl transition-colors group-hover:text-primary">Manikir i Nokti</span>
           </span>
           <span class="text-white/30 transition group-hover:translate-x-1 group-hover:text-primary">→</span>
         </button>
         <button data-service="04" class="group flex items-center justify-between py-6 text-left opacity-60 transition-opacity">
           <span class="flex items-baseline gap-4">
             <span class="font-display text-sm text-primary-light">04</span>
-            <span data-service-title class="font-display text-2xl transition-colors group-hover:text-primary">Facial Treatment</span>
+            <span data-service-title class="font-display text-2xl transition-colors group-hover:text-primary">Tretman Lica</span>
           </span>
           <span class="text-white/30 transition group-hover:translate-x-1 group-hover:text-primary">→</span>
         </button>
@@ -284,34 +350,34 @@
   <img src="assets/images/offers-bg.webp" alt="" loading="lazy" class="absolute inset-0 h-full w-full object-cover opacity-40">
   <div class="absolute inset-0 bg-gradient-to-br from-wine/90 via-dark/85 to-dark/95"></div>
   <div class="relative mx-auto max-w-7xl px-6 text-center lg:px-10" data-reveal>
-    <p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-light">Limited Time</p>
-    <h2 class="mt-3 font-display text-4xl sm:text-5xl">Current Offers</h2>
+    <p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-light">Ograničena Ponuda</p>
+    <h2 class="mt-3 font-display text-4xl sm:text-5xl">Trenutne Ponude</h2>
 
     <div class="mt-16 flex flex-wrap items-center justify-center gap-6">
       <div class="flex h-40 w-40 flex-col items-center justify-center rounded-full bg-primary/90 text-dark shadow-lg sm:h-44 sm:w-44">
-        <span class="text-xs font-semibold uppercase tracking-wide">Buy 2 Get</span>
-        <span class="font-display text-3xl">20% Off</span>
+        <span class="text-xs font-semibold uppercase tracking-wide">Kupi 2 Dobij</span>
+        <span class="font-display text-3xl">20% Popusta</span>
       </div>
       <div class="flex h-32 w-32 flex-col items-center justify-center rounded-full bg-primary-dark text-white shadow-lg sm:h-36 sm:w-36">
-        <span class="text-xs font-semibold uppercase tracking-wide">Skincare</span>
-        <span class="font-display text-xl">Bundle</span>
+        <span class="text-xs font-semibold uppercase tracking-wide">Nega Kože</span>
+        <span class="font-display text-xl">Paket</span>
       </div>
       <div class="flex h-48 w-48 flex-col items-center justify-center rounded-full bg-cream text-dark shadow-lg sm:h-52 sm:w-52">
-        <span class="text-xs font-semibold uppercase tracking-wide">25% Off</span>
-        <span class="font-display text-2xl">Single Visit</span>
+        <span class="text-xs font-semibold uppercase tracking-wide">25% Popusta</span>
+        <span class="font-display text-2xl">Jedna Poseta</span>
       </div>
       <div class="flex h-32 w-32 flex-col items-center justify-center rounded-full border border-white/30 text-white sm:h-36 sm:w-36">
-        <span class="text-xs font-semibold uppercase tracking-wide">Ask Us</span>
-        <span class="font-display text-xl">About More</span>
+        <span class="text-xs font-semibold uppercase tracking-wide">Pitajte Nas</span>
+        <span class="font-display text-xl">Za Više Info</span>
       </div>
       <div class="flex h-40 w-40 flex-col items-center justify-center rounded-full bg-primary-light text-dark shadow-lg sm:h-44 sm:w-44">
-        <span class="text-xs font-semibold uppercase tracking-wide">New Client</span>
-        <span class="font-display text-2xl">Special</span>
+        <span class="text-xs font-semibold uppercase tracking-wide">Novi Klijenti</span>
+        <span class="font-display text-2xl">Specijal</span>
       </div>
     </div>
 
-    <a href="#contact" class="mt-16 inline-block rounded-full bg-primary px-8 py-4 text-xs font-semibold uppercase tracking-wider transition hover:bg-primary-dark">
-      Claim Your Offer
+    <a href="#contact" class="mt-16 inline-block rounded-full bg-primary px-8 py-4 text-xs font-semibold uppercase tracking-wider transition hover:bg-primary-dark" data-cursor-nav>
+      Iskoristite Ponudu
     </a>
   </div>
 </section>
@@ -320,19 +386,19 @@
 <section id="contact" class="bg-dark py-24">
   <div class="mx-auto grid max-w-5xl gap-10 px-6 text-center lg:px-10" data-reveal>
     <div>
-      <p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-light">Get In Touch</p>
-      <h2 class="mt-3 font-display text-4xl sm:text-5xl">Book Your Visit</h2>
+      <p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-light">Stupite U Kontakt</p>
+      <h2 class="mt-3 font-display text-4xl sm:text-5xl">Zakažite Posetu</h2>
       <p class="mx-auto mt-4 max-w-xl text-white/70">
-        Replace this with your booking instructions, phone number, or embed a real booking widget here.
+        Zamenite ovo uputstvima za zakazivanje, brojem telefona, ili ugradite pravi vidžet za zakazivanje.
       </p>
     </div>
 
     <form data-form class="mx-auto flex w-full max-w-md flex-col gap-4 sm:flex-row">
-      <label for="newsletter-email" class="sr-only">Email address</label>
-      <input id="newsletter-email" type="email" required placeholder="you@example.com"
+      <label for="newsletter-email" class="sr-only">Email adresa</label>
+      <input id="newsletter-email" type="email" required placeholder="vas@email.com"
         class="w-full flex-1 rounded-full border border-white/20 bg-dark-soft px-6 py-4 text-sm text-white placeholder-white/40 outline-none transition focus:border-primary">
-      <button type="submit" class="rounded-full bg-primary px-8 py-4 text-xs font-semibold uppercase tracking-wider transition hover:bg-primary-dark">
-        Notify Me
+      <button type="submit" class="rounded-full bg-primary px-8 py-4 text-xs font-semibold uppercase tracking-wider transition hover:bg-primary-dark" data-cursor-nav>
+        Prijavite Me
       </button>
     </form>
     <p data-form-feedback class="hidden text-sm text-primary-light"></p>
@@ -345,53 +411,53 @@
     <div class="grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
 
       <div>
-        <a href="#home" class="flex items-center gap-3">
+        <a href="#home" class="flex items-center gap-3" data-cursor-nav>
           <span class="flex h-10 w-10 items-center justify-center rounded-full bg-primary font-display font-bold">B</span>
-          <span class="font-display text-lg">[Business Name]</span>
+          <span class="font-display text-lg">[Naziv Biznisa]</span>
         </a>
         <p class="mt-4 text-sm text-white/60">
-          Short placeholder blurb about your business — one or two sentences.
+          Kratak opis vašeg biznisa — jedna do dve rečenice.
         </p>
         <div class="mt-5 flex gap-3">
-          <a href="#" aria-label="Facebook" class="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-xs transition hover:bg-primary">f</a>
-          <a href="#" aria-label="Twitter / X" class="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-xs transition hover:bg-primary">x</a>
-          <a href="#" aria-label="Instagram" class="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-xs transition hover:bg-primary">ig</a>
+          <a href="#" aria-label="Facebook" class="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-xs transition hover:bg-primary" data-cursor-nav>f</a>
+          <a href="#" aria-label="Twitter / X" class="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-xs transition hover:bg-primary" data-cursor-nav>x</a>
+          <a href="#" aria-label="Instagram" class="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-xs transition hover:bg-primary" data-cursor-nav>ig</a>
         </div>
       </div>
 
       <div>
-        <h5 class="font-display text-lg">Quick Links</h5>
+        <h5 class="font-display text-lg">Brzi Linkovi</h5>
         <ul class="mt-4 space-y-3 text-sm text-white/60">
-          <li><a href="#home" class="transition hover:text-primary-light">Home</a></li>
-          <li><a href="#about" class="transition hover:text-primary-light">About</a></li>
-          <li><a href="#services" class="transition hover:text-primary-light">Services</a></li>
-          <li><a href="#contact" class="transition hover:text-primary-light">Contact</a></li>
+          <li><a href="#home" class="transition hover:text-primary-light" data-cursor-nav>Početna</a></li>
+          <li><a href="#about" class="transition hover:text-primary-light" data-cursor-nav>O Nama</a></li>
+          <li><a href="#services" class="transition hover:text-primary-light" data-cursor-nav>Usluge</a></li>
+          <li><a href="#contact" class="transition hover:text-primary-light" data-cursor-nav>Kontakt</a></li>
         </ul>
       </div>
 
       <div>
-        <h5 class="font-display text-lg">Services</h5>
+        <h5 class="font-display text-lg">Usluge</h5>
         <ul class="mt-4 space-y-3 text-sm text-white/60">
-          <li><a href="#services" class="transition hover:text-primary-light">Service One</a></li>
-          <li><a href="#services" class="transition hover:text-primary-light">Service Two</a></li>
-          <li><a href="#services" class="transition hover:text-primary-light">Service Three</a></li>
-          <li><a href="#services" class="transition hover:text-primary-light">Service Four</a></li>
+          <li><a href="#services" class="transition hover:text-primary-light" data-cursor-nav>Šminkanje za Mlade</a></li>
+          <li><a href="#services" class="transition hover:text-primary-light" data-cursor-nav>Stilizovanje Kose</a></li>
+          <li><a href="#services" class="transition hover:text-primary-light" data-cursor-nav>Manikir i Nokti</a></li>
+          <li><a href="#services" class="transition hover:text-primary-light" data-cursor-nav>Tretman Lica</a></li>
         </ul>
       </div>
 
       <div>
-        <h5 class="font-display text-lg">Contact</h5>
+        <h5 class="font-display text-lg">Kontakt</h5>
         <ul class="mt-4 space-y-3 text-sm text-white/60">
-          <li>[Street Address, City]</li>
-          <li>[+1 234 567 8900]</li>
-          <li>[hello@example.com]</li>
+          <li>[Adresa, Grad]</li>
+          <li>[+381 60 123 4567]</li>
+          <li>[email@example.com]</li>
         </ul>
       </div>
     </div>
 
     <div class="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 text-xs text-white/40 sm:flex-row">
-      <p>© <span id="year"></span> [Business Name]. All rights reserved.</p>
-      <p>Template placeholder — replace with your own footer links.</p>
+      <p>© <span id="year"></span> [Naziv Biznisa]. Sva prava zadržana.</p>
+      <p>Šablon placeholder — zamenite sopstvenim linkovima u footeru.</p>
     </div>
   </div>
 </footer>
@@ -399,71 +465,71 @@
 <!-- ============ BOOKING MODAL ============ -->
 <dialog id="booking-modal" class="booking-modal">
   <div class="relative w-full max-w-lg rounded-3xl bg-dark-soft p-8 text-white sm:p-10">
-    <button type="button" id="booking-modal-close" aria-label="Close"
-      class="absolute right-5 top-5 flex h-9 w-9 items-center justify-center rounded-full border border-white/20 transition hover:border-primary" data-cursor-hover>
+    <button type="button" id="booking-modal-close" aria-label="Zatvori"
+      class="absolute right-5 top-5 flex h-9 w-9 items-center justify-center rounded-full border border-white/20 transition hover:border-primary" data-cursor-nav>
       <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
       </svg>
     </button>
 
-    <p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-light">Book Your Visit</p>
-    <h3 class="mt-2 font-display text-3xl">Request An Appointment</h3>
-    <p class="mt-2 text-sm text-white/60">Fill in your details and we'll confirm a time with you shortly.</p>
+    <p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-light">Zakažite Posetu</p>
+    <h3 class="mt-2 font-display text-3xl">Zahtev Za Termin</h3>
+    <p class="mt-2 text-sm text-white/60">Popunite svoje podatke i potvrdićemo termin uskoro.</p>
 
     <form data-form class="mt-7 flex flex-col gap-5">
       <div>
-        <label for="booking-name" class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-white/60">Full Name</label>
-        <input id="booking-name" name="name" type="text" required placeholder="Jane Doe"
+        <label for="booking-name" class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-white/60">Ime i Prezime</label>
+        <input id="booking-name" name="name" type="text" required placeholder="Ana Petrović"
           class="w-full rounded-full border border-white/20 bg-dark px-5 py-3 text-sm text-white placeholder-white/30 outline-none transition focus:border-primary">
       </div>
 
       <div class="grid gap-5 sm:grid-cols-2">
         <div>
           <label for="booking-email" class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-white/60">Email</label>
-          <input id="booking-email" name="email" type="email" required placeholder="you@example.com"
+          <input id="booking-email" name="email" type="email" required placeholder="vas@email.com"
             class="w-full rounded-full border border-white/20 bg-dark px-5 py-3 text-sm text-white placeholder-white/30 outline-none transition focus:border-primary">
         </div>
         <div>
-          <label for="booking-phone" class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-white/60">Phone</label>
-          <input id="booking-phone" name="phone" type="tel" placeholder="+1 234 567 8900"
+          <label for="booking-phone" class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-white/60">Telefon</label>
+          <input id="booking-phone" name="phone" type="tel" placeholder="+381 60 123 4567"
             class="w-full rounded-full border border-white/20 bg-dark px-5 py-3 text-sm text-white placeholder-white/30 outline-none transition focus:border-primary">
         </div>
       </div>
 
       <fieldset>
-        <legend class="mb-2 block text-xs font-semibold uppercase tracking-wider text-white/60">Which service are you interested in?</legend>
+        <legend class="mb-2 block text-xs font-semibold uppercase tracking-wider text-white/60">Za koju uslugu ste zainteresovani?</legend>
         <div class="flex flex-wrap gap-2">
           <label class="service-pill">
-            <input type="radio" name="service" value="Hair Styling" class="sr-only peer" checked>
-            <span class="service-pill__label">Hair Styling</span>
+            <input type="radio" name="service" value="Stilizovanje Kose" class="sr-only peer" checked>
+            <span class="service-pill__label">Stilizovanje Kose</span>
           </label>
           <label class="service-pill">
-            <input type="radio" name="service" value="Bridal Makeup" class="sr-only peer">
-            <span class="service-pill__label">Bridal Makeup</span>
+            <input type="radio" name="service" value="Šminkanje za Mlade" class="sr-only peer">
+            <span class="service-pill__label">Šminkanje za Mlade</span>
           </label>
           <label class="service-pill">
-            <input type="radio" name="service" value="Manicure & Nails" class="sr-only peer">
-            <span class="service-pill__label">Manicure &amp; Nails</span>
+            <input type="radio" name="service" value="Manikir i Nokti" class="sr-only peer">
+            <span class="service-pill__label">Manikir i Nokti</span>
           </label>
           <label class="service-pill">
-            <input type="radio" name="service" value="Facial Treatment" class="sr-only peer">
-            <span class="service-pill__label">Facial Treatment</span>
+            <input type="radio" name="service" value="Tretman Lica" class="sr-only peer">
+            <span class="service-pill__label">Tretman Lica</span>
           </label>
           <label class="service-pill">
-            <input type="radio" name="service" value="Other" class="sr-only peer">
-            <span class="service-pill__label">Other</span>
+            <input type="radio" name="service" value="Drugo" class="sr-only peer">
+            <span class="service-pill__label">Drugo</span>
           </label>
         </div>
       </fieldset>
 
       <div>
-        <label for="booking-date" class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-white/60">Preferred Date</label>
+        <label for="booking-date" class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-white/60">Željeni Datum</label>
         <input id="booking-date" name="date" type="date"
           class="w-full rounded-full border border-white/20 bg-dark px-5 py-3 text-sm text-white outline-none transition focus:border-primary [color-scheme:dark]">
       </div>
 
-      <button type="submit" class="mt-2 rounded-full bg-primary px-8 py-4 text-xs font-semibold uppercase tracking-wider transition hover:bg-primary-dark" data-cursor-hover>
-        Send Request
+      <button type="submit" class="mt-2 rounded-full bg-primary px-8 py-4 text-xs font-semibold uppercase tracking-wider transition hover:bg-primary-dark" data-cursor-nav>
+        Pošaljite Zahtev
       </button>
       <p data-form-feedback class="hidden text-sm text-primary-light"></p>
     </form>
@@ -471,8 +537,8 @@
 </dialog>
 
 <!-- Back to top -->
-<button id="back-to-top" aria-label="Back to top"
-  class="fixed bottom-8 right-8 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white opacity-0 shadow-lg transition hover:bg-primary-dark">
+<button id="back-to-top" aria-label="Nazad na vrh"
+  class="fixed bottom-8 right-8 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white opacity-0 shadow-lg transition hover:bg-primary-dark" data-cursor-nav>
   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
     <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
   </svg>
@@ -482,9 +548,12 @@
 <div id="cursor-dot" class="cursor-dot" aria-hidden="true"></div>
 <div id="cursor-ring" class="cursor-ring" aria-hidden="true"></div>
 <div id="cursor-hand" class="cursor-hand" aria-hidden="true">
-  <svg viewBox="0 0 20 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M8 21c-.6 0-1.15-.27-1.5-.73L3.3 16.5a1.05 1.05 0 0 1 1.56-1.4L6.2 16.5V3.1a1.05 1.05 0 1 1 2.1 0v7.5c.2-.04.4-.06.6-.06a2 2 0 0 1 1.9 1.36 2 2 0 0 1 2.7 1.6 1.9 1.9 0 0 1 2.5 1.8v1.7c0 2-1.6 3.6-3.6 3.6H9c-.35 0-.7-.07-1-.2Z"
-      fill="#f6f1e9" stroke="#161616" stroke-width="0.9" stroke-linejoin="round" stroke-linecap="round"/>
+  <svg viewBox="0 0 26 28" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#f6f1e9" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 13V3.2a2 2 0 0 1 4 0V13"/>
+    <path d="M13 12.6V9.3a1.9 1.9 0 0 1 3.8 0v3.3"/>
+    <path d="M16.8 12.8V10a1.9 1.9 0 0 1 3.8 0v2.8"/>
+    <path d="M20.6 13.2V11a1.9 1.9 0 0 1 3.8 0v3.2"/>
+    <path d="M9 13v4.2L5.6 14a2 2 0 0 0-2.9 2.7l6.6 7.3a5 5 0 0 0 3.7 1.6h4.2a6.8 6.8 0 0 0 6.8-6.8v-4.6"/>
   </svg>
 </div>
 
