@@ -34,6 +34,26 @@ menuCloseBtn?.addEventListener('click', closeMenu);
 mobileBackdrop?.addEventListener('click', closeMenu);
 mobileMenu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
 
+/* ---------- Booking modal ---------- */
+const bookingModal = document.getElementById('booking-modal');
+const bookingModalClose = document.getElementById('booking-modal-close');
+
+const openBookingModal = () => {
+  closeMenu();
+  bookingModal?.showModal();
+};
+
+document.querySelectorAll('[data-open-booking]').forEach((btn) => {
+  btn.addEventListener('click', openBookingModal);
+});
+
+bookingModalClose?.addEventListener('click', () => bookingModal.close());
+
+bookingModal?.addEventListener('click', (e) => {
+  const panel = bookingModal.querySelector(':scope > div');
+  if (panel && !panel.contains(e.target)) bookingModal.close();
+});
+
 /* ---------- Hero slider with live water-ripple background ---------- */
 const heroSection = document.getElementById('home');
 const heroCanvas = document.getElementById('hero-ripple');
@@ -275,7 +295,7 @@ backToTop?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: '
 document.addEventListener('scroll', onScrollBackToTop, { passive: true });
 onScrollBackToTop();
 
-/* ---------- Newsletter / contact form (placeholder handling) ---------- */
+/* ---------- Newsletter / booking form (placeholder handling) ---------- */
 document.querySelectorAll('[data-form]').forEach((form) => {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -285,6 +305,14 @@ document.querySelectorAll('[data-form]').forEach((form) => {
       feedback.classList.remove('hidden');
     }
     form.reset();
+
+    const dialog = form.closest('dialog');
+    if (dialog) {
+      window.setTimeout(() => {
+        dialog.close();
+        feedback?.classList.add('hidden');
+      }, 1600);
+    }
   });
 });
 
@@ -335,7 +363,7 @@ if (window.matchMedia('(pointer: fine)').matches) {
 
   const tick = () => {
     cursorDot.style.transform = `translate3d(${mouseX - DOT_RADIUS}px, ${mouseY - DOT_RADIUS}px, 0)`;
-    cursorHand.style.transform = `translate3d(${mouseX - 4}px, ${mouseY - 6}px, 0) scale(${isNavHovering ? 1 : 0.6})`;
+    cursorHand.style.transform = `translate3d(${mouseX - 3}px, ${mouseY - 4}px, 0) scale(${isNavHovering ? 1 : 0.6})`;
 
     ringX += (mouseX - ringX) * RING_EASE;
     ringY += (mouseY - ringY) * RING_EASE;

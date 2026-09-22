@@ -154,14 +154,14 @@ html {
   position: fixed;
   top: 0;
   left: 0;
-  width: 26px;
-  height: 28px;
+  width: 19px;
+  height: 21px;
   pointer-events: none;
   z-index: 201;
   opacity: 0;
   transform: translate3d(-100px, -100px, 0) scale(0.6);
   transition: opacity 0.2s ease, transform 0.2s var(--ease-out-soft);
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.35));
+  filter: drop-shadow(0 1.5px 3px rgba(0, 0, 0, 0.3));
 }
 .cursor-hand.is-visible {
   opacity: 1;
@@ -205,4 +205,61 @@ html.has-custom-cursor button {
 }
 .hero-dot.is-active .hero-dot__fill {
   background: var(--color-primary);
+}
+
+/* ============ Booking modal ============ */
+.booking-modal {
+  border: none;
+  padding: 0;
+  margin: auto;
+  background: transparent;
+  max-width: min(32rem, 92vw);
+  max-height: min(90vh, 44rem);
+  width: 100%;
+  border-radius: 1.5rem;
+  overflow: visible;
+}
+.booking-modal > div {
+  max-height: min(90vh, 44rem);
+  overflow-y: auto;
+}
+.booking-modal::backdrop {
+  background: rgba(13, 13, 13, 0.75);
+  backdrop-filter: blur(3px);
+}
+.booking-modal[open] {
+  animation: bookingModalIn 0.35s var(--ease-out-soft);
+}
+@keyframes bookingModalIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.service-pill__label {
+  display: inline-block;
+  padding: 0.55rem 1.1rem;
+  border-radius: 9999px;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+.service-pill input:checked + .service-pill__label {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: white;
+}
+.service-pill input:focus-visible + .service-pill__label {
+  outline: 2px solid var(--color-primary-light);
+  outline-offset: 2px;
 }
