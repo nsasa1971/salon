@@ -40,10 +40,10 @@ const heroCanvas = document.getElementById('hero-ripple');
 const heroFallback = document.getElementById('hero-bg-fallback');
 const heroDots = Array.from(document.querySelectorAll('[data-hero-dot]'));
 
-const heroSlideStops = [
-  { from: '#3a2229', via: '#2a171c', to: '#0d0d0d', angle: 135 },
-  { from: '#c2470f', via: '#3a2229', to: '#0d0d0d', angle: 45 },
-  { from: '#0d0d0d', via: '#3a2229', to: '#c2470f', angle: 225 },
+const heroSlides = [
+  { src: 'assets/images/hero-1.webp', focusY: 0.32 },
+  { src: 'assets/images/hero-2.webp', focusY: 0.3 },
+  { src: 'assets/images/hero-3.webp', focusY: 0.3 },
 ];
 
 const ripple =
@@ -54,31 +54,48 @@ if (heroCanvas) heroCanvas.style.display = rippleSupported ? '' : 'none';
 if (heroFallback) heroFallback.classList.toggle('hidden', rippleSupported);
 
 const slideCanvas = document.createElement('canvas');
-slideCanvas.width = 512;
-slideCanvas.height = 512;
+slideCanvas.width = 1600;
+slideCanvas.height = 900;
 const slideCtx = slideCanvas.getContext('2d');
 
-const paintHeroSlide = (index) => {
-  const stop = heroSlideStops[index];
-  const rad = (stop.angle * Math.PI) / 180;
-  const cx = 256;
-  const cy = 256;
-  const len = 360;
-  const x0 = cx - Math.cos(rad) * len;
-  const y0 = cy - Math.sin(rad) * len;
-  const x1 = cx + Math.cos(rad) * len;
-  const y1 = cy + Math.sin(rad) * len;
-  const gradient = slideCtx.createLinearGradient(x0, y0, x1, y1);
-  gradient.addColorStop(0, stop.from);
-  gradient.addColorStop(0.5, stop.via);
-  gradient.addColorStop(1, stop.to);
-  slideCtx.fillStyle = gradient;
-  slideCtx.fillRect(0, 0, 512, 512);
+const heroImages = heroSlides.map((slide) => {
+  const img = new Image();
+  img.src = slide.src;
+  return img;
+});
 
-  if (rippleSupported) {
-    ripple.setBackground(slideCanvas);
-  } else if (heroFallback) {
-    heroFallback.style.backgroundImage = `url(${slideCanvas.toDataURL()})`;
+// Mimics CSS `background-size: cover` with a per-image vertical focus point,
+// since a WebGL texture is sampled 0..1 across the canvas and would otherwise
+// stretch non-uniformly if drawn at the source photo's own aspect ratio.
+const drawImageCover = (img, focusY) => {
+  const cw = slideCanvas.width;
+  const ch = slideCanvas.height;
+  const scale = Math.max(cw / img.width, ch / img.height);
+  const drawW = img.width * scale;
+  const drawH = img.height * scale;
+  const dx = (cw - drawW) / 2;
+  const dy = (ch - drawH) * focusY;
+  slideCtx.clearRect(0, 0, cw, ch);
+  slideCtx.drawImage(img, dx, dy, drawW, drawH);
+};
+
+const paintHeroSlide = (index) => {
+  const slide = heroSlides[index];
+  const img = heroImages[index];
+
+  const apply = () => {
+    drawImageCover(img, slide.focusY);
+    if (rippleSupported) {
+      ripple.setBackground(slideCanvas);
+    } else if (heroFallback) {
+      heroFallback.style.backgroundImage = `url(${slideCanvas.toDataURL()})`;
+    }
+  };
+
+  if (img.complete && img.naturalWidth) {
+    apply();
+  } else {
+    img.addEventListener('load', apply, { once: true });
   }
 };
 
@@ -109,7 +126,7 @@ const goToHeroSlide = (index) => {
   }, 260);
 };
 
-const nextHeroSlide = () => goToHeroSlide((heroIndex + 1) % heroSlideStops.length);
+const nextHeroSlide = () => goToHeroSlide((heroIndex + 1) % heroSlides.length);
 
 const startHeroAutoplay = () => {
   clearInterval(heroTimer);
@@ -172,28 +189,28 @@ const serviceImage = document.getElementById('service-image');
 
 const serviceData = {
   '01': {
-    title: 'Service One',
+    title: 'Bridal Makeup',
     desc: 'Short placeholder description of this service — swap in your own copy.',
     icon: 'M12 2a5 5 0 015 5c0 3-2 4-2 7h-6c0-3-2-4-2-7a5 5 0 015-5z',
-    gradient: 'from-primary/60 via-dark to-dark',
+    image: 'assets/images/service-bridal-makeup.webp',
   },
   '02': {
-    title: 'Service Two',
+    title: 'Hair Styling',
     desc: 'Short placeholder description of this service — swap in your own copy.',
     icon: 'M12 21c-4.4-3-8-6.5-8-11a5 5 0 019-3 5 5 0 019 3c0 4.5-3.6 8-8 11z',
-    gradient: 'from-wine via-dark to-dark',
+    image: 'assets/images/service-hair-styling.webp',
   },
   '03': {
-    title: 'Service Three',
+    title: 'Manicure & Nails',
     desc: 'Short placeholder description of this service — swap in your own copy.',
     icon: 'M4 4h16v4H4zM4 10h16v10H4z',
-    gradient: 'from-primary/40 via-wine to-dark',
+    image: 'assets/images/service-manicure.webp',
   },
   '04': {
-    title: 'Service Four',
+    title: 'Facial Treatment',
     desc: 'Short placeholder description of this service — swap in your own copy.',
     icon: 'M12 2l2.4 7.2H22l-6 4.4 2.3 7.2L12 16.4 5.7 20.8 8 13.6l-6-4.4h7.6z',
-    gradient: 'from-dark via-wine to-primary/40',
+    image: 'assets/images/service-facial-treatment.webp',
   },
 };
 
@@ -214,8 +231,13 @@ const setActiveService = (key) => {
     serviceCard.querySelector('[data-card-icon]').setAttribute('d', data.icon);
   }
 
-  if (serviceImage) {
-    serviceImage.className = `absolute inset-0 h-full w-full bg-gradient-to-br ${data.gradient} transition-colors duration-700`;
+  if (serviceImage && serviceImage.getAttribute('src') !== data.image) {
+    serviceImage.style.opacity = '0';
+    window.setTimeout(() => {
+      serviceImage.setAttribute('src', data.image);
+      serviceImage.setAttribute('alt', data.title);
+      serviceImage.style.opacity = '1';
+    }, 200);
   }
 };
 
