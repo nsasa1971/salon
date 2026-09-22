@@ -116,25 +116,61 @@ html {
   border-radius: 9999px;
   pointer-events: none;
   z-index: 200;
+  opacity: 0;
   will-change: transform;
   transform: translate3d(-100px, -100px, 0);
+}
+.cursor-dot.is-active,
+.cursor-ring.is-active {
+  opacity: 1;
 }
 .cursor-dot {
   width: 8px;
   height: 8px;
   background: var(--color-primary);
-  transition: opacity 0.2s ease, background-color 0.3s ease;
+  transition: opacity 0.2s ease, background-color 0.3s ease, transform 0.25s var(--ease-out-soft);
 }
 .cursor-ring {
   width: 32px;
   height: 32px;
   border: 1.5px solid rgba(255, 255, 255, 0.55);
-  transition: opacity 0.2s ease, border-color 0.3s ease, background-color 0.3s ease;
+  transition: opacity 0.2s ease, border-color 0.3s ease, background-color 0.3s ease, transform 0.25s var(--ease-out-soft);
 }
+/* Frosted glass over text: translucent + blurred so the dark reveal text
+   underneath stays legible instead of being hidden by an opaque fill. */
 .cursor-ring.is-hover {
   border-color: var(--color-primary);
-  background: var(--color-cream);
+  background: rgba(246, 241, 233, 0.32);
+  backdrop-filter: blur(2px) brightness(1.2);
+  -webkit-backdrop-filter: blur(2px) brightness(1.2);
 }
+.cursor-dot.is-nav-hover,
+.cursor-ring.is-nav-hover {
+  opacity: 0;
+}
+
+/* Hand-pointer cursor shown over header nav links */
+.cursor-hand {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 26px;
+  height: 28px;
+  pointer-events: none;
+  z-index: 201;
+  opacity: 0;
+  transform: translate3d(-100px, -100px, 0) scale(0.6);
+  transition: opacity 0.2s ease, transform 0.2s var(--ease-out-soft);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.35));
+}
+.cursor-hand.is-visible {
+  opacity: 1;
+}
+.cursor-hand svg {
+  width: 100%;
+  height: 100%;
+}
+
 html.has-custom-cursor,
 html.has-custom-cursor a,
 html.has-custom-cursor button {
@@ -142,7 +178,8 @@ html.has-custom-cursor button {
 }
 @media (pointer: coarse), (hover: none) {
   .cursor-dot,
-  .cursor-ring {
+  .cursor-ring,
+  .cursor-hand {
     display: none;
   }
 }

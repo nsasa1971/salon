@@ -288,15 +288,16 @@ document.querySelectorAll('[data-form]').forEach((form) => {
   });
 });
 
-/* ---------- Custom cursor: ring + dot, with text-color reveal ---------- */
+/* ---------- Custom cursor: ring + dot, text-color reveal, nav hand-pointer ---------- */
 if (window.matchMedia('(pointer: fine)').matches) {
   const cursorDot = document.getElementById('cursor-dot');
   const cursorRing = document.getElementById('cursor-ring');
+  const cursorHand = document.getElementById('cursor-hand');
   const revealTargets = Array.from(document.querySelectorAll('[data-cursor-text]'));
 
   const DOT_RADIUS = 4;
   const RING_RADIUS = 16;
-  const RING_RADIUS_HOVER = 48;
+  const RING_RADIUS_HOVER = 58;
   const RING_EASE = 0.18;
 
   let mouseX = -100;
@@ -304,6 +305,7 @@ if (window.matchMedia('(pointer: fine)').matches) {
   let ringX = mouseX;
   let ringY = mouseY;
   let isHovering = false;
+  let isNavHovering = false;
   let hasMoved = false;
 
   document.addEventListener('mousemove', (e) => {
@@ -311,23 +313,29 @@ if (window.matchMedia('(pointer: fine)').matches) {
     mouseY = e.clientY;
     if (!hasMoved) {
       hasMoved = true;
-      cursorDot.style.opacity = '1';
-      cursorRing.style.opacity = '1';
+      cursorDot.classList.add('is-active');
+      cursorRing.classList.add('is-active');
     }
   });
 
   document.addEventListener('mouseover', (e) => {
-    isHovering = !!e.target.closest('[data-cursor-hover], [data-cursor-text], a, button');
+    isNavHovering = !!e.target.closest('[data-cursor-nav]');
+    isHovering = !isNavHovering && !!e.target.closest('[data-cursor-hover], [data-cursor-text], a, button');
     cursorRing.classList.toggle('is-hover', isHovering);
+    cursorDot.classList.toggle('is-nav-hover', isNavHovering);
+    cursorRing.classList.toggle('is-nav-hover', isNavHovering);
+    cursorHand.classList.toggle('is-visible', isNavHovering);
   });
 
   document.addEventListener('mouseleave', () => {
-    cursorDot.style.opacity = '0';
-    cursorRing.style.opacity = '0';
+    cursorDot.classList.remove('is-active');
+    cursorRing.classList.remove('is-active');
+    cursorHand.classList.remove('is-visible');
   });
 
   const tick = () => {
     cursorDot.style.transform = `translate3d(${mouseX - DOT_RADIUS}px, ${mouseY - DOT_RADIUS}px, 0)`;
+    cursorHand.style.transform = `translate3d(${mouseX - 4}px, ${mouseY - 6}px, 0) scale(${isNavHovering ? 1 : 0.6})`;
 
     ringX += (mouseX - ringX) * RING_EASE;
     ringY += (mouseY - ringY) * RING_EASE;
