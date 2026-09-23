@@ -231,71 +231,20 @@ if (heroDots.length) {
   if (rippleSupported) ripple.start();
 }
 
-/* ---------- Interactive services switcher ---------- */
-const serviceItems = Array.from(document.querySelectorAll('[data-service]'));
-const serviceCard = document.getElementById('service-card');
-const serviceImage = document.getElementById('service-image');
+/* ---------- Services slider ---------- */
+const servicesTrack = document.getElementById('services-track');
+const servicesPrev = document.getElementById('services-prev');
+const servicesNext = document.getElementById('services-next');
 
-const serviceData = {
-  '01': {
-    title: 'Šminkanje za Mlade',
-    desc: 'Kratak opis ove usluge — zamenite sopstvenim tekstom.',
-    icon: 'M12 2a5 5 0 015 5c0 3-2 4-2 7h-6c0-3-2-4-2-7a5 5 0 015-5z',
-    image: 'assets/images/service-bridal-makeup.webp',
-  },
-  '02': {
-    title: 'Stilizovanje Kose',
-    desc: 'Kratak opis ove usluge — zamenite sopstvenim tekstom.',
-    icon: 'M12 21c-4.4-3-8-6.5-8-11a5 5 0 019-3 5 5 0 019 3c0 4.5-3.6 8-8 11z',
-    image: 'assets/images/service-hair-styling.webp',
-  },
-  '03': {
-    title: 'Manikir i Nokti',
-    desc: 'Kratak opis ove usluge — zamenite sopstvenim tekstom.',
-    icon: 'M4 4h16v4H4zM4 10h16v10H4z',
-    image: 'assets/images/service-manicure.webp',
-  },
-  '04': {
-    title: 'Tretman Lica',
-    desc: 'Kratak opis ove usluge — zamenite sopstvenim tekstom.',
-    icon: 'M12 2l2.4 7.2H22l-6 4.4 2.3 7.2L12 16.4 5.7 20.8 8 13.6l-6-4.4h7.6z',
-    image: 'assets/images/service-facial-treatment.webp',
-  },
+const scrollServicesBy = (direction) => {
+  if (!servicesTrack) return;
+  const card = servicesTrack.querySelector('.services-card');
+  const step = card ? card.getBoundingClientRect().width + 24 : 300;
+  servicesTrack.scrollBy({ left: step * direction, behavior: 'smooth' });
 };
 
-const setActiveService = (key) => {
-  const data = serviceData[key];
-  if (!data) return;
-
-  serviceItems.forEach((item) => {
-    const isActive = item.dataset.service === key;
-    item.classList.toggle('opacity-100', isActive);
-    item.classList.toggle('opacity-60', !isActive);
-    item.querySelector('[data-service-title]')?.classList.toggle('text-primary', isActive);
-  });
-
-  if (serviceCard) {
-    serviceCard.querySelector('[data-card-title]').textContent = data.title;
-    serviceCard.querySelector('[data-card-desc]').textContent = data.desc;
-    serviceCard.querySelector('[data-card-icon]').setAttribute('d', data.icon);
-  }
-
-  if (serviceImage && serviceImage.getAttribute('src') !== data.image) {
-    serviceImage.style.opacity = '0';
-    window.setTimeout(() => {
-      serviceImage.setAttribute('src', data.image);
-      serviceImage.setAttribute('alt', data.title);
-      serviceImage.style.opacity = '1';
-    }, 200);
-  }
-};
-
-serviceItems.forEach((item) => {
-  item.addEventListener('mouseenter', () => setActiveService(item.dataset.service));
-  item.addEventListener('focus', () => setActiveService(item.dataset.service));
-});
-
-if (serviceItems.length) setActiveService(serviceItems[0].dataset.service);
+servicesPrev?.addEventListener('click', () => scrollServicesBy(-1));
+servicesNext?.addEventListener('click', () => scrollServicesBy(1));
 
 /* ---------- Scroll-reveal animation ---------- */
 const revealObserver = new IntersectionObserver(
