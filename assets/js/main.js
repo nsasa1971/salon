@@ -83,10 +83,10 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && bookingModal?.open) closeBookingModal();
 });
 
-/* ---------- Hero slider with live water-ripple background ---------- */
+/* ---------- Hero slider: live water-ripple on desktop, plain crossfade on touch ---------- */
 const heroSection = document.getElementById('home');
 const heroCanvas = document.getElementById('hero-ripple');
-const heroFallback = document.getElementById('hero-bg-fallback');
+const heroFallbackImgs = Array.from(document.querySelectorAll('[data-hero-fallback-slide]'));
 const heroDots = Array.from(document.querySelectorAll('[data-hero-dot]'));
 
 const heroSlides = [
@@ -95,23 +95,36 @@ const heroSlides = [
   { src: 'assets/images/hero-3.webp', focusY: 0.3 },
 ];
 
+// The ripple needs a mouse to react to and is pure visual flourish, so it's
+// desktop-only: skipped on touch devices for battery/performance, and it also
+// sidesteps having to force every photo through a fixed-aspect canvas crop —
+// the plain <img> fallback instead adapts to each device's own aspect ratio
+// (portrait phones included).
+const isDesktopHero = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 const ripple =
-  heroCanvas && window.RippleCanvas ? new window.RippleCanvas(heroCanvas, { resolution: 300 }) : null;
+  isDesktopHero && heroCanvas && window.RippleCanvas
+    ? new window.RippleCanvas(heroCanvas, { resolution: 300 })
+    : null;
 const rippleSupported = !!ripple && ripple.supported;
 
 if (heroCanvas) heroCanvas.style.display = rippleSupported ? '' : 'none';
-if (heroFallback) heroFallback.classList.toggle('hidden', rippleSupported);
 
-const slideCanvas = document.createElement('canvas');
-slideCanvas.width = 1600;
-slideCanvas.height = 900;
-const slideCtx = slideCanvas.getContext('2d');
+let slideCanvas;
+let slideCtx;
+let heroImages;
 
-const heroImages = heroSlides.map((slide) => {
-  const img = new Image();
-  img.src = slide.src;
-  return img;
-});
+if (rippleSupported) {
+  slideCanvas = document.createElement('canvas');
+  slideCanvas.width = 1600;
+  slideCanvas.height = 900;
+  slideCtx = slideCanvas.getContext('2d');
+
+  heroImages = heroSlides.map((slide) => {
+    const img = new Image();
+    img.src = slide.src;
+    return img;
+  });
+}
 
 // Mimics CSS `background-size: cover` with a per-image vertical focus point,
 // since a WebGL texture is sampled 0..1 across the canvas and would otherwise
@@ -129,22 +142,17 @@ const drawImageCover = (img, focusY) => {
 };
 
 const paintHeroSlide = (index) => {
-  const slide = heroSlides[index];
-  const img = heroImages[index];
-
-  const apply = () => {
-    drawImageCover(img, slide.focusY);
-    if (rippleSupported) {
+  if (rippleSupported) {
+    const slide = heroSlides[index];
+    const img = heroImages[index];
+    const apply = () => {
+      drawImageCover(img, slide.focusY);
       ripple.setBackground(slideCanvas);
-    } else if (heroFallback) {
-      heroFallback.style.backgroundImage = `url(${slideCanvas.toDataURL()})`;
-    }
-  };
-
-  if (img.complete && img.naturalWidth) {
-    apply();
+    };
+    if (img.complete && img.naturalWidth) apply();
+    else img.addEventListener('load', apply, { once: true });
   } else {
-    img.addEventListener('load', apply, { once: true });
+    heroFallbackImgs.forEach((el, i) => el.classList.toggle('is-active', i === index));
   }
 };
 
@@ -164,15 +172,20 @@ const goToHeroSlide = (index) => {
     ripple.drop(0.5, 0.5, 0.55, 0.9);
     ripple.drop(0.22, 0.62, 0.35, 0.6);
     ripple.drop(0.78, 0.4, 0.35, 0.6);
-  }
 
-  window.setTimeout(() => {
+    window.setTimeout(() => {
+      paintHeroSlide(index);
+      heroIndex = index;
+      updateHeroDots();
+      ripple.drop(0.5, 0.5, 0.6, 0.65);
+      heroTransitioning = false;
+    }, 260);
+  } else {
     paintHeroSlide(index);
     heroIndex = index;
     updateHeroDots();
-    if (rippleSupported) ripple.drop(0.5, 0.5, 0.6, 0.65);
     heroTransitioning = false;
-  }, 260);
+  }
 };
 
 const nextHeroSlide = () => goToHeroSlide((heroIndex + 1) % heroSlides.length);
@@ -189,7 +202,7 @@ heroDots.forEach((dot, i) => {
   });
 });
 
-if (heroSection) {
+if (rippleSupported && heroSection) {
   const throttle = (fn, wait) => {
     let last = 0;
     return (...args) => {
@@ -202,7 +215,6 @@ if (heroSection) {
   };
 
   const dropAtEvent = (clientX, clientY, radius, strength) => {
-    if (!rippleSupported) return;
     const rect = heroCanvas.getBoundingClientRect();
     const x = (clientX - rect.left) / rect.width;
     const y = 1 - (clientY - rect.top) / rect.height;
@@ -215,13 +227,11 @@ if (heroSection) {
   );
 
   window.setInterval(() => {
-    if (!rippleSupported || !document.hasFocus()) return;
+    if (!document.hasFocus()) return;
     ripple.drop(0.15 + Math.random() * 0.7, 0.15 + Math.random() * 0.7, 0.07 + Math.random() * 0.05, 0.3 + Math.random() * 0.2);
   }, 2600);
 
-  window.addEventListener('resize', () => {
-    if (rippleSupported) ripple.resize();
-  });
+  window.addEventListener('resize', () => ripple.resize());
 }
 
 if (heroDots.length) {
@@ -311,16 +321,14 @@ if (window.matchMedia('(pointer: fine)').matches) {
   let ringY = mouseY;
   let isHovering = false;
   let isNavHovering = false;
-  let hasMoved = false;
 
   document.addEventListener('mousemove', (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
-    if (!hasMoved) {
-      hasMoved = true;
-      cursorDot.classList.add('is-active');
-      cursorRing.classList.add('is-active');
-    }
+    // Unconditional (not one-time-gated): self-heals if a stray mouseleave
+    // — e.g. from dragging the native scrollbar — ever hides the cursor.
+    cursorDot.classList.add('is-active');
+    cursorRing.classList.add('is-active');
   });
 
   document.addEventListener('mouseover', (e) => {

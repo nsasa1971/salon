@@ -239,10 +239,16 @@
 <!-- ============ HERO ============ -->
 <section id="home" class="relative isolate flex min-h-screen items-center overflow-hidden bg-wine">
 
-  <!-- Rippling water-distorted background. Canvas renders a live WebGL ripple simulation
-       over the current slide's texture; the div behind it is a plain CSS fallback used
-       only if WebGL is unavailable. -->
-  <div id="hero-bg-fallback" class="absolute inset-0 hidden bg-cover bg-center"></div>
+  <!-- Rippling water-distorted background — desktop (mouse) only. Canvas renders a live
+       WebGL ripple simulation over the current slide's texture. On touch devices, and as a
+       fallback if WebGL is unavailable, plain <img> slides crossfade instead: real <img>
+       elements adapt to the viewport's own aspect ratio (portrait phones included) instead
+       of being cropped through the ripple's fixed-aspect canvas texture. -->
+  <div id="hero-bg-fallback" class="absolute inset-0">
+    <img data-hero-fallback-slide src="assets/images/hero-1.webp" alt="" class="hero-fallback-img is-active" style="object-position: center 28%;">
+    <img data-hero-fallback-slide src="assets/images/hero-2.webp" alt="" class="hero-fallback-img" style="object-position: center 25%;">
+    <img data-hero-fallback-slide src="assets/images/hero-3.webp" alt="" class="hero-fallback-img" style="object-position: center 25%;">
+  </div>
   <canvas id="hero-ripple" class="absolute inset-0 h-full w-full"></canvas>
   <div class="absolute inset-0 bg-gradient-to-r from-dark/90 via-dark/50 to-dark/10"></div>
   <div class="absolute inset-0 bg-black/15"></div>

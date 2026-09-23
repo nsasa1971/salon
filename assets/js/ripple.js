@@ -21,6 +21,30 @@ class RippleCanvas {
     if (!gl) return;
     this.gl = gl;
 
+    // A lost context (GPU reset, memory pressure, driver hiccup — real hardware can
+    // do this even mid-session, not just at startup) wipes every GL resource. Without
+    // handling it, the canvas just freezes on its last frame or goes blank forever.
+    canvas.addEventListener('webglcontextlost', (event) => {
+      event.preventDefault();
+      this._wasRunning = this._running;
+      this.stop();
+      this.supported = false;
+    });
+    canvas.addEventListener('webglcontextrestored', () => {
+      try {
+        this._initGeometry();
+        this._initPrograms();
+        this._initSimBuffers();
+        this._initBackgroundTexture();
+        this.supported = true;
+        this.resize();
+        if (this._lastBackground) this.setBackground(this._lastBackground);
+        if (this._wasRunning) this.start();
+      } catch (err) {
+        this.supported = false;
+      }
+    });
+
     try {
       this._initGeometry();
       this._initPrograms();
@@ -274,6 +298,7 @@ class RippleCanvas {
   }
 
   setBackground(source) {
+    this._lastBackground = source;
     if (!this.supported) return;
     const gl = this.gl;
     gl.bindTexture(gl.TEXTURE_2D, this.backgroundTexture);

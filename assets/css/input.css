@@ -357,3 +357,17 @@ html.has-custom-cursor button {
 .services-nav--next {
   right: -0.5rem;
 }
+
+/* ============ Hero fallback slides (mobile / no-WebGL) ============ */
+.hero-fallback-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1s var(--ease-out-soft);
+}
+.hero-fallback-img.is-active {
+  opacity: 1;
+}
