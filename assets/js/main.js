@@ -232,6 +232,26 @@ if (rippleSupported && heroSection) {
   }, 2600);
 
   window.addEventListener('resize', () => ripple.resize());
+
+  // A canvas left off-screen for a while (e.g. the user reading all the way
+  // down a long page) is a classic trigger for the GPU silently reclaiming
+  // its WebGL context — and some browsers only finish restoring it once the
+  // canvas is actually composited again, which can stall forever if nothing
+  // nudges it. Treat "scrolled back into view" as a cue to double-check the
+  // ripple is alive: refresh its backing size, repaint the current slide's
+  // texture, and restart the render loop if it somehow isn't running.
+  const heroVisibilityObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting || !ripple.supported) return;
+        ripple.resize();
+        paintHeroSlide(heroIndex);
+        if (!ripple._running) ripple.start();
+      });
+    },
+    { threshold: 0.1 }
+  );
+  heroVisibilityObserver.observe(heroSection);
 }
 
 if (heroDots.length) {

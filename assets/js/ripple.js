@@ -21,13 +21,16 @@ class RippleCanvas {
     if (!gl) return;
     this.gl = gl;
 
-    // A lost context (GPU reset, memory pressure, driver hiccup — real hardware can
-    // do this even mid-session, not just at startup) wipes every GL resource. Without
-    // handling it, the canvas just freezes on its last frame or goes blank forever.
+    // A lost context (GPU reset, memory pressure, driver hiccup, or a canvas
+    // left off-screen for a while — real hardware can do this even mid-session,
+    // not just at startup) wipes every GL resource. Deliberately DON'T stop the
+    // render loop here: GL calls silently no-op per spec while the context is
+    // lost, so it's safe to keep looping, and a canvas that's still actively
+    // requesting frames is what gives the browser a reason to restore it rather
+    // than leave it shelved — stopping outright would remove that signal and
+    // leave recovery hostage to `webglcontextrestored` firing on its own.
     canvas.addEventListener('webglcontextlost', (event) => {
       event.preventDefault();
-      this._wasRunning = this._running;
-      this.stop();
       this.supported = false;
     });
     canvas.addEventListener('webglcontextrestored', () => {
@@ -39,7 +42,6 @@ class RippleCanvas {
         this.supported = true;
         this.resize();
         if (this._lastBackground) this.setBackground(this._lastBackground);
-        if (this._wasRunning) this.start();
       } catch (err) {
         this.supported = false;
       }
@@ -403,12 +405,14 @@ class RippleCanvas {
   }
 
   start() {
-    if (!this.supported || this._running) return;
+    if (this._running) return;
     this._running = true;
     const loop = () => {
       if (!this._running) return;
-      this._step();
-      this._render();
+      if (this.supported) {
+        this._step();
+        this._render();
+      }
       this._raf = requestAnimationFrame(loop);
     };
     loop();
