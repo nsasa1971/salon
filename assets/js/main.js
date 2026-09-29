@@ -90,9 +90,9 @@ const heroFallbackImgs = Array.from(document.querySelectorAll('[data-hero-fallba
 const heroDots = Array.from(document.querySelectorAll('[data-hero-dot]'));
 
 const heroSlides = [
-  { src: 'assets/images/hero-1.webp', focusY: 0.32 },
-  { src: 'assets/images/hero-2.webp', focusY: 0.3 },
-  { src: 'assets/images/hero-3.webp', focusY: 0.3 },
+  { src: 'assets/images/salon-lounge-wide.webp', focusY: 0.32 },
+  { src: 'assets/images/salon-logo-wall.webp', focusY: 0.3 },
+  { src: 'assets/images/salon-treatment-room.webp', focusY: 0.3 },
 ];
 
 // The ripple needs a mouse to react to and is pure visual flourish, so it's

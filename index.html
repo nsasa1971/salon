@@ -3,10 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>[Naziv Biznisa] — Šablon za Frizerski i Spa Salon</title>
-<meta name="description" content="Placeholder početna stranica za frizerski i spa salon — izrađena čistim HTML-om, Tailwind CSS-om i modernim JavaScript-om.">
+<title>Lounge Veličkovski — hair and beauty</title>
+<meta name="description" content="Lounge Veličkovski — salon za kosu i lepotu. Frizerske usluge, nega lica i tretmani u elegantnom prostoru.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="icon" type="image/webp" href="assets/images/logo-mark.webp">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="bg-dark font-sans text-white antialiased">
@@ -17,10 +18,10 @@
 
     <!-- Logo badge -->
     <a href="#home" class="relative flex items-center gap-3 rounded-2xl rounded-r-[2.25rem] bg-white py-2.5 pl-3 pr-7 text-dark shadow-lg sm:py-3 sm:pl-4 sm:pr-9" data-cursor-nav>
-      <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary font-display text-lg font-bold text-white">B</span>
+      <img src="assets/images/logo-mark.webp" alt="" class="h-11 w-10 shrink-0 object-contain">
       <span class="leading-tight">
-        <span class="block font-display text-lg tracking-wide sm:text-xl">[Naziv Biznisa]</span>
-        <span class="block text-[10px] font-semibold uppercase tracking-[0.22em] text-primary">Slogan Ide Ovde</span>
+        <span class="block font-display text-lg tracking-wide sm:text-xl">Lounge Veličkovski</span>
+        <span class="block text-[10px] font-semibold uppercase tracking-[0.22em] text-primary">hair and beauty</span>
       </span>
     </a>
 
@@ -64,7 +65,7 @@
 <div id="mobile-menu-backdrop" class="offcanvas-backdrop fixed inset-0 z-50 bg-black/70"></div>
 <aside id="mobile-menu" class="offcanvas-panel fixed inset-y-0 right-0 z-50 flex w-80 max-w-[85vw] flex-col gap-8 bg-dark-soft p-8">
   <div class="flex items-center justify-between">
-    <span class="font-display text-xl">[Naziv Biznisa]</span>
+    <span class="flex items-center gap-3 font-display text-xl"><img src="assets/images/logo-mark-light.webp" alt="" class="h-10 w-9 shrink-0 object-contain">Lounge Veličkovski</span>
     <button id="menu-close" aria-label="Zatvori meni" class="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 hover:border-primary" data-cursor-nav>
       <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -134,10 +135,10 @@
 <aside id="blog-panel" class="offcanvas-panel fixed inset-y-0 right-0 z-50 flex w-96 max-w-[90vw] flex-col gap-7 overflow-y-auto bg-white p-8 text-dark">
   <div class="flex items-start justify-between">
     <a href="#home" class="flex items-center gap-3" data-cursor-nav>
-      <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary font-display text-lg font-bold text-white">B</span>
+      <img src="assets/images/logo-mark.webp" alt="" class="h-12 w-11 shrink-0 object-contain">
       <span class="leading-tight">
-        <span class="block font-display text-lg">[Naziv Biznisa]</span>
-        <span class="block text-[10px] font-semibold uppercase tracking-[0.22em] text-primary">Slogan Ide Ovde</span>
+        <span class="block font-display text-lg">Lounge Veličkovski</span>
+        <span class="block text-[10px] font-semibold uppercase tracking-[0.22em] text-primary">hair and beauty</span>
       </span>
     </a>
     <button id="blog-panel-close" aria-label="Zatvori" class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-dark/15 transition hover:border-primary" data-cursor-nav>
@@ -148,7 +149,7 @@
   </div>
 
   <p class="text-sm text-dark/60">
-    [Naziv Biznisa] pruža usluge lepote i nege sa pažnjom posvećenom svakom detalju — od stilizovanja kose do tretmana lica, u prostoru osmišljenom za vaš mir i opuštanje.
+    Lounge Veličkovski pruža usluge lepote i nege sa pažnjom posvećenom svakom detalju — od stilizovanja kose do tretmana lica, u prostoru osmišljenom za vaš mir i opuštanje.
   </p>
 
   <div>
@@ -245,9 +246,9 @@
        elements adapt to the viewport's own aspect ratio (portrait phones included) instead
        of being cropped through the ripple's fixed-aspect canvas texture. -->
   <div id="hero-bg-fallback" class="absolute inset-0">
-    <img data-hero-fallback-slide src="assets/images/hero-1.webp" alt="" class="hero-fallback-img is-active" style="object-position: center 28%;">
-    <img data-hero-fallback-slide src="assets/images/hero-2.webp" alt="" class="hero-fallback-img" style="object-position: center 25%;">
-    <img data-hero-fallback-slide src="assets/images/hero-3.webp" alt="" class="hero-fallback-img" style="object-position: center 25%;">
+    <img data-hero-fallback-slide src="assets/images/salon-lounge-wide.webp" alt="" class="hero-fallback-img is-active" style="object-position: center 28%;">
+    <img data-hero-fallback-slide src="assets/images/salon-logo-wall.webp" alt="" class="hero-fallback-img" style="object-position: center 25%;">
+    <img data-hero-fallback-slide src="assets/images/salon-treatment-room.webp" alt="" class="hero-fallback-img" style="object-position: center 25%;">
   </div>
   <canvas id="hero-ripple" class="absolute inset-0 h-full w-full"></canvas>
   <div class="absolute inset-0 bg-gradient-to-r from-dark/90 via-dark/50 to-dark/10"></div>
@@ -273,7 +274,7 @@
   <div class="relative z-10 mx-auto w-full max-w-7xl px-6 pt-28 lg:pl-24 lg:pr-10">
     <div class="max-w-2xl" data-reveal>
       <p class="mb-4 text-sm font-semibold uppercase tracking-[0.3em] text-primary-light" data-cursor-text>
-        <span class="cursor-text__base">Dobrodošli u [Naziv Biznisa]</span><span class="cursor-text__reveal" aria-hidden="true">Dobrodošli u [Naziv Biznisa]</span>
+        <span class="cursor-text__base">Dobrodošli u Lounge Veličkovski</span><span class="cursor-text__reveal" aria-hidden="true">Dobrodošli u Lounge Veličkovski</span>
       </p>
       <h1 class="relative font-display text-5xl leading-tight sm:text-6xl lg:text-7xl" data-cursor-text>
         <span class="cursor-text__base block">Vaš Elegantan<br>Naslov Ide Ovde</span>
@@ -320,10 +321,10 @@
       <!-- Image collage + experience badge -->
       <div class="relative" data-reveal>
         <div class="grid grid-cols-2 gap-4">
-          <img src="assets/images/about-wide.webp" alt="Tretman u salonu u toku" loading="lazy"
+          <img src="assets/images/salon-treatment-room.webp" alt="Kabina za tretmane u salonu" loading="lazy"
             class="col-span-2 aspect-[4/3] rounded-2xl object-cover sm:col-span-1">
-          <img src="assets/images/about-square.webp" alt="Portret klijentkinje nakon tretmana" loading="lazy"
-            class="aspect-square rounded-2xl object-cover">
+          <img src="assets/images/salon-logo-wall.webp" alt="Radni prostor salona sa zlatnim logoom" loading="lazy"
+            class="aspect-square rounded-2xl object-cover object-[30%_center]">
         </div>
 
         <!-- Experience badge -->
@@ -521,8 +522,8 @@
 
       <div>
         <a href="#home" class="flex items-center gap-3" data-cursor-nav>
-          <span class="flex h-10 w-10 items-center justify-center rounded-full bg-primary font-display font-bold">B</span>
-          <span class="font-display text-lg">[Naziv Biznisa]</span>
+          <img src="assets/images/logo-mark-light.webp" alt="" class="h-11 w-10 shrink-0 object-contain">
+          <span class="font-display text-lg">Lounge Veličkovski</span>
         </a>
         <p class="mt-4 text-sm text-white/60">
           Kratak opis vašeg biznisa — jedna do dve rečenice.
@@ -565,8 +566,7 @@
     </div>
 
     <div class="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 text-xs text-white/40 sm:flex-row">
-      <p>© <span id="year"></span> [Naziv Biznisa]. Sva prava zadržana.</p>
-      <p>Šablon placeholder — zamenite sopstvenim linkovima u footeru.</p>
+      <p>© <span id="year"></span> Lounge Veličkovski. Sva prava zadržana.</p>
     </div>
   </div>
 </footer>
