@@ -371,3 +371,6 @@ html.has-custom-cursor button {
 .hero-fallback-img.is-active {
   opacity: 1;
 }
+
+/* Price list leader dots */
+.price-dots { flex: 1 1 auto; min-width: 1rem; align-self: end; margin-bottom: .3em; border-bottom: 1px dotted rgb(255 255 255 / .25); }
