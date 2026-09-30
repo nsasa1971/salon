@@ -329,20 +329,6 @@ if (servicesTrack) {
 servicesPrev?.addEventListener('click', () => scrollServicesBy(-1));
 servicesNext?.addEventListener('click', () => scrollServicesBy(1));
 
-/* ---------- "Pozovite nas": set the salon phone number here ----------
-   Leave empty to keep every call button hidden. */
-const SALON_PHONE = '+381692121966';
-if (SALON_PHONE) {
-  const pretty = SALON_PHONE.replace(/^\+381(\d{2})(\d{3})(\d+)$/, '0$1 $2 $3');
-  document.querySelectorAll('[data-phone-link]').forEach((a) => {
-    a.href = `tel:${SALON_PHONE}`;
-    a.hidden = false;
-    const t = a.querySelector('[data-phone-text]');
-    if (t) t.textContent = `· ${pretty}`;
-  });
-  document.querySelectorAll('[data-phone-wrap]').forEach((w) => { w.hidden = false; });
-}
-
 /* ---------- Scroll-reveal animation ---------- */
 const revealObserver = new IntersectionObserver(
   (entries) => {
