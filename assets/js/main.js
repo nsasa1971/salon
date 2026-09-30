@@ -53,34 +53,13 @@ blogPanelClose?.addEventListener('click', closeBlogPanel);
 blogPanelBackdrop?.addEventListener('click', closeBlogPanel);
 blogPanel?.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeBlogPanel));
 
-/* ---------- Booking modal ---------- */
-const bookingModal = document.getElementById('booking-modal');
-const bookingModalBackdrop = document.getElementById('booking-modal-backdrop');
-const bookingModalClose = document.getElementById('booking-modal-close');
-
-const openBookingModal = () => {
-  closeMenu();
-  closeBlogPanel();
-  bookingModal?.show();
-  bookingModalBackdrop?.classList.add('is-open');
-  document.body.classList.add('overflow-hidden');
-};
-
-const closeBookingModal = () => {
-  bookingModal?.close();
-  bookingModalBackdrop?.classList.remove('is-open');
-  document.body.classList.remove('overflow-hidden');
-};
-
+/* ---------- "Zakažite termin" buttons scroll to the on-page booking form ---------- */
 document.querySelectorAll('[data-open-booking]').forEach((btn) => {
-  btn.addEventListener('click', openBookingModal);
-});
-
-bookingModalClose?.addEventListener('click', closeBookingModal);
-bookingModalBackdrop?.addEventListener('click', closeBookingModal);
-
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && bookingModal?.open) closeBookingModal();
+  btn.addEventListener('click', () => {
+    closeMenu();
+    closeBlogPanel();
+    document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' });
+  });
 });
 
 /* ---------- Hero slider: live water-ripple on desktop, plain crossfade on touch ---------- */
@@ -303,25 +282,47 @@ backToTop?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: '
 document.addEventListener('scroll', onScrollBackToTop, { passive: true });
 onScrollBackToTop();
 
-/* ---------- Newsletter / booking form (placeholder handling) ---------- */
-document.querySelectorAll('[data-form]').forEach((form) => {
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const feedback = form.querySelector('[data-form-feedback]');
-    if (feedback) {
-      feedback.textContent = 'Hvala! Zamenite ovo pravom obradom forme.';
-      feedback.classList.remove('hidden');
-    }
-    form.reset();
+/* ---------- Online booking form (Netlify Forms) ---------- */
+const bookingForm = document.getElementById('booking-form');
+if (bookingForm) {
+  const feedback = document.getElementById('booking-feedback');
+  const dateInput = bookingForm.querySelector('#b-date');
+  if (dateInput) {
+    const t = new Date();
+    dateInput.min = `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, '0')}-${String(t.getDate()).padStart(2, '0')}`;
+  }
 
-    if (form.closest('dialog')) {
-      window.setTimeout(() => {
-        closeBookingModal();
-        feedback?.classList.add('hidden');
-      }, 1600);
+  const showFeedback = (text, ok) => {
+    feedback.textContent = text;
+    feedback.className = `mt-3 rounded-2xl px-4 py-3 text-center text-sm ${ok ? 'bg-primary/15 text-primary-light' : 'bg-red-500/15 text-red-200'}`;
+  };
+
+  bookingForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!bookingForm.checkValidity()) {
+      bookingForm.reportValidity();
+      return;
+    }
+    const submitBtn = bookingForm.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.classList.add('opacity-60');
+    try {
+      const res = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(new FormData(bookingForm)).toString(),
+      });
+      if (!res.ok) throw new Error(res.status);
+      showFeedback('Hvala! Vaš zahtev je poslat — javićemo vam se uskoro da potvrdimo termin.', true);
+      bookingForm.reset();
+    } catch {
+      showFeedback('Slanje nije uspelo. Pokušajte ponovo za nekoliko trenutaka.', false);
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.classList.remove('opacity-60');
     }
   });
-});
+}
 
 /* ---------- Custom cursor: ring + dot, text-color reveal, nav hand-pointer ---------- */
 if (window.matchMedia('(pointer: fine)').matches) {

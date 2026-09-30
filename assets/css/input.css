@@ -2,13 +2,16 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #ea5b1c;
-  --color-primary-light: #f3894f;
-  --color-primary-dark: #c2470f;
-  --color-dark: #0d0d0d;
-  --color-dark-soft: #161616;
-  --color-wine: #3a2229;
-  --color-cream: #f6f1e9;
+  /* Palette taken from the salon interior: champagne-gold brass fixtures,
+     chocolate-brown shelving, taupe plaster walls, ivory panels, black metal. */
+  --color-primary: #c9a56a;
+  --color-primary-light: #e0c79a;
+  --color-primary-dark: #a98547;
+  --color-dark: #18120f;
+  --color-dark-soft: #221a16;
+  --color-wine: #4a2f28;
+  --color-cream: #f4eee5;
+  --color-taupe: #a89a8a;
 
   --font-display: "Playfair Display", serif;
   --font-sans: "Poppins", sans-serif;
@@ -49,10 +52,10 @@ html {
   width: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: #111111;
+  background: #18120f;
 }
 ::-webkit-scrollbar-thumb {
-  background: #ea5b1c;
+  background: #c9a56a;
   border-radius: 9999px;
 }
 
@@ -270,7 +273,7 @@ html.has-custom-cursor button {
 .service-pill input:checked + .service-pill__label {
   border-color: var(--color-primary);
   background: var(--color-primary);
-  color: white;
+  color: var(--color-dark);
 }
 .service-pill input:focus-visible + .service-pill__label {
   outline: 2px solid var(--color-primary-light);
@@ -321,12 +324,14 @@ html.has-custom-cursor button {
   font-family: var(--font-display);
   font-size: 0.8rem;
   color: var(--color-cream);
-  background: rgba(13, 13, 13, 0.55);
+  background: rgba(24, 18, 15, 0.6);
   padding: 0.2rem 0.6rem;
   border-radius: 9999px;
   backdrop-filter: blur(2px);
 }
-.services-card figcaption {
+.services-card figcaption,
+.services-card__caption {
+  display: block;
   margin-top: 1.25rem;
   text-align: center;
   font-family: var(--font-display);
@@ -374,3 +379,16 @@ html.has-custom-cursor button {
 
 /* Price list leader dots */
 .price-dots { flex: 1 1 auto; min-width: 1rem; align-self: end; margin-bottom: .3em; border-bottom: 1px dotted rgb(255 255 255 / .25); }
+
+/* Gold buttons: dark text keeps contrast on the champagne-gold fill */
+a.bg-primary, button.bg-primary { color: var(--color-dark); }
+
+/* FAQ accordion */
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item .faq-plus { font-size: 1.5rem; line-height: 1; transition: transform 0.25s ease; }
+.faq-item[open] .faq-plus { transform: rotate(45deg); }
+.faq-item[open] { border-color: rgb(201 165 106 / 0.45); }
+
+/* Booking form select arrow + option colours */
+#booking select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%23c9a56a' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1.1rem center; padding-right: 2.75rem; }
+#booking select option, #booking select optgroup { background: var(--color-dark); color: #fff; }
