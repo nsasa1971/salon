@@ -183,72 +183,56 @@
 </section>
 
 <!-- ============ ABOUT ============ -->
-<section id="about" class="bg-dark py-24">
-  <div class="mx-auto max-w-7xl px-6 lg:px-10">
+<section id="about" class="relative overflow-hidden bg-dark py-28">
+  <div class="relative mx-auto max-w-6xl px-6 lg:px-10">
 
-    <div class="mb-16 text-center" data-reveal>
-      <p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-light">Upoznajte Nas</p>
-      <h2 class="mt-3 font-display text-4xl sm:text-5xl">O Nama</h2>
-      <svg class="mx-auto mt-5 h-10 w-10 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-        <path d="M12 21c0-6-4-9-9-9 5 0 9-3 9-9 0 6 4 9 9 9-5 0-9 3-9 9z" stroke-linejoin="round"/>
-      </svg>
+    <div class="mx-auto max-w-3xl text-center" data-reveal>
+      <p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-light">O Nama</p>
+      <h2 class="mt-4 font-display text-4xl leading-tight sm:text-5xl lg:text-6xl">
+        Lepota počinje osećajem da ste <em class="text-primary-light">dobrodošli</em>.
+      </h2>
+      <div class="mx-auto mt-8 flex items-center justify-center gap-4 text-primary/70">
+        <span class="h-px w-16 bg-current"></span>
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.8 7.2L21 12l-7.2 2.8L12 22l-1.8-7.2L3 12l7.2-2.8L12 2z"/></svg>
+        <span class="h-px w-16 bg-current"></span>
+      </div>
+      <p class="mt-8 text-lg text-white/75">
+        Lounge Veličkovski je nov salon za kosu i lepotu — mesto u kojem se nega, pažnja i opuštanje spajaju na jednom mestu.
+      </p>
     </div>
 
-    <div class="grid items-center gap-14 lg:grid-cols-2">
-
-      <div class="relative" data-reveal>
-        <div class="grid grid-cols-2 gap-4">
-          <img src="assets/images/salon-treatment-room.webp" alt="Kabina za tretmane u salonu" loading="lazy"
-            class="col-span-2 aspect-[4/3] rounded-2xl object-cover sm:col-span-1">
-          <img src="assets/images/salon-logo-wall.webp" alt="Radni prostor salona sa zlatnim logoom" loading="lazy"
-            class="aspect-square rounded-2xl object-cover object-[30%_center]">
-        </div>
-
-        <!-- "New" badge -->
-        <div class="absolute -bottom-8 left-1/2 flex h-28 w-28 -translate-x-1/2 items-center justify-center rounded-full border border-primary/50 bg-dark sm:left-auto sm:right-4 sm:translate-x-0">
-          <svg class="spin-slow absolute h-full w-full text-primary/70" viewBox="0 0 100 100">
-            <defs>
-              <path id="circlePath" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" />
-            </defs>
-            <text font-size="8" letter-spacing="1" fill="currentColor" textLength="228" lengthAdjust="spacing">
-              <textPath href="#circlePath">• NOVI SALON • DOBRODOŠLI • </textPath>
-            </text>
-          </svg>
-          <span class="font-display text-2xl text-primary-light">Novo</span>
+    <div class="mt-20 grid gap-14 lg:grid-cols-2 lg:gap-20" data-reveal>
+      <div class="space-y-5 text-white/70 lg:border-r lg:border-white/10 lg:pr-16">
+        <p class="font-display text-2xl leading-snug text-white">Nastali smo iz jednostavne želje: da napravimo prostor u koji se rado dolazi.</p>
+        <p>
+          Zato smo svaki detalj — od tople palete boja i mekog osvetljenja do udobnih fotelja — birali tako da
+          se odmah opustite i osetite kao kod kuće.
+        </p>
+        <p>
+          Počinjemo sa fokusom na ono što radimo najbolje: obrve i trepavice, manikir, pedikir i maderoterapiju.
+          Pažljivo slušamo šta želite, radimo bez žurbe i sa kvalitetnim materijalima.
+        </p>
+        <div class="flex flex-wrap gap-4 pt-4">
+          <button type="button" data-open-booking data-cursor-nav class="rounded-full bg-primary px-8 py-4 text-xs font-semibold uppercase tracking-wider transition hover:bg-primary-dark">Zakažite Termin</button>
+          <a href="#services" data-cursor-nav class="rounded-full border border-white/40 px-8 py-4 text-xs font-semibold uppercase tracking-wider text-white transition hover:border-primary hover:text-primary-light">Naše Usluge</a>
         </div>
       </div>
 
-      <div data-reveal>
-        <p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-light">Nov prostor · Nova priča</p>
-        <h3 class="mt-3 font-display text-3xl leading-snug sm:text-4xl">
-          Mesto gde se osećate kao gost
-        </h3>
-        <p class="mt-5 text-white/70">
-          Lounge Veličkovski je nov salon za kosu i lepotu, nastao iz želje da na jednom mestu spojimo
-          kvalitetnu negu i opuštajuću atmosferu. Svaki detalj prostora — od tople palete boja do osvetljenih
-          ogledala — osmišljen je da vam bude prijatno od prvog koraka.
-        </p>
-        <p class="mt-4 text-white/70">
-          Otvaramo vrata sa jednostavnim obećanjem: pažljiv rad, kvalitetni proizvodi i savet prilagođen vama.
-          Bilo da dolazite na tretman obrva i trepavica, manikir, pedikir ili maderoterapiju, vreme koje
-          provedete kod nas je samo vaše.
-        </p>
-
-        <ul class="mt-8 grid gap-4 sm:grid-cols-2">
-          <li class="flex items-center gap-3 text-sm text-white/80"><span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/20 text-primary-light">✓</span>Individualan pristup svakom klijentu</li>
-          <li class="flex items-center gap-3 text-sm text-white/80"><span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/20 text-primary-light">✓</span>Kvalitetni materijali i proizvodi</li>
-          <li class="flex items-center gap-3 text-sm text-white/80"><span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/20 text-primary-light">✓</span>Higijena i pažnja na prvom mestu</li>
-          <li class="flex items-center gap-3 text-sm text-white/80"><span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/20 text-primary-light">✓</span>Transparentne cene, bez iznenađenja</li>
-        </ul>
-
-        <div class="mt-8 flex flex-wrap gap-4">
-          <a href="#services" class="inline-block rounded-full bg-primary px-8 py-4 text-xs font-semibold uppercase tracking-wider transition hover:bg-primary-dark" data-cursor-nav>
-            Naše Usluge
-          </a>
-          <button type="button" data-open-booking data-cursor-nav
-            class="inline-block rounded-full border border-white/40 px-8 py-4 text-xs font-semibold uppercase tracking-wider transition hover:border-primary hover:text-primary-light">
-            Zakažite Termin
-          </button>
+      <div>
+        <p class="mb-8 text-xs font-semibold uppercase tracking-[0.25em] text-primary-light">Naše obećanje</p>
+        <div>
+          <div class="flex gap-5 border-t border-white/10 py-6 first:border-t-0 first:pt-0 last:pb-0">
+            <span class="font-display text-3xl text-primary/70">01</span>
+            <div><h4 class="font-display text-xl">Prostor</h4><p class="mt-1 text-sm text-white/65">Topao, elegantan ambijent u kojem vreme teče sporije.</p></div>
+          </div>
+          <div class="flex gap-5 border-t border-white/10 py-6 first:border-t-0 first:pt-0 last:pb-0">
+            <span class="font-display text-3xl text-primary/70">02</span>
+            <div><h4 class="font-display text-xl">Pristup</h4><p class="mt-1 text-sm text-white/65">Svaki tretman prilagođavamo vama, bez šablona.</p></div>
+          </div>
+          <div class="flex gap-5 border-t border-white/10 py-6 first:border-t-0 first:pt-0 last:pb-0">
+            <span class="font-display text-3xl text-primary/70">03</span>
+            <div><h4 class="font-display text-xl">Pažnja</h4><p class="mt-1 text-sm text-white/65">Higijena, kvalitet i detalji uvek na prvom mestu.</p></div>
+          </div>
         </div>
       </div>
     </div>

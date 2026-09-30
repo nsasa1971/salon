@@ -64,7 +64,7 @@ document.querySelectorAll('[data-open-booking]').forEach((btn) => {
 
 /* ---------- Hero slider: live water-ripple on desktop, plain crossfade on touch ---------- */
 const heroSection = document.getElementById('home');
-const heroCanvas = document.getElementById('hero-ripple');
+let heroCanvas = document.getElementById('hero-ripple');
 const heroFallbackImgs = Array.from(document.querySelectorAll('[data-hero-fallback-slide]'));
 const heroDots = Array.from(document.querySelectorAll('[data-hero-dot]'));
 
@@ -80,13 +80,26 @@ const heroSlides = [
 // the plain <img> fallback instead adapts to each device's own aspect ratio
 // (portrait phones included).
 const isDesktopHero = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-const ripple =
-  isDesktopHero && heroCanvas && window.RippleCanvas
-    ? new window.RippleCanvas(heroCanvas, { resolution: 300 })
-    : null;
-const rippleSupported = !!ripple && ripple.supported;
+let ripple = null;
 
-if (heroCanvas) heroCanvas.style.display = rippleSupported ? '' : 'none';
+// A WebGL context can be lost at any time (GPU reclaims it while the canvas is
+// off-screen, driver reset, memory pressure) and browsers don't always restore
+// it. Once lost, a canvas can never get a working context back, so recovery
+// means swapping in a brand-new <canvas> and a new RippleCanvas instance.
+const buildRipple = () => {
+  if (ripple) {
+    ripple.stop();
+    const fresh = heroCanvas.cloneNode(false);
+    heroCanvas.replaceWith(fresh);
+    heroCanvas = fresh;
+  }
+  ripple = new window.RippleCanvas(heroCanvas, { resolution: 300 });
+  // Hidden canvas lets the static fallback <img> underneath show instead of a blank frame.
+  heroCanvas.style.display = ripple.supported ? '' : 'none';
+};
+
+if (isDesktopHero && heroCanvas && window.RippleCanvas) buildRipple();
+const rippleSupported = !!ripple && ripple.supported;
 
 let slideCanvas;
 let slideCtx;
@@ -121,7 +134,7 @@ const drawImageCover = (img, focusY) => {
 };
 
 const paintHeroSlide = (index) => {
-  if (rippleSupported) {
+  if (rippleSupported && ripple.supported) {
     const slide = heroSlides[index];
     const img = heroImages[index];
     const apply = () => {
@@ -131,8 +144,9 @@ const paintHeroSlide = (index) => {
     if (img.complete && img.naturalWidth) apply();
     else img.addEventListener('load', apply, { once: true });
   } else {
-    heroFallbackImgs.forEach((el, i) => el.classList.toggle('is-active', i === index));
+    // (handled below)
   }
+  heroFallbackImgs.forEach((el, i) => el.classList.toggle('is-active', i === index));
 };
 
 let heroIndex = 0;
@@ -219,10 +233,28 @@ if (rippleSupported && heroSection) {
   // nudges it. Treat "scrolled back into view" as a cue to double-check the
   // ripple is alive: refresh its backing size, repaint the current slide's
   // texture, and restart the render loop if it somehow isn't running.
+  let heroInView = true;
+  let rebuildAttempts = 0;
+  const rippleBroken = () => !ripple.supported || ripple.gl.isContextLost();
+
+  const rebuildRipple = () => {
+    buildRipple();
+    if (ripple.supported) {
+      paintHeroSlide(heroIndex);
+      ripple.start();
+    }
+  };
+
   const heroVisibilityObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        if (!entry.isIntersecting || !ripple.supported) return;
+        heroInView = entry.isIntersecting;
+        if (!entry.isIntersecting) return;
+        if (rippleBroken()) {
+          rebuildAttempts = 0;
+          rebuildRipple();
+          return;
+        }
         ripple.resize();
         paintHeroSlide(heroIndex);
         if (!ripple._running) ripple.start();
@@ -231,6 +263,19 @@ if (rippleSupported && heroSection) {
     { threshold: 0.1 }
   );
   heroVisibilityObserver.observe(heroSection);
+
+  // Watchdog: if the context is lost while the hero is on screen (or a rebuild
+  // didn't take), keep retrying with a fresh canvas — a few times, then stop
+  // and leave the static image showing.
+  window.setInterval(() => {
+    if (!rippleBroken()) {
+      rebuildAttempts = 0;
+      return;
+    }
+    if (!heroInView || rebuildAttempts >= 8) return;
+    rebuildAttempts++;
+    rebuildRipple();
+  }, 1200);
 }
 
 if (heroDots.length) {
