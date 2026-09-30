@@ -413,3 +413,10 @@ a.bg-primary, button.bg-primary { color: var(--color-dark); border: 1px solid tr
     text-align: center;
   }
 }
+
+/* Booking form: multi-select service picker */
+.chk { display: inline-block; width: 1.05rem; height: 1.05rem; flex-shrink: 0; border-radius: 0.3rem; border: 1.5px solid rgb(255 255 255 / 0.3); transition: background-color .15s, border-color .15s; }
+.peer:checked + .chk { background: var(--color-primary) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2318120f' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center / 80% no-repeat; border-color: var(--color-primary); }
+.peer:focus-visible + .chk { outline: 2px solid var(--color-primary-light); outline-offset: 2px; }
+#service-toggle[aria-expanded="true"] { border-color: var(--color-primary); }
+#service-toggle[aria-expanded="true"] #service-chevron { transform: rotate(180deg); }

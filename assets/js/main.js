@@ -385,8 +385,56 @@ if (bookingForm) {
     feedback.className = `mt-3 rounded-2xl px-4 py-3 text-center text-sm ${ok ? 'bg-primary/15 text-primary-light' : 'bg-red-500/15 text-red-200'}`;
   };
 
+  // ----- Multi-select service picker -----
+  const picker = document.getElementById('service-picker');
+  const toggle = document.getElementById('service-toggle');
+  const panel = document.getElementById('service-panel');
+  const summary = document.getElementById('service-summary');
+  const chips = document.getElementById('service-chips');
+  const serviceError = document.getElementById('service-error');
+  const boxes = () => Array.from(panel.querySelectorAll('input[type="checkbox"]'));
+
+  const setPanel = (open) => {
+    panel.hidden = !open;
+    toggle.setAttribute('aria-expanded', String(open));
+    if (open) panel.scrollTop = 0;
+  };
+
+  const renderServices = () => {
+    const picked = boxes().filter((b) => b.checked);
+    summary.textContent = picked.length
+      ? `${picked.length} ${picked.length === 1 ? 'usluga izabrana' : picked.length < 5 ? 'usluge izabrane' : 'usluga izabrano'}`
+      : 'Izaberite jednu ili više usluga…';
+    summary.classList.toggle('text-white/40', !picked.length);
+    chips.replaceChildren(
+      ...picked.map((b) => {
+        const chip = document.createElement('button');
+        chip.type = 'button';
+        chip.className = 'flex max-w-full items-center gap-2 rounded-full border border-primary/50 bg-primary/10 px-3 py-1.5 text-left text-xs text-primary-light';
+        chip.setAttribute('aria-label', `Ukloni: ${b.value}`);
+        chip.innerHTML = '<span class="truncate"></span><span aria-hidden="true">×</span>';
+        chip.firstChild.textContent = b.value;
+        chip.addEventListener('click', () => { b.checked = false; renderServices(); });
+        return chip;
+      })
+    );
+    if (picked.length) serviceError.classList.add('hidden');
+  };
+
+  toggle.addEventListener('click', () => setPanel(panel.hidden));
+  panel.addEventListener('change', renderServices);
+  document.addEventListener('click', (e) => { if (!picker.contains(e.target)) setPanel(false); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setPanel(false); });
+  bookingForm.addEventListener('reset', () => setTimeout(renderServices, 0));
+
   bookingForm.addEventListener('submit', async (e) => {
     e.preventDefault();
+    if (!boxes().some((b) => b.checked)) {
+      serviceError.classList.remove('hidden');
+      setPanel(true);
+      picker.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
     if (!bookingForm.checkValidity()) {
       bookingForm.reportValidity();
       return;

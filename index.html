@@ -474,36 +474,41 @@
             <input id="b-email" name="email" type="email" autocomplete="email" placeholder="vas@email.com" class="w-full rounded-2xl border border-white/15 bg-dark px-5 py-3.5 text-sm text-white placeholder-white/30 outline-none transition focus:border-primary">
           </div>
           <div class="sm:col-span-2">
-            <label for="b-service" class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-white/60">Usluga *</label>
-            <select id="b-service" name="usluga" required class="w-full rounded-2xl border border-white/15 bg-dark px-5 py-3.5 text-sm text-white placeholder-white/30 outline-none transition focus:border-primary">
-              <option value="" disabled selected>Izaberite uslugu…</option>
-          <optgroup label="Obrve i trepavice">
-            <option>Lash lift i brow lift (sa farbanjem)</option>
-            <option>Lash lift i brow lift (sa farbanjem) + botoks za regeneraciju</option>
-            <option>Brow lift</option>
-            <option>Lash lift</option>
-          </optgroup>
-          <optgroup label="Manikir">
-            <option>Manikir — gel lak</option>
-            <option>Manikir — ojačavanje prirodnih noktiju</option>
-            <option>Manikir — izlivanje na šablonu</option>
-            <option>Manikir — korekcija</option>
-            <option>Skidanje materijala sa zanoktičama</option>
-          </optgroup>
-          <optgroup label="Pedikir">
-            <option>Pedikir — gel lak</option>
-            <option>Pedikir — izlivanje</option>
-            <option>Estetski pedikir sa podo diskovima i gel lakom</option>
-            <option>Estetski pedikir sa izlivanjem</option>
-          </optgroup>
-          <optgroup label="Maderoterapija">
-            <option>Maderoterapija — single tretman (30–35 min)</option>
-            <option>Maderoterapija — full body (45 min)</option>
-            <option>Madero termo body wrap</option>
-            <option>Paket maderoterapije</option>
-          </optgroup>
-          <option>Nisam sigurna/an — treba mi savet</option>
-            </select>
+            <span class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-white/60">Usluge * <span class="normal-case tracking-normal text-white/40">(možete izabrati više)</span></span>
+          <div id="service-picker" class="relative">
+            <button type="button" id="service-toggle" aria-expanded="false" aria-controls="service-panel" class="w-full rounded-2xl border border-white/15 bg-dark px-5 py-3.5 text-sm text-white placeholder-white/30 outline-none transition focus:border-primary flex items-center justify-between gap-3 text-left">
+              <span id="service-summary" class="truncate text-white/40">Izaberite jednu ili više usluga…</span>
+              <svg class="h-4 w-4 shrink-0 text-primary transition-transform" id="service-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div id="service-panel" hidden class="absolute inset-x-0 z-30 mt-2 max-h-[min(22rem,60vh)] overflow-y-auto overscroll-contain rounded-2xl border border-white/15 bg-dark-soft p-2 shadow-2xl">
+          <p class="sticky top-0 z-10 bg-dark-soft px-3 pb-1 pt-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary-light">Obrve i trepavice</p>
+            <label class="flex cursor-pointer items-start gap-3 rounded-xl px-3 py-2.5 text-[13px] leading-snug hover:bg-white/5 sm:text-sm"><input type="checkbox" name="usluga" value="Lash lift i brow lift (sa farbanjem)" class="peer sr-only"><span class="chk mt-0.5" aria-hidden="true"></span><span class="min-w-0 flex-1 peer-checked:text-white text-white/80">Lash lift i brow lift (sa farbanjem)</span><span class="shrink-0 pl-2 text-xs text-primary-light">5.500 din</span></label>
+            <label class="flex cursor-pointer items-start gap-3 rounded-xl px-3 py-2.5 text-[13px] leading-snug hover:bg-white/5 sm:text-sm"><input type="checkbox" name="usluga" value="Lash lift i brow lift (sa farbanjem) + botoks za regeneraciju" class="peer sr-only"><span class="chk mt-0.5" aria-hidden="true"></span><span class="min-w-0 flex-1 peer-checked:text-white text-white/80">Lash lift i brow lift (sa farbanjem) + botoks za regeneraciju</span><span class="shrink-0 pl-2 text-xs text-primary-light">6.000 din</span></label>
+            <label class="flex cursor-pointer items-start gap-3 rounded-xl px-3 py-2.5 text-[13px] leading-snug hover:bg-white/5 sm:text-sm"><input type="checkbox" name="usluga" value="Brow lift" class="peer sr-only"><span class="chk mt-0.5" aria-hidden="true"></span><span class="min-w-0 flex-1 peer-checked:text-white text-white/80">Brow lift</span><span class="shrink-0 pl-2 text-xs text-primary-light">3.000 din</span></label>
+            <label class="flex cursor-pointer items-start gap-3 rounded-xl px-3 py-2.5 text-[13px] leading-snug hover:bg-white/5 sm:text-sm"><input type="checkbox" name="usluga" value="Lash lift" class="peer sr-only"><span class="chk mt-0.5" aria-hidden="true"></span><span class="min-w-0 flex-1 peer-checked:text-white text-white/80">Lash lift</span><span class="shrink-0 pl-2 text-xs text-primary-light">3.600 din</span></label>
+          <p class="sticky top-0 z-10 bg-dark-soft px-3 pb-1 pt-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary-light">Manikir</p>
+            <label class="flex cursor-pointer items-start gap-3 rounded-xl px-3 py-2.5 text-[13px] leading-snug hover:bg-white/5 sm:text-sm"><input type="checkbox" name="usluga" value="Manikir — gel lak" class="peer sr-only"><span class="chk mt-0.5" aria-hidden="true"></span><span class="min-w-0 flex-1 peer-checked:text-white text-white/80">Manikir — gel lak</span><span class="shrink-0 pl-2 text-xs text-primary-light">3.000 din</span></label>
+            <label class="flex cursor-pointer items-start gap-3 rounded-xl px-3 py-2.5 text-[13px] leading-snug hover:bg-white/5 sm:text-sm"><input type="checkbox" name="usluga" value="Manikir — ojačavanje prirodnih noktiju" class="peer sr-only"><span class="chk mt-0.5" aria-hidden="true"></span><span class="min-w-0 flex-1 peer-checked:text-white text-white/80">Manikir — ojačavanje prirodnih noktiju</span><span class="shrink-0 pl-2 text-xs text-primary-light">3.500 din</span></label>
+            <label class="flex cursor-pointer items-start gap-3 rounded-xl px-3 py-2.5 text-[13px] leading-snug hover:bg-white/5 sm:text-sm"><input type="checkbox" name="usluga" value="Manikir — izlivanje na šablonu" class="peer sr-only"><span class="chk mt-0.5" aria-hidden="true"></span><span class="min-w-0 flex-1 peer-checked:text-white text-white/80">Manikir — izlivanje na šablonu</span><span class="shrink-0 pl-2 text-xs text-primary-light">od 4.500 din</span></label>
+            <label class="flex cursor-pointer items-start gap-3 rounded-xl px-3 py-2.5 text-[13px] leading-snug hover:bg-white/5 sm:text-sm"><input type="checkbox" name="usluga" value="Manikir — korekcija" class="peer sr-only"><span class="chk mt-0.5" aria-hidden="true"></span><span class="min-w-0 flex-1 peer-checked:text-white text-white/80">Manikir — korekcija</span><span class="shrink-0 pl-2 text-xs text-primary-light">od 3.800 din</span></label>
+            <label class="flex cursor-pointer items-start gap-3 rounded-xl px-3 py-2.5 text-[13px] leading-snug hover:bg-white/5 sm:text-sm"><input type="checkbox" name="usluga" value="Skidanje materijala sa zanoktičama" class="peer sr-only"><span class="chk mt-0.5" aria-hidden="true"></span><span class="min-w-0 flex-1 peer-checked:text-white text-white/80">Skidanje materijala sa zanoktičama</span><span class="shrink-0 pl-2 text-xs text-primary-light">2.000 din</span></label>
+          <p class="sticky top-0 z-10 bg-dark-soft px-3 pb-1 pt-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary-light">Pedikir</p>
+            <label class="flex cursor-pointer items-start gap-3 rounded-xl px-3 py-2.5 text-[13px] leading-snug hover:bg-white/5 sm:text-sm"><input type="checkbox" name="usluga" value="Pedikir — gel lak" class="peer sr-only"><span class="chk mt-0.5" aria-hidden="true"></span><span class="min-w-0 flex-1 peer-checked:text-white text-white/80">Pedikir — gel lak</span><span class="shrink-0 pl-2 text-xs text-primary-light">3.000 din</span></label>
+            <label class="flex cursor-pointer items-start gap-3 rounded-xl px-3 py-2.5 text-[13px] leading-snug hover:bg-white/5 sm:text-sm"><input type="checkbox" name="usluga" value="Pedikir — izlivanje" class="peer sr-only"><span class="chk mt-0.5" aria-hidden="true"></span><span class="min-w-0 flex-1 peer-checked:text-white text-white/80">Pedikir — izlivanje</span><span class="shrink-0 pl-2 text-xs text-primary-light">4.000 din</span></label>
+            <label class="flex cursor-pointer items-start gap-3 rounded-xl px-3 py-2.5 text-[13px] leading-snug hover:bg-white/5 sm:text-sm"><input type="checkbox" name="usluga" value="Pedikir — korekcija" class="peer sr-only"><span class="chk mt-0.5" aria-hidden="true"></span><span class="min-w-0 flex-1 peer-checked:text-white text-white/80">Pedikir — korekcija</span><span class="shrink-0 pl-2 text-xs text-primary-light">od 2.800 din</span></label>
+            <label class="flex cursor-pointer items-start gap-3 rounded-xl px-3 py-2.5 text-[13px] leading-snug hover:bg-white/5 sm:text-sm"><input type="checkbox" name="usluga" value="Estetski pedikir sa podo diskovima i gel lakom" class="peer sr-only"><span class="chk mt-0.5" aria-hidden="true"></span><span class="min-w-0 flex-1 peer-checked:text-white text-white/80">Estetski pedikir sa podo diskovima i gel lakom</span><span class="shrink-0 pl-2 text-xs text-primary-light">4.500 din</span></label>
+            <label class="flex cursor-pointer items-start gap-3 rounded-xl px-3 py-2.5 text-[13px] leading-snug hover:bg-white/5 sm:text-sm"><input type="checkbox" name="usluga" value="Estetski pedikir sa izlivanjem" class="peer sr-only"><span class="chk mt-0.5" aria-hidden="true"></span><span class="min-w-0 flex-1 peer-checked:text-white text-white/80">Estetski pedikir sa izlivanjem</span><span class="shrink-0 pl-2 text-xs text-primary-light">5.000 din</span></label>
+          <p class="sticky top-0 z-10 bg-dark-soft px-3 pb-1 pt-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary-light">Maderoterapija</p>
+            <label class="flex cursor-pointer items-start gap-3 rounded-xl px-3 py-2.5 text-[13px] leading-snug hover:bg-white/5 sm:text-sm"><input type="checkbox" name="usluga" value="Maderoterapija — single tretman (30–35 min)" class="peer sr-only"><span class="chk mt-0.5" aria-hidden="true"></span><span class="min-w-0 flex-1 peer-checked:text-white text-white/80">Maderoterapija — single tretman (30–35 min)</span><span class="shrink-0 pl-2 text-xs text-primary-light">2.500 din</span></label>
+            <label class="flex cursor-pointer items-start gap-3 rounded-xl px-3 py-2.5 text-[13px] leading-snug hover:bg-white/5 sm:text-sm"><input type="checkbox" name="usluga" value="Maderoterapija — full body (45 min)" class="peer sr-only"><span class="chk mt-0.5" aria-hidden="true"></span><span class="min-w-0 flex-1 peer-checked:text-white text-white/80">Maderoterapija — full body (45 min)</span><span class="shrink-0 pl-2 text-xs text-primary-light">3.200 din</span></label>
+            <label class="flex cursor-pointer items-start gap-3 rounded-xl px-3 py-2.5 text-[13px] leading-snug hover:bg-white/5 sm:text-sm"><input type="checkbox" name="usluga" value="Madero termo body wrap" class="peer sr-only"><span class="chk mt-0.5" aria-hidden="true"></span><span class="min-w-0 flex-1 peer-checked:text-white text-white/80">Madero termo body wrap</span><span class="shrink-0 pl-2 text-xs text-primary-light">3.500 din</span></label>
+            <label class="flex cursor-pointer items-start gap-3 rounded-xl px-3 py-2.5 text-[13px] leading-snug hover:bg-white/5 sm:text-sm"><input type="checkbox" name="usluga" value="Paket maderoterapije (5 ili 10 tretmana)" class="peer sr-only"><span class="chk mt-0.5" aria-hidden="true"></span><span class="min-w-0 flex-1 peer-checked:text-white text-white/80">Paket maderoterapije (5 ili 10 tretmana)</span><span class="shrink-0 pl-2 text-xs text-primary-light">po paketu</span></label>
+          <p class="sticky top-0 z-10 bg-dark-soft px-3 pb-1 pt-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary-light">Ostalo</p>
+            <label class="flex cursor-pointer items-start gap-3 rounded-xl px-3 py-2.5 text-[13px] leading-snug hover:bg-white/5 sm:text-sm"><input type="checkbox" name="usluga" value="Nisam sigurna/an — treba mi savet" class="peer sr-only"><span class="chk mt-0.5" aria-hidden="true"></span><span class="min-w-0 flex-1 peer-checked:text-white text-white/80">Nisam sigurna/an — treba mi savet</span></label>
+            </div>
+            <div id="service-chips" class="mt-3 flex flex-wrap gap-2"></div>
+            <p id="service-error" class="mt-2 hidden text-xs text-red-300">Izaberite bar jednu uslugu.</p>
+          </div>
           </div>
           <div>
             <label for="b-date" class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-white/60">Željeni datum *</label>
