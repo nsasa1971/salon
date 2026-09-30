@@ -297,8 +297,51 @@ const scrollServicesBy = (direction) => {
   servicesTrack.scrollBy({ left: step * direction, behavior: 'smooth' });
 };
 
+// Autoplay: advance one card every few seconds, wrap back to the start at the
+// end, pause while hovered / focused / touched, and stay still for users who
+// prefer reduced motion.
+const SERVICES_AUTOPLAY_MS = 3500;
+let servicesPaused = false;
+let servicesTimer;
+
+const advanceServices = () => {
+  if (!servicesTrack || servicesPaused || document.hidden) return;
+  const atEnd = servicesTrack.scrollLeft + servicesTrack.clientWidth >= servicesTrack.scrollWidth - 8;
+  if (atEnd) servicesTrack.scrollTo({ left: 0, behavior: 'smooth' });
+  else scrollServicesBy(1);
+};
+
+const startServicesAutoplay = () => {
+  clearInterval(servicesTimer);
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  servicesTimer = setInterval(advanceServices, SERVICES_AUTOPLAY_MS);
+};
+
+if (servicesTrack) {
+  const pause = () => { servicesPaused = true; };
+  const resume = () => { servicesPaused = false; };
+  ['mouseenter', 'focusin', 'touchstart', 'pointerdown'].forEach((ev) => servicesTrack.addEventListener(ev, pause, { passive: true }));
+  ['mouseleave', 'focusout', 'touchend', 'pointerup'].forEach((ev) => servicesTrack.addEventListener(ev, () => setTimeout(resume, 1500), { passive: true }));
+  [servicesPrev, servicesNext].forEach((btn) => btn?.addEventListener('click', () => { servicesPaused = true; setTimeout(resume, 4000); }));
+  startServicesAutoplay();
+}
+
 servicesPrev?.addEventListener('click', () => scrollServicesBy(-1));
 servicesNext?.addEventListener('click', () => scrollServicesBy(1));
+
+/* ---------- "Pozovite nas": set the salon phone number here ----------
+   Leave empty to keep every call button hidden. Example: '+381601234567' */
+const SALON_PHONE = '';
+if (SALON_PHONE) {
+  const pretty = SALON_PHONE.replace(/^\+381/, '0');
+  document.querySelectorAll('[data-phone-link]').forEach((a) => {
+    a.href = `tel:${SALON_PHONE}`;
+    a.hidden = false;
+    const t = a.querySelector('[data-phone-text]');
+    if (t) t.textContent = `· ${pretty}`;
+  });
+  document.querySelectorAll('[data-phone-wrap]').forEach((w) => { w.hidden = false; });
+}
 
 /* ---------- Scroll-reveal animation ---------- */
 const revealObserver = new IntersectionObserver(
