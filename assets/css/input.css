@@ -398,3 +398,18 @@ a.bg-primary, button.bg-primary { color: var(--color-dark); border: 1px solid tr
 .article-body ul { list-style: disc; padding-left: 1.4rem; }
 .article-body li { margin-top: .4rem; }
 .article-body strong { color: var(--color-primary-light); }
+
+/* Mobile: every CTA has the same width */
+@media (max-width: 639px) {
+  a.bg-primary:not(#back-to-top):not(.hidden),
+  button.bg-primary:not(#back-to-top):not(.hidden),
+  a[class*="border-white/40"],
+  a[class*="border-dark/15"] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 20rem;
+    text-align: center;
+  }
+}

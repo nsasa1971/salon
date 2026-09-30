@@ -144,7 +144,7 @@
 </aside>
 
 <!-- ============ HERO ============ -->
-<section id="home" class="relative isolate flex min-h-screen items-center overflow-hidden bg-wine">
+<section id="home" class="relative isolate flex min-h-screen items-center overflow-hidden bg-wine max-lg:h-[100svh] max-lg:min-h-0">
 
   <!-- Rippling water-distorted background — desktop (mouse) only. Canvas renders a live
        WebGL ripple simulation over the current slide's texture. On touch devices, and as a
@@ -157,11 +157,11 @@
     <img data-hero-fallback-slide src="assets/images/hero-3.webp" alt="" class="hero-fallback-img" style="object-position: center 25%;">
   </div>
   <canvas id="hero-ripple" class="absolute inset-0 h-full w-full"></canvas>
-  <div class="absolute inset-0 bg-gradient-to-r from-dark/90 via-dark/50 to-dark/10"></div>
+  <div class="absolute inset-0 bg-gradient-to-r from-dark/90 via-dark/50 to-dark/10 max-lg:from-dark/70 max-lg:via-dark/55 max-lg:to-dark/70"></div>
   <div class="absolute inset-0 bg-black/15"></div>
 
   <div class="relative z-10 mx-auto w-full max-w-7xl px-6 pt-28 lg:pl-24 lg:pr-10">
-    <div class="max-w-2xl" data-reveal>
+    <div class="max-w-2xl max-lg:mx-auto max-lg:text-center" data-reveal>
       <p class="mb-4 text-sm font-semibold uppercase tracking-[0.3em] text-primary-light" data-cursor-text>
         <span class="cursor-text__base">Dobrodošli u Lounge Veličkovski</span><span class="cursor-text__reveal" aria-hidden="true">Dobrodošli u Lounge Veličkovski</span>
       </p>
@@ -169,11 +169,11 @@
         <span class="cursor-text__base block">Elegancija u Svakom<br>Detalju</span>
         <span class="cursor-text__reveal cursor-text__reveal--block" aria-hidden="true">Elegancija u Svakom<br>Detalju</span>
       </h1>
-      <p class="relative mt-6 max-w-lg text-white/70" data-cursor-text>
+      <p class="relative mt-6 max-w-lg text-white/70 max-lg:mx-auto" data-cursor-text>
         <span class="cursor-text__base block">Novi salon u kojem se nega, pažnja i opuštanje spajaju na jednom mestu — obrve i trepavice, manikir, pedikir i maderoterapija.</span>
         <span class="cursor-text__reveal cursor-text__reveal--block" aria-hidden="true">Novi salon u kojem se nega, pažnja i opuštanje spajaju na jednom mestu — obrve i trepavice, manikir, pedikir i maderoterapija.</span>
       </p>
-      <div class="mt-9 flex flex-wrap gap-4">
+      <div class="mt-9 flex flex-wrap gap-4 max-lg:flex-col max-lg:items-center">
         <a href="#booking" class="rounded-full bg-primary px-8 py-4 text-xs font-semibold uppercase tracking-wider transition hover:bg-primary-dark" data-cursor-nav>
           Zakažite Termin
         </a>
@@ -185,7 +185,7 @@
   </div>
 
   <!-- Slide dots -->
-  <div class="absolute bottom-10 right-6 z-30 flex flex-col items-center gap-4 lg:right-10">
+  <div class="absolute bottom-10 right-6 z-30 flex flex-col items-center gap-4 max-lg:bottom-5 max-lg:left-1/2 max-lg:right-auto max-lg:-translate-x-1/2 max-lg:flex-row lg:right-10">
     <button data-hero-dot class="hero-dot" aria-label="Idi na slajd 1" data-cursor-nav><span class="hero-dot__fill"></span></button>
     <button data-hero-dot class="hero-dot" aria-label="Idi na slajd 2" data-cursor-nav><span class="hero-dot__fill"></span></button>
     <button data-hero-dot class="hero-dot" aria-label="Idi na slajd 3" data-cursor-nav><span class="hero-dot__fill"></span></button>
@@ -447,7 +447,7 @@
     </div>
 
     <div class="lg:col-span-3" data-reveal>
-      <div class="rounded-3xl border border-white/10 bg-dark p-6 sm:p-10">
+      <div class="rounded-3xl border border-white/10 bg-dark p-4 sm:p-10">
         <form id="booking-form" name="zakazivanje" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" class="grid gap-5 sm:grid-cols-2" novalidate>
           <input type="hidden" name="form-name" value="zakazivanje">
           <p class="hidden"><label>Ne popunjavati: <input name="bot-field"></label></p>
@@ -514,7 +514,7 @@
           </div>
 
           <div class="sm:col-span-2">
-            <button type="submit" class="w-full rounded-full bg-primary px-8 py-4 text-xs font-semibold uppercase tracking-wider transition hover:bg-primary-dark" data-cursor-nav>Pošaljite Zahtev</button>
+            <button type="submit" class="mx-auto w-full rounded-full bg-primary px-8 py-4 text-xs font-semibold uppercase tracking-wider transition hover:bg-primary-dark" data-cursor-nav>Pošaljite Zahtev</button>
             <p class="mt-3 text-center text-xs text-white/45">Ovo je zahtev, a ne potvrđen termin — javićemo vam se da ga potvrdimo.</p>
             <p id="booking-feedback" role="status" class="mt-3 hidden rounded-2xl px-4 py-3 text-center text-sm"></p>
           </div>
