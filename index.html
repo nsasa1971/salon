@@ -516,7 +516,13 @@
           </div>
           <div>
             <label for="b-date" class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-white/60">Željeni datum *</label>
-            <input id="b-date" name="datum" type="date" required class="w-full rounded-2xl border border-white/15 bg-dark px-5 py-3.5 text-sm text-white placeholder-white/30 outline-none transition focus:border-primary [color-scheme:dark]">
+            <div class="relative">
+              <input id="b-date" name="datum" type="text" inputmode="numeric" autocomplete="off" maxlength="10" placeholder="dd-mm-gggg" required pattern="\d{2}-\d{2}-\d{4}" class="w-full rounded-2xl border border-white/15 bg-dark px-5 py-3.5 text-sm text-white placeholder-white/30 outline-none transition focus:border-primary pr-12">
+              <button type="button" id="b-date-pick" aria-label="Izaberite datum iz kalendara" class="absolute right-2 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full text-primary transition hover:bg-white/10" data-cursor-nav>
+                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
+              </button>
+              <input id="b-date-native" type="date" tabindex="-1" aria-hidden="true" class="pointer-events-none absolute bottom-0 right-2 h-0 w-0 opacity-0">
+            </div>
           </div>
           <fieldset>
             <legend class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-white/60">Željeno vreme</legend>

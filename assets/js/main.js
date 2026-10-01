@@ -360,11 +360,44 @@ onScrollBackToTop();
 const bookingForm = document.getElementById('booking-form');
 if (bookingForm) {
   const feedback = document.getElementById('booking-feedback');
+  // ----- Date field: dd-mm-gggg text input (the native control follows the phone's
+  // locale and can show Cyrillic placeholders) with an optional calendar picker -----
   const dateInput = bookingForm.querySelector('#b-date');
-  if (dateInput) {
-    const t = new Date();
-    dateInput.min = `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, '0')}-${String(t.getDate()).padStart(2, '0')}`;
-  }
+  const dateNative = bookingForm.querySelector('#b-date-native');
+  const datePick = bookingForm.querySelector('#b-date-pick');
+  const pad = (n) => String(n).padStart(2, '0');
+  const todayDate = new Date();
+  todayDate.setHours(0, 0, 0, 0);
+  if (dateNative) dateNative.min = `${todayDate.getFullYear()}-${pad(todayDate.getMonth() + 1)}-${pad(todayDate.getDate())}`;
+
+  const validateDate = () => {
+    const m = /^(\d{2})-(\d{2})-(\d{4})$/.exec(dateInput.value);
+    let msg = '';
+    if (!m) msg = 'Unesite datum u formatu dd-mm-gggg.';
+    else {
+      const d = new Date(+m[3], +m[2] - 1, +m[1]);
+      if (d.getFullYear() !== +m[3] || d.getMonth() !== +m[2] - 1 || d.getDate() !== +m[1]) msg = 'Taj datum ne postoji.';
+      else if (d < todayDate) msg = 'Datum ne može biti u prošlosti.';
+    }
+    dateInput.setCustomValidity(msg);
+  };
+
+  dateInput.addEventListener('input', () => {
+    const digits = dateInput.value.replace(/\D/g, '').slice(0, 8);
+    dateInput.value = [digits.slice(0, 2), digits.slice(2, 4), digits.slice(4)].filter(Boolean).join('-');
+    validateDate();
+  });
+  dateInput.addEventListener('blur', validateDate);
+
+  datePick?.addEventListener('click', () => {
+    if (dateNative.showPicker) dateNative.showPicker();
+    else dateNative.focus();
+  });
+  dateNative?.addEventListener('change', () => {
+    const [y, mo, d] = dateNative.value.split('-');
+    if (y) { dateInput.value = `${d}-${mo}-${y}`; validateDate(); }
+  });
+  bookingForm.addEventListener('reset', () => setTimeout(() => dateInput.setCustomValidity(''), 0));
 
   const showFeedback = (text, ok) => {
     feedback.textContent = text;
@@ -421,6 +454,7 @@ if (bookingForm) {
       picker.scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
     }
+    validateDate();
     if (!bookingForm.checkValidity()) {
       bookingForm.reportValidity();
       return;
