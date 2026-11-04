@@ -11,7 +11,12 @@ const dist = resolve(root, 'dist');
 const EXCLUDE = new Set(['assets/css/input.css']);
 rmSync(dist, { recursive: true, force: true });
 mkdirSync(dist);
-for (const entry of ['index.html', 'robots.txt', 'sitemap.xml', 'assets', 'blog']) {
+const ENTRIES = [
+  'index.html', 'robots.txt', 'sitemap.xml', 'assets', 'blog',
+  // favicon + PWA manifest u korenu sajta
+  'favicon.ico', 'favicon-32.png', 'apple-touch-icon.png', 'icon-192.png', 'icon-512.png', 'site.webmanifest',
+];
+for (const entry of ENTRIES) {
   const from = resolve(root, entry);
   if (!existsSync(from)) continue;
   cpSync(from, resolve(dist, entry), {

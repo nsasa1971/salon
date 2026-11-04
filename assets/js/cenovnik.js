@@ -274,6 +274,11 @@ const CENOVNIK = [
     });
 
     selectTab(0);
+
+    // ?tab=kosa (npr. link iz članka na blogu: index.html?tab=kosa#cenovnik) otvara taj tab.
+    const wanted = new URLSearchParams(location.search).get('tab');
+    const wantedIdx = tabs.findIndex((t) => t.dataset.tab === wanted);
+    if (wantedIdx >= 0) selectTab(wantedIdx);
   }
 
   /* -------------------------------------------------------------------
