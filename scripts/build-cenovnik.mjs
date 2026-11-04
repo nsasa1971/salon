@@ -12,7 +12,7 @@ import vm from 'node:vm';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const dataFile = resolve(root, 'assets/js/cenovnik.js');
 const htmlFile = resolve(root, 'index.html');
-const SITE = 'https://velickovski.netlify.app';
+const SITE = 'https://www.loungevelickovski.com';
 
 const CENOVNIK = vm.runInNewContext(`${readFileSync(dataFile, 'utf8')}\n;CENOVNIK`, {});
 

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://velickovski.netlify.app/sitemap.xml
+Sitemap: https://www.loungevelickovski.com/sitemap.xml
