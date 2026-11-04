@@ -452,6 +452,8 @@ html.js .cena-panel__title { display: none; }
 }
 .cena-panel:focus-visible { outline: 2px solid var(--color-primary-light); outline-offset: 3px; }
 @media (min-width: 640px) { .cena-panel { padding: 2.5rem; } }
+/* Mobile: the fixed back-to-top button (40px, 6px from the edge) must not overlap the price column */
+@media (max-width: 639px) { .cena-panel { padding-right: 1.75rem; } }
 
 .cena-groups { display: grid; gap: 2.25rem; }
 @media (min-width: 1024px) { .cena-groups--cols { grid-template-columns: 1fr 1fr; column-gap: 3.5rem; } }
