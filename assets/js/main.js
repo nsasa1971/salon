@@ -1,5 +1,8 @@
 'use strict';
 
+// Broj na koji stižu WhatsApp/SMS zahtevi posle slanja forme za zakazivanje.
+const BROJ_ZA_ZAHTEVE = '381646758050'; // privremeno broj za test, kasnije menjamo na broj salona
+
 /* ---------- Sticky header ---------- */
 const header = document.getElementById('site-header');
 const onScrollHeader = () => {
@@ -479,6 +482,103 @@ if (bookingForm) {
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setPanel(false); });
   bookingForm.addEventListener('reset', () => setTimeout(renderServices, 0));
 
+  // ----- Posle uspešnog slanja: poruka + WhatsApp/SMS dugmad (bez automatskog preusmeravanja) -----
+  const result = document.getElementById('booking-result');
+  let resetTimer;
+
+  const buildRequestMessage = (form) => {
+    const data = new FormData(form);
+    const val = (name) => String(data.get(name) || '').trim();
+    const services = data.getAll('usluga').map((v) => String(v).trim()).filter(Boolean);
+    const date = val('datum').replace(/-/g, '.');
+    const lines = [
+      'Zdravo, želim da zakažem termin.',
+      services.length ? `Usluge: ${services.join(', ')}` : '',
+      date ? `Datum: ${date}.` : '',
+      val('vreme') ? `Vreme: ${val('vreme')}` : '',
+      val('ime') ? `Ime: ${val('ime')}` : '',
+      val('telefon') ? `Telefon: ${val('telefon')}` : '',
+      val('napomena') ? `Napomena: ${val('napomena')}` : '',
+    ];
+    return lines.filter(Boolean).join('\n');
+  };
+
+  const isIOS = () =>
+    /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1); // iPadOS se predstavlja kao Mac
+
+  const messageLinks = (message, ios = isIOS()) => {
+    const text = encodeURIComponent(message);
+    return {
+      wa: `https://wa.me/${BROJ_ZA_ZAHTEVE}?text=${text}`,
+      sms: `sms:+${BROJ_ZA_ZAHTEVE}${ios ? '&' : '?'}body=${text}`,
+    };
+  };
+
+  const make = (tag, className, text) => {
+    const n = document.createElement(tag);
+    if (className) n.className = className;
+    if (text !== undefined) n.textContent = text;
+    return n;
+  };
+
+  const resetBooking = () => {
+    clearTimeout(resetTimer);
+    result.replaceChildren();
+    feedback.className = 'mt-3 hidden rounded-2xl px-4 py-3 text-center text-sm';
+    bookingForm.reset();
+    bookingForm.hidden = false;
+  };
+
+  function showSuccess(message) {
+    const links = messageLinks(message);
+    const btn = 'flex items-center justify-center gap-2 rounded-full border border-white/40 px-3 py-4 text-xs font-semibold uppercase tracking-wider text-white transition hover:border-primary hover:text-primary-light';
+
+    const title = make('h3', 'font-display text-2xl leading-snug outline-none sm:text-3xl', 'Zahtev je poslat. Javićemo vam se da potvrdimo termin.');
+    title.id = 'booking-success-title';
+    title.tabIndex = -1;
+
+    const wa = make('a', btn);
+    wa.href = links.wa;
+    wa.target = '_blank';
+    wa.rel = 'noopener';
+    wa.setAttribute('data-cursor-nav', '');
+    const icon = document.createElement('img');
+    icon.src = 'assets/images/icon-whatsapp.webp';
+    icon.alt = '';
+    icon.width = 96;
+    icon.height = 96;
+    icon.className = 'h-5 w-5 shrink-0 object-contain';
+    wa.append(icon, make('span', '', 'WhatsApp'));
+
+    const sms = make('a', btn);
+    sms.href = links.sms;
+    sms.setAttribute('data-cursor-nav', '');
+    sms.innerHTML = '<svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 01-11.6 7.1L4 20.5l1.4-4.6A8 8 0 1121 12z"/><path d="M8.5 11h7M8.5 14h4"/></svg>';
+    sms.append(make('span', '', 'SMS'));
+
+    const grid = make('div', 'mt-6 grid grid-cols-2 gap-3');
+    grid.append(wa, sms);
+
+    const again = make('button', 'mt-6 text-xs font-semibold uppercase tracking-wider text-primary-light underline underline-offset-4 transition hover:text-primary', 'Pošalji novi zahtev');
+    again.type = 'button';
+    again.id = 'booking-again';
+    again.setAttribute('data-cursor-nav', '');
+    again.addEventListener('click', () => {
+      resetBooking();
+      bookingForm.querySelector('#b-name')?.focus({ preventScroll: true });
+    });
+
+    result.replaceChildren(title, make('p', 'mt-4 text-sm text-white/70', 'Ako želite brži odgovor, pošaljite nam zahtev i porukom:'), grid, again);
+    feedback.className = 'hidden';
+    bookingForm.hidden = true;
+    title.focus({ preventScroll: true });
+    result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    // Forma se ne resetuje odmah (da dugmad ostanu dostupna) — automatski posle 60 s.
+    clearTimeout(resetTimer);
+    resetTimer = setTimeout(resetBooking, 60000);
+  }
+
   bookingForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     if (!boxes().some((b) => b.checked)) {
@@ -502,8 +602,8 @@ if (bookingForm) {
         body: new URLSearchParams(new FormData(bookingForm)).toString(),
       });
       if (!res.ok) throw new Error(res.status);
-      showFeedback('Hvala! Vaš zahtev je poslat — javićemo vam se uskoro da potvrdimo termin.', true);
-      bookingForm.reset();
+      // Poruka se sastavlja od podataka iz forme pre bilo kakvog resetovanja.
+      showSuccess(buildRequestMessage(bookingForm));
     } catch {
       showFeedback('Slanje nije uspelo. Pokušajte ponovo za nekoliko trenutaka.', false);
     } finally {
