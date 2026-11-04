@@ -1,0 +1,5 @@
+# Netlify build: regeneriše cenovnik (HTML + JSON-LD iz assets/js/cenovnik.js),
+# gradi Tailwind CSS i kopira javne fajlove u dist/ (odatle se sajt objavljuje).
+[build]
+  command = "npm run build"
+  publish = "dist"

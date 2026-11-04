@@ -4,11 +4,13 @@
    CENOVNIK — jedino mesto gde se menjaju cene i usluge.
    Struktura:
      kategorija: { id, naziv, grupe: [...], napomene: [...] }
-     grupa:      { naslov (opciono), opis (opciono), izbor (opciono), stavke: [...] }
+     grupa:      { naslov (opciono), opis (opciono), pojedinacno (opciono), stavke: [...] }
      stavka:     { naziv, cena }   // cena je tekst; " / " lomi cenu u dva reda
-   `izbor` je naziv grupe kako se prikazuje u izboru usluga u formi za
-   zakazivanje (ako se razlikuje od naslova).
-   Iz ovog objekta se renderuju: tabovi cenovnika i lista usluga u formi.
+   `pojedinacno: true` — u formi za zakazivanje se nude pojedinačne stavke
+   grupe (a ne naziv grupe).
+   HTML cenovnika generiše `scripts/build-cenovnik.mjs` (npm run build:cenovnik)
+   i upisuje ga u index.html između CENOVNIK:START i CENOVNIK:END.
+   Ovaj fajl u browseru samo uključuje tabove i gradi listu usluga u formi.
    ===================================================================== */
 const CENOVNIK = [
   {
@@ -61,7 +63,7 @@ const CENOVNIK = [
       },
       {
         naslov: 'Ostalo',
-        izbor: 'Ostalo (pranje, punđe, rep, riblja kost)',
+        pojedinacno: true,
         stavke: [
           { naziv: 'Pranje kose', cena: '1.200 RSD' },
           { naziv: 'Svečane frizure (punđe)', cena: '3.000–5.000 RSD' },
@@ -214,12 +216,71 @@ const CENOVNIK = [
 ];
 
 /* ---------------------------------------------------------------------
-   Renderovanje
+   Runtime (samo u browseru): tabovi + lista usluga u formi.
+   HTML cenovnika je već u index.html; bez JS-a su svi paneli vidljivi.
    --------------------------------------------------------------------- */
 (() => {
+  if (typeof document === 'undefined') return; // build skripta učitava samo podatke
+
   const tablist = document.getElementById('cenovnik-tabs');
-  const panels = document.getElementById('cenovnik-panels');
-  if (!tablist || !panels) return;
+  const tabs = tablist ? Array.from(tablist.querySelectorAll('[data-tab]')) : [];
+  const panels = tabs.map((tab) => document.getElementById(`cenovnik-panel-${tab.dataset.tab}`));
+
+  if (tabs.length && panels.every(Boolean)) {
+    // Uključi režim sa tabovima.
+    document.documentElement.classList.add('js');
+    tablist.setAttribute('role', 'tablist');
+    tabs.forEach((tab, i) => {
+      tab.setAttribute('role', 'tab');
+      tab.setAttribute('aria-controls', panels[i].id);
+      panels[i].setAttribute('role', 'tabpanel');
+      panels[i].setAttribute('aria-labelledby', tab.id);
+      panels[i].tabIndex = 0;
+    });
+
+    const selectTab = (index, { focus = false } = {}) => {
+      tabs.forEach((tab, i) => {
+        const on = i === index;
+        tab.setAttribute('aria-selected', String(on));
+        tab.tabIndex = on ? 0 : -1;
+        panels[i].classList.toggle('is-active', on);
+      });
+      if (focus) tabs[index].focus();
+      // Horizontalno centriraj aktivni tab u traci (bez skrolovanja cele stranice).
+      const t = tabs[index];
+      tablist.scrollTo({ left: t.offsetLeft - (tablist.clientWidth - t.offsetWidth) / 2, behavior: 'smooth' });
+    };
+
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => selectTab(i));
+      tab.addEventListener('keydown', (e) => {
+        let next = null;
+        if (e.key === 'ArrowRight') next = (i + 1) % tabs.length;
+        else if (e.key === 'ArrowLeft') next = (i - 1 + tabs.length) % tabs.length;
+        else if (e.key === 'Home') next = 0;
+        else if (e.key === 'End') next = tabs.length - 1;
+        if (next === null) return;
+        e.preventDefault();
+        selectTab(next, { focus: true });
+      });
+    });
+
+    // <a href="#cenovnik" data-open-tab="kosa"> otvara odgovarajući tab.
+    document.querySelectorAll('[data-open-tab]').forEach((link) => {
+      link.addEventListener('click', () => {
+        const idx = tabs.findIndex((t) => t.dataset.tab === link.dataset.openTab);
+        if (idx >= 0) selectTab(idx);
+      });
+    });
+
+    selectTab(0);
+  }
+
+  /* -------------------------------------------------------------------
+     Izbor usluga u formi za zakazivanje — gradi se iz CENOVNIK-a.
+     ------------------------------------------------------------------- */
+  const picker = document.getElementById('service-panel');
+  if (!picker) return;
 
   const el = (tag, className, text) => {
     const node = document.createElement(tag);
@@ -227,134 +288,31 @@ const CENOVNIK = [
     if (text !== undefined) node.textContent = text;
     return node;
   };
-
-  const renderRow = (stavka) => {
-    const li = el('li', 'cena-row');
-    li.append(el('span', 'cena-name', stavka.naziv), el('span', 'cena-dots'));
-    const price = el('span', 'cena-price');
-    stavka.cena.split(' / ').forEach((part) => price.append(el('span', '', part)));
-    li.append(price);
-    return li;
-  };
-
-  const renderGroup = (grupa) => {
-    const wrap = el('div', 'cena-group');
-    if (grupa.naslov) wrap.append(el('h4', 'cena-group__title', grupa.naslov));
-    if (grupa.opis) wrap.append(el('p', 'cena-group__desc', grupa.opis));
-    const ul = el('ul', 'cena-list');
-    grupa.stavke.forEach((s) => ul.append(renderRow(s)));
-    wrap.append(ul);
+  const option = (value, label) => {
+    const wrap = el('label', 'flex cursor-pointer items-start gap-3 rounded-xl px-3 py-2.5 text-[13px] leading-snug hover:bg-white/5 sm:text-sm');
+    const input = document.createElement('input');
+    input.type = 'checkbox';
+    input.name = 'usluga';
+    input.value = value;
+    input.className = 'peer sr-only';
+    const box = el('span', 'chk mt-0.5');
+    box.setAttribute('aria-hidden', 'true');
+    wrap.append(input, box, el('span', 'min-w-0 flex-1 text-white/80 peer-checked:text-white', label));
     return wrap;
   };
+  const heading = (text) =>
+    el('p', 'sticky top-0 z-10 bg-dark-soft px-3 pb-1 pt-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary-light', text);
 
-  const tabs = [];
-  const tabPanels = [];
-
-  CENOVNIK.forEach((kat, i) => {
-    const tab = el('button', 'cena-tab', kat.naziv);
-    tab.type = 'button';
-    tab.id = `cenovnik-tab-${kat.id}`;
-    tab.setAttribute('role', 'tab');
-    tab.setAttribute('aria-controls', `cenovnik-panel-${kat.id}`);
-    tab.setAttribute('aria-selected', 'false');
-    tab.tabIndex = -1;
-    tab.dataset.tab = kat.id;
-    tab.setAttribute('data-cursor-nav', '');
-    tablist.append(tab);
-    tabs.push(tab);
-
-    const panel = el('div', 'cena-panel');
-    panel.id = `cenovnik-panel-${kat.id}`;
-    panel.setAttribute('role', 'tabpanel');
-    panel.setAttribute('aria-labelledby', tab.id);
-    panel.tabIndex = 0;
-    panel.hidden = true;
-
-    const groups = el('div', kat.grupe.length > 1 ? 'cena-groups cena-groups--cols' : 'cena-groups');
-    kat.grupe.forEach((g) => groups.append(renderGroup(g)));
-    panel.append(groups);
-
-    if (kat.napomene.length) {
-      const notes = el('ul', 'cena-notes');
-      kat.napomene.forEach((n) => notes.append(el('li', '', n)));
-      panel.append(notes);
-    }
-    panels.append(panel);
-    tabPanels.push(panel);
-  });
-
-  const selectTab = (index, { focus = false } = {}) => {
-    tabs.forEach((tab, i) => {
-      const on = i === index;
-      tab.setAttribute('aria-selected', String(on));
-      tab.tabIndex = on ? 0 : -1;
-      tabPanels[i].hidden = !on;
-    });
-    if (focus) tabs[index].focus();
-    // Horizontalno centriraj aktivni tab u traci (bez skrolovanja cele stranice).
-    const t = tabs[index];
-    tablist.scrollTo({ left: t.offsetLeft - (tablist.clientWidth - t.offsetWidth) / 2, behavior: 'smooth' });
-  };
-
-  tabs.forEach((tab, i) => {
-    tab.addEventListener('click', () => selectTab(i));
-    tab.addEventListener('keydown', (e) => {
-      let next = null;
-      if (e.key === 'ArrowRight') next = (i + 1) % tabs.length;
-      else if (e.key === 'ArrowLeft') next = (i - 1 + tabs.length) % tabs.length;
-      else if (e.key === 'Home') next = 0;
-      else if (e.key === 'End') next = tabs.length - 1;
-      if (next === null) return;
-      e.preventDefault();
-      selectTab(next, { focus: true });
+  CENOVNIK.forEach((kat) => {
+    picker.append(heading(kat.naziv));
+    kat.grupe.forEach((g) => {
+      if (g.naslov && !g.pojedinacno) {
+        picker.append(option(`${kat.naziv} — ${g.naslov}`, g.naslov));
+      } else {
+        g.stavke.forEach((s) => picker.append(option(`${kat.naziv} — ${s.naziv}`, s.naziv)));
+      }
     });
   });
-
-  const indexOfId = (id) => CENOVNIK.findIndex((k) => k.id === id);
-
-  // Linkovi tipa <a href="#cenovnik" data-open-tab="kosa"> otvaraju odgovarajući tab.
-  document.querySelectorAll('[data-open-tab]').forEach((link) => {
-    link.addEventListener('click', () => {
-      const idx = indexOfId(link.dataset.openTab);
-      if (idx >= 0) selectTab(idx);
-    });
-  });
-
-  selectTab(0);
-
-  /* -------------------------------------------------------------------
-     Izbor usluga u formi za zakazivanje — gradi se iz istog CENOVNIK-a.
-     ------------------------------------------------------------------- */
-  const picker = document.getElementById('service-panel');
-  if (picker) {
-    const option = (value, label) => {
-      const wrap = document.createElement('label');
-      wrap.className = 'flex cursor-pointer items-start gap-3 rounded-xl px-3 py-2.5 text-[13px] leading-snug hover:bg-white/5 sm:text-sm';
-      const input = document.createElement('input');
-      input.type = 'checkbox';
-      input.name = 'usluga';
-      input.value = value;
-      input.className = 'peer sr-only';
-      const box = el('span', 'chk mt-0.5');
-      box.setAttribute('aria-hidden', 'true');
-      wrap.append(input, box, el('span', 'min-w-0 flex-1 text-white/80 peer-checked:text-white', label));
-      return wrap;
-    };
-    const heading = (text) =>
-      el('p', 'sticky top-0 z-10 bg-dark-soft px-3 pb-1 pt-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary-light', text);
-
-    CENOVNIK.forEach((kat) => {
-      picker.append(heading(kat.naziv));
-      kat.grupe.forEach((g) => {
-        if (g.naslov) {
-          const label = g.izbor || g.naslov;
-          picker.append(option(`${kat.naziv} — ${label}`, label));
-        } else {
-          g.stavke.forEach((s) => picker.append(option(`${kat.naziv} — ${s.naziv}`, s.naziv)));
-        }
-      });
-    });
-    picker.append(heading('Ostalo'));
-    picker.append(option('Nisam sigurna/an — treba mi savet', 'Nisam sigurna/an — treba mi savet'));
-  }
+  picker.append(heading('Ostalo'));
+  picker.append(option('Nisam sigurna/an — treba mi savet', 'Nisam sigurna/an — treba mi savet'));
 })();

@@ -292,13 +292,10 @@ html.has-custom-cursor button {
 .services-card {
   scroll-snap-align: center;
   position: relative;
-  flex: 0 0 auto;
-  width: 16rem;
-}
-@media (min-width: 640px) {
-  .services-card {
-    width: 19rem;
-  }
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 19rem;
+  width: 19rem;
 }
 .services-card__frame {
   overflow: hidden;
@@ -421,21 +418,30 @@ a.bg-primary, button.bg-primary { color: var(--color-dark); border: 1px solid tr
 #service-toggle[aria-expanded="true"] #service-chevron { transform: rotate(180deg); }
 
 /* ============ Cenovnik: tabs + rows ============ */
-.cena-tabs-wrap { display: flex; justify-content: center; }
+.cena-tabs-wrap { display: none; justify-content: center; }
+html.js .cena-tabs-wrap { display: flex; }
+.cena-panels { display: grid; gap: 2rem; margin-top: 2rem; }
+html.js .cena-panels { display: block; margin-top: 2rem; }
+html.js .cena-panel:not(.is-active) { display: none; }
+.cena-panel__title { font-family: var(--font-display); font-size: 1.75rem; line-height: 1.2; margin-bottom: 1.5rem; text-align: center; }
+html.js .cena-panel__title { display: none; }
 .cena-tabs {
-  display: flex; gap: 0.5rem; max-width: 100%;
-  overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
-  padding: 0.25rem 0.125rem;
+  display: grid; grid-template-columns: repeat(2, 1fr); grid-auto-rows: 1fr; gap: 0.5rem;
+  width: 100%; max-width: 24rem; padding: 0.125rem;
 }
-.cena-tabs::-webkit-scrollbar { display: none; }
+@media (min-width: 768px) {
+  .cena-tabs { grid-template-columns: repeat(4, 1fr); max-width: 52rem; }
+}
 .cena-tab {
-  flex-shrink: 0; white-space: nowrap; cursor: pointer;
-  padding: 0.7rem 1.4rem; border-radius: 9999px;
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  min-height: 3rem; min-width: 0; cursor: pointer;
+  padding: 0.6rem 0.75rem; border-radius: 9999px;
   border: 1.5px solid rgb(255 255 255 / 0.2);
-  font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
+  font-size: 0.75rem; font-weight: 600; line-height: 1.25; letter-spacing: 0.05em; text-transform: uppercase;
   color: rgb(255 255 255 / 0.7);
   transition: border-color .2s ease, background-color .2s ease, color .2s ease;
 }
+@media (min-width: 768px) { .cena-tab { white-space: nowrap; } }
 .cena-tab:hover { border-color: var(--color-primary); color: #fff; }
 .cena-tab[aria-selected="true"] { background: var(--color-primary); border-color: var(--color-primary); color: var(--color-dark); }
 .cena-tab:focus-visible { outline: 2px solid var(--color-primary-light); outline-offset: 2px; }
@@ -446,6 +452,8 @@ a.bg-primary, button.bg-primary { color: var(--color-dark); border: 1px solid tr
 }
 .cena-panel:focus-visible { outline: 2px solid var(--color-primary-light); outline-offset: 3px; }
 @media (min-width: 640px) { .cena-panel { padding: 2.5rem; } }
+/* Mobile: the fixed back-to-top button (40px, 6px from the edge) must not overlap the price column */
+@media (max-width: 639px) { .cena-panel { padding-right: 1.75rem; } }
 
 .cena-groups { display: grid; gap: 2.25rem; }
 @media (min-width: 1024px) { .cena-groups--cols { grid-template-columns: 1fr 1fr; column-gap: 3.5rem; } }
@@ -463,8 +471,8 @@ a.bg-primary, button.bg-primary { color: var(--color-dark); border: 1px solid tr
 .cena-notes { margin-top: 2rem; display: grid; gap: 0.35rem; font-size: 0.75rem; line-height: 1.5; color: rgb(255 255 255 / 0.5); }
 @media (max-width: 400px) { .cena-row { font-size: 0.8125rem; } }
 
-/* Services: featured card has a description + button */
-.services-card--feature { width: 17rem; }
-@media (min-width: 640px) { .services-card--feature { width: 20rem; } }
+/* Services cards: equal width + height, description, button pinned to the bottom */
 .services-card__text { margin-top: 0.6rem; text-align: center; font-size: 0.8125rem; line-height: 1.55; color: rgb(255 255 255 / 0.65); }
-.services-card--feature { text-align: center; }
+.services-card__btn { align-self: center; margin-top: auto; }
+.services-card__text + .services-card__btn { margin-top: auto; }
+.services-card__text { padding-bottom: 1.1rem; }
