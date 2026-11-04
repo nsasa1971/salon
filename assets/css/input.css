@@ -292,13 +292,10 @@ html.has-custom-cursor button {
 .services-card {
   scroll-snap-align: center;
   position: relative;
-  flex: 0 0 auto;
-  width: 16rem;
-}
-@media (min-width: 640px) {
-  .services-card {
-    width: 19rem;
-  }
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 19rem;
+  width: 19rem;
 }
 .services-card__frame {
   overflow: hidden;
@@ -421,7 +418,13 @@ a.bg-primary, button.bg-primary { color: var(--color-dark); border: 1px solid tr
 #service-toggle[aria-expanded="true"] #service-chevron { transform: rotate(180deg); }
 
 /* ============ Cenovnik: tabs + rows ============ */
-.cena-tabs-wrap { display: flex; justify-content: center; }
+.cena-tabs-wrap { display: none; justify-content: center; }
+html.js .cena-tabs-wrap { display: flex; }
+.cena-panels { display: grid; gap: 2rem; margin-top: 2rem; }
+html.js .cena-panels { display: block; margin-top: 2rem; }
+html.js .cena-panel:not(.is-active) { display: none; }
+.cena-panel__title { font-family: var(--font-display); font-size: 1.75rem; line-height: 1.2; margin-bottom: 1.5rem; text-align: center; }
+html.js .cena-panel__title { display: none; }
 .cena-tabs {
   display: flex; gap: 0.5rem; max-width: 100%;
   overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
@@ -463,8 +466,8 @@ a.bg-primary, button.bg-primary { color: var(--color-dark); border: 1px solid tr
 .cena-notes { margin-top: 2rem; display: grid; gap: 0.35rem; font-size: 0.75rem; line-height: 1.5; color: rgb(255 255 255 / 0.5); }
 @media (max-width: 400px) { .cena-row { font-size: 0.8125rem; } }
 
-/* Services: featured card has a description + button */
-.services-card--feature { width: 17rem; }
-@media (min-width: 640px) { .services-card--feature { width: 20rem; } }
+/* Services cards: equal width + height, description, button pinned to the bottom */
 .services-card__text { margin-top: 0.6rem; text-align: center; font-size: 0.8125rem; line-height: 1.55; color: rgb(255 255 255 / 0.65); }
-.services-card--feature { text-align: center; }
+.services-card__btn { align-self: center; margin-top: auto; }
+.services-card__text + .services-card__btn { margin-top: auto; }
+.services-card__text { padding-bottom: 1.1rem; }
