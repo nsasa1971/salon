@@ -308,6 +308,7 @@ html.has-custom-cursor button {
   width: 19rem;
 }
 .services-card__frame {
+  aspect-ratio: 3 / 4;
   overflow: hidden;
   border-radius: 1.5rem;
   box-shadow: 0 20px 35px -15px rgba(0, 0, 0, 0.6);
@@ -486,3 +487,8 @@ html.js .cena-panel__title { display: none; }
 .services-card__btn { align-self: center; margin-top: auto; }
 .services-card__text + .services-card__btn { margin-top: auto; }
 .services-card__text { padding-bottom: 1.1rem; }
+
+/* Fixed header: anchored sections stop below it (JS sets --header-h to the measured height) */
+:root { --header-h: 5.5rem; }
+@media (min-width: 640px) { :root { --header-h: 7.125rem; } }
+section[id]:not(#home) { scroll-margin-top: var(--header-h); }
