@@ -22,7 +22,11 @@
 </script>
 <!-- CENOVNIK-LD:END -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="icon" type="image/webp" href="assets/images/logo.webp">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#18120f">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="bg-dark font-sans text-white antialiased">
@@ -33,7 +37,7 @@
 
     <!-- Logo badge -->
     <a href="#home" class="relative block" aria-label="Lounge Veličkovski — početna" data-cursor-nav>
-      <img src="assets/images/logo.webp" alt="Lounge Veličkovski logo" class="h-[64px] w-[64px] shrink-0 sm:h-[90px] sm:w-[90px] rounded-full object-cover shadow-lg">
+      <img width="640" height="640" src="assets/images/logo.webp" alt="Lounge Veličkovski logo" class="h-[64px] w-[64px] shrink-0 sm:h-[90px] sm:w-[90px] rounded-full object-cover shadow-lg">
     </a>
 
     <!-- Desktop nav -->
@@ -42,7 +46,7 @@
         Početna
       </a>
       <a href="#about" class="nav-link" data-cursor-nav>
-        O Nama
+        O nama
       </a>
       <a href="#services" class="nav-link" data-cursor-nav>
         Usluge
@@ -68,7 +72,7 @@
     <div class="flex items-center gap-3 sm:gap-5">
       <button type="button" data-open-booking
         class="cta-auto hidden whitespace-nowrap rounded-full bg-primary px-8 py-4 text-xs font-semibold uppercase tracking-wider transition hover:bg-primary-dark sm:inline-block" data-cursor-nav>
-        Zakažite Termin
+        Zakažite termin
       </button>
 
       <a href="tel:+381692121966" aria-label="Pozovite nas" class="cta-auto flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary text-dark transition hover:bg-primary-dark sm:hidden" data-cursor-nav>
@@ -89,7 +93,7 @@
 <div id="mobile-menu-backdrop" class="offcanvas-backdrop fixed inset-0 z-50 bg-black/70"></div>
 <aside id="mobile-menu" class="offcanvas-panel fixed inset-y-0 right-0 z-50 flex w-80 max-w-[85vw] flex-col gap-6 overflow-y-auto bg-dark-soft p-6">
   <div class="flex items-center justify-between">
-    <span class="flex min-w-0 items-center gap-3 font-display text-lg leading-tight"><img src="assets/images/logo.webp" alt="Lounge Veličkovski logo" class="h-12 w-12 shrink-0 rounded-full object-cover">Lounge Veličkovski</span>
+    <span class="flex min-w-0 items-center gap-3 font-display text-lg leading-tight"><img width="640" height="640" src="assets/images/logo.webp" alt="Lounge Veličkovski logo" class="h-12 w-12 shrink-0 rounded-full object-cover">Lounge Veličkovski</span>
     <button id="menu-close" aria-label="Zatvori meni" class="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 hover:border-primary" data-cursor-nav>
       <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -98,7 +102,7 @@
   </div>
   <nav class="my-auto flex flex-col gap-3.5 text-base font-medium uppercase tracking-wider [@media(min-height:760px)]:gap-5">
     <a href="#home" class="transition hover:text-primary-light" data-cursor-nav>Početna</a>
-    <a href="#about" class="transition hover:text-primary-light" data-cursor-nav>O Nama</a>
+    <a href="#about" class="transition hover:text-primary-light" data-cursor-nav>O nama</a>
     <a href="#services" class="transition hover:text-primary-light" data-cursor-nav>Usluge</a>
     <a href="#cenovnik" class="transition hover:text-primary-light" data-cursor-nav>Cenovnik</a>
     <a href="#gallery" class="transition hover:text-primary-light" data-cursor-nav>Salon</a>
@@ -110,13 +114,13 @@
   <div class="flex flex-col items-center gap-4 text-center">
     <p class="text-sm text-white/60">Omladinskih brigada 86E, West 65</p>
     <div class="flex items-center justify-center gap-3">
-      <a href="https://wa.me/381692121966?text=Zdravo!%20%C5%BDelim%20da%20zaka%C5%BEem%20termin." target="_blank" rel="noopener" aria-label="WhatsApp" class="flex h-12 w-12 items-center justify-center rounded-full border border-primary/40 text-primary-light transition hover:border-primary hover:bg-primary/10" data-cursor-nav><img src="assets/images/icon-whatsapp.webp" alt="" aria-hidden="true" class="h-6 w-6 object-contain"></a>
-      <a href="viber://chat?number=%2B381692121966" aria-label="Viber" class="flex h-12 w-12 items-center justify-center rounded-full border border-primary/40 text-primary-light transition hover:border-primary hover:bg-primary/10" data-cursor-nav><img src="assets/images/icon-viber.webp" alt="" aria-hidden="true" class="h-6 w-6 object-contain"></a>
-      <a href="https://www.instagram.com/lounge.velickovski/" target="_blank" rel="noopener" aria-label="Instagram" class="flex h-12 w-12 items-center justify-center rounded-full border border-primary/40 text-primary-light transition hover:border-primary hover:bg-primary/10" data-cursor-nav><img src="assets/images/icon-instagram.webp" alt="" aria-hidden="true" class="h-6 w-6 object-contain"></a>
+      <a href="https://wa.me/381692121966?text=Zdravo!%20%C5%BDelim%20da%20zaka%C5%BEem%20termin." target="_blank" rel="noopener" aria-label="WhatsApp" class="flex h-12 w-12 items-center justify-center rounded-full border border-primary/40 text-primary-light transition hover:border-primary hover:bg-primary/10" data-cursor-nav><img width="96" height="96" src="assets/images/icon-whatsapp.webp" alt="" aria-hidden="true" class="h-6 w-6 object-contain"></a>
+      <a href="viber://chat?number=%2B381692121966" aria-label="Viber" class="flex h-12 w-12 items-center justify-center rounded-full border border-primary/40 text-primary-light transition hover:border-primary hover:bg-primary/10" data-cursor-nav><img width="96" height="96" src="assets/images/icon-viber.webp" alt="" aria-hidden="true" class="h-6 w-6 object-contain"></a>
+      <a href="https://www.instagram.com/lounge.velickovski/" target="_blank" rel="noopener" aria-label="Instagram" class="flex h-12 w-12 items-center justify-center rounded-full border border-primary/40 text-primary-light transition hover:border-primary hover:bg-primary/10" data-cursor-nav><img width="96" height="96" src="assets/images/icon-instagram.webp" alt="" aria-hidden="true" class="h-6 w-6 object-contain"></a>
     </div>
-    <a data-phone-link href="tel:+381692121966" data-cursor-nav class="self-stretch rounded-full border border-white/40 px-8 py-4 text-center text-xs font-semibold uppercase tracking-wider hover:border-primary">Pozovite Nas</a>
+    <a data-phone-link href="tel:+381692121966" data-cursor-nav class="self-stretch rounded-full border border-white/40 px-8 py-4 text-center text-xs font-semibold uppercase tracking-wider hover:border-primary">Pozovite nas</a>
     <button type="button" data-open-booking data-cursor-nav class="rounded-full bg-primary px-8 py-4 text-xs font-semibold uppercase tracking-wider hover:bg-primary-dark">
-      Zakažite Termin
+      Zakažite termin
     </button>
   </div>
 </aside>
@@ -127,7 +131,7 @@
 <aside id="blog-panel" class="offcanvas-panel fixed inset-y-0 right-0 z-50 flex w-96 max-w-[90vw] flex-col gap-7 overflow-y-auto bg-cream p-8 text-dark">
   <div class="flex items-start justify-between">
     <a href="#home" class="flex items-center gap-3" data-cursor-nav>
-      <img src="assets/images/logo.webp" alt="Lounge Veličkovski logo" class="h-12 w-12 shrink-0 rounded-full object-cover">
+      <img width="640" height="640" src="assets/images/logo.webp" alt="Lounge Veličkovski logo" class="h-12 w-12 shrink-0 rounded-full object-cover">
       <span class="leading-tight">
         <span class="block font-display text-lg">Lounge Veličkovski</span>
         <span class="block text-[10px] font-semibold uppercase tracking-[0.22em] text-primary">hair and beauty</span>
@@ -144,7 +148,7 @@
     Novi salon za kosu i lepotu — obrve i trepavice, manikir, pedikir i maderoterapija, u prostoru osmišljenom za vaš mir i opuštanje.
   </p>
 
-  <img src="assets/images/salon-logo-wall.webp" alt="Enterijer salona Lounge Veličkovski" loading="lazy" class="aspect-[3/2] w-full rounded-2xl object-cover object-[30%_center]">
+  <img width="1494" height="1053" src="assets/images/salon-logo-wall.webp" alt="Enterijer salona Lounge Veličkovski" loading="lazy" class="aspect-[3/2] w-full rounded-2xl object-cover object-[30%_center]">
 
   <div>
     <p class="text-xs font-semibold uppercase tracking-wider text-dark/50">Adresa</p>
@@ -153,8 +157,8 @@
   </div>
 
   <div class="flex flex-col gap-3">
-    <a href="#cenovnik" class="flex items-center justify-center rounded-full border border-dark/15 px-8 py-4 text-xs font-semibold transition hover:border-primary hover:text-primary uppercase tracking-wider" data-cursor-nav>Pogledajte Cenovnik</a>
-    <button type="button" data-open-booking data-cursor-nav class="rounded-full bg-primary px-8 py-4 text-xs font-semibold uppercase tracking-wider text-dark transition hover:bg-primary-dark">Zakažite Termin</button>
+    <a href="#cenovnik" class="flex items-center justify-center rounded-full border border-dark/15 px-8 py-4 text-xs font-semibold transition hover:border-primary hover:text-primary uppercase tracking-wider" data-cursor-nav>Pogledajte cenovnik</a>
+    <button type="button" data-open-booking data-cursor-nav class="rounded-full bg-primary px-8 py-4 text-xs font-semibold uppercase tracking-wider text-dark transition hover:bg-primary-dark">Zakažite termin</button>
   </div>
 </aside>
 
@@ -167,9 +171,9 @@
        elements adapt to the viewport's own aspect ratio (portrait phones included) instead
        of being cropped through the ripple's fixed-aspect canvas texture. -->
   <div id="hero-bg-fallback" class="absolute inset-0">
-    <img data-hero-fallback-slide src="assets/images/hero-1.webp" alt="" class="hero-fallback-img is-active" style="object-position: center 28%;">
-    <img data-hero-fallback-slide src="assets/images/hero-2.webp" alt="" class="hero-fallback-img" style="object-position: center 25%;">
-    <img data-hero-fallback-slide src="assets/images/hero-3.webp" alt="" class="hero-fallback-img" style="object-position: center 25%;">
+    <img width="576" height="1024" data-hero-fallback-slide src="assets/images/hero-1.webp" alt="" class="hero-fallback-img is-active" style="object-position: center 28%;">
+    <img width="736" height="1104" data-hero-fallback-slide src="assets/images/hero-2.webp" alt="" class="hero-fallback-img" style="object-position: center 25%;">
+    <img width="736" height="1308" data-hero-fallback-slide src="assets/images/hero-3.webp" alt="" class="hero-fallback-img" style="object-position: center 25%;">
   </div>
   <canvas id="hero-ripple" class="absolute inset-0 h-full w-full"></canvas>
   <div class="absolute inset-0 bg-gradient-to-r from-dark/90 via-dark/50 to-dark/10 max-lg:from-dark/70 max-lg:via-dark/55 max-lg:to-dark/70"></div>
@@ -181,8 +185,8 @@
         <span class="cursor-text__base">Dobrodošli u Lounge Veličkovski</span><span class="cursor-text__reveal" aria-hidden="true">Dobrodošli u Lounge Veličkovski</span>
       </p>
       <h1 class="relative font-display text-5xl leading-tight sm:text-6xl lg:text-7xl" data-cursor-text>
-        <span class="cursor-text__base block">Elegancija u Svakom<br>Detalju</span>
-        <span class="cursor-text__reveal cursor-text__reveal--block" aria-hidden="true">Elegancija u Svakom<br>Detalju</span>
+        <span class="cursor-text__base block">Elegancija u svakom<br>detalju</span>
+        <span class="cursor-text__reveal cursor-text__reveal--block" aria-hidden="true">Elegancija u svakom<br>detalju</span>
       </h1>
       <p class="relative mt-6 max-w-lg text-white/70 max-lg:mx-auto" data-cursor-text>
         <span class="cursor-text__base block">Od frizure i boje do nege noktiju, obrva i trepavica i maderoterapije — novi salon u kojem se nega, pažnja i opuštanje spajaju na jednom mestu.</span>
@@ -190,10 +194,10 @@
       </p>
       <div class="mt-9 flex flex-wrap gap-4 max-lg:flex-col max-lg:items-center">
         <a href="#booking" class="rounded-full bg-primary px-8 py-4 text-xs font-semibold uppercase tracking-wider transition hover:bg-primary-dark" data-cursor-nav>
-          Zakažite Termin
+          Zakažite termin
         </a>
         <a href="#services" class="rounded-full border border-white/40 px-8 py-4 text-xs font-semibold uppercase tracking-wider transition hover:border-primary hover:text-primary-light" data-cursor-nav>
-          Pogledajte Usluge
+          Pogledajte usluge
         </a>
       </div>
     </div>
@@ -212,7 +216,7 @@
   <div class="relative mx-auto max-w-6xl px-6 lg:px-10">
 
     <div class="mx-auto max-w-3xl text-center" data-reveal>
-      <p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-light">O Nama</p>
+      <p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-light">O nama</p>
       <h2 class="mt-4 font-display text-4xl leading-tight sm:text-5xl lg:text-6xl">
         Lepota počinje osećajem da ste <em class="text-primary-light">dobrodošli</em>.
       </h2>
@@ -238,8 +242,8 @@
           Pažljivo slušamo šta želite, radimo bez žurbe i sa kvalitetnim materijalima.
         </p>
         <div class="flex flex-wrap gap-4 pt-4">
-          <button type="button" data-open-booking data-cursor-nav class="rounded-full bg-primary px-8 py-4 text-xs font-semibold uppercase tracking-wider transition hover:bg-primary-dark">Zakažite Termin</button>
-          <a href="#services" data-cursor-nav class="rounded-full border border-white/40 px-8 py-4 text-xs font-semibold uppercase tracking-wider text-white transition hover:border-primary hover:text-primary-light">Naše Usluge</a>
+          <button type="button" data-open-booking data-cursor-nav class="rounded-full bg-primary px-8 py-4 text-xs font-semibold uppercase tracking-wider transition hover:bg-primary-dark">Zakažite termin</button>
+          <a href="#services" data-cursor-nav class="rounded-full border border-white/40 px-8 py-4 text-xs font-semibold uppercase tracking-wider text-white transition hover:border-primary hover:text-primary-light">Naše usluge</a>
         </div>
       </div>
 
@@ -268,13 +272,13 @@
 <section id="gallery" class="bg-dark-soft py-24">
   <div class="mx-auto max-w-7xl px-6 lg:px-10">
     <div class="text-center" data-reveal>
-      <p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-light">Naš Prostor</p>
+      <p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-light">Naš prostor</p>
       <h2 class="mt-3 font-display text-4xl sm:text-5xl">Uđite u Lounge</h2>
     </div>
     <div class="mt-14 grid gap-4 md:grid-cols-3" data-reveal>
-      <img src="assets/images/salon-lounge-wide.webp" alt="Enterijer salona sa policama za proizvode i foteljama za pranje kose" loading="lazy" class="aspect-square w-full rounded-2xl object-cover object-[40%_center]">
-      <img src="assets/images/salon-logo-wall.webp" alt="Frizerski stolovi sa osvetljenim ogledalima i zlatnim logoom" loading="lazy" class="aspect-square w-full rounded-2xl object-cover object-[35%_center]">
-      <img src="assets/images/salon-treatment-room.webp" alt="Kabina za tretmane lica i trepavica" loading="lazy" class="aspect-square w-full rounded-2xl object-cover object-center">
+      <img width="1891" height="832" src="assets/images/salon-lounge-wide.webp" alt="Enterijer salona sa policama za proizvode i foteljama za pranje kose" loading="lazy" class="aspect-square w-full rounded-2xl object-cover object-[40%_center]">
+      <img width="1494" height="1053" src="assets/images/salon-logo-wall.webp" alt="Frizerski stolovi sa osvetljenim ogledalima i zlatnim logoom" loading="lazy" class="aspect-square w-full rounded-2xl object-cover object-[35%_center]">
+      <img width="1494" height="1053" src="assets/images/salon-treatment-room.webp" alt="Kabina za tretmane lica i trepavica" loading="lazy" class="aspect-square w-full rounded-2xl object-cover object-center">
     </div>
   </div>
 </section>
@@ -282,8 +286,8 @@
 <!-- ============ SERVICES ============ -->
 <section id="services" class="overflow-hidden bg-dark-soft py-24">
   <div class="mx-auto max-w-7xl px-6 text-center lg:px-10" data-reveal>
-    <p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-light">Šta Nudimo</p>
-    <h2 class="mt-3 font-display text-4xl sm:text-5xl">Naše Usluge</h2>
+    <p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-light">Šta nudimo</p>
+    <h2 class="mt-3 font-display text-4xl sm:text-5xl">Naše usluge</h2>
     <p class="mx-auto mt-4 max-w-xl text-white/70">Frizerske usluge, nokti, obrve i trepavice i maderoterapija na jednom mestu. Kliknite na uslugu da vidite cene.</p>
     <svg class="mx-auto mt-5 h-10 w-10 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
       <path d="M12 21c0-6-4-9-9-9 5 0 9-3 9-9 0 6 4 9 9 9-5 0-9 3-9 9z" stroke-linejoin="round"/>
@@ -296,7 +300,7 @@
         <span class="services-card__num">01</span>
         <a href="#cenovnik" data-open-tab="kosa" class="block" data-cursor-nav tabindex="-1" aria-hidden="true">
           <div class="services-card__frame">
-            <img src="assets/images/salon-frizerski.webp"
+            <img width="734" height="1053" src="assets/images/salon-frizerski.webp"
               srcset="assets/images/salon-frizerski-480.webp 480w, assets/images/salon-frizerski.webp 734w"
               sizes="19rem" alt="Frizerske usluge u salonu Lounge Veličkovski" loading="lazy" style="object-position: center 72%;">
           </div>
@@ -309,10 +313,10 @@
         <span class="services-card__num">02</span>
         <a href="#cenovnik" data-open-tab="trepavice-obrve" class="block" data-cursor-nav tabindex="-1" aria-hidden="true">
           <div class="services-card__frame">
-            <img src="assets/images/hero-1.webp" style="object-position:35% 22%" alt="Obrve i Trepavice" loading="lazy">
+            <img width="576" height="1024" src="assets/images/hero-1.webp" style="object-position:35% 22%" alt="Obrve i trepavice" loading="lazy">
           </div>
         </a>
-        <h3 class="services-card__caption">Obrve i Trepavice</h3>
+        <h3 class="services-card__caption">Obrve i trepavice</h3>
         <p class="services-card__text">Lash lift i brow lift, pojedinačno ili u kombinaciji sa farbanjem. Po želji dodajemo i botoks za regeneraciju.</p>
         <a href="#cenovnik" data-open-tab="trepavice-obrve" data-cursor-nav class="services-card__btn rounded-full border border-white/40 px-8 py-4 text-xs font-semibold uppercase tracking-wider text-white transition hover:border-primary hover:text-primary-light">Pogledaj cene</a>
       </article>
@@ -320,7 +324,7 @@
         <span class="services-card__num">03</span>
         <a href="#cenovnik" data-open-tab="nokti" class="block" data-cursor-nav tabindex="-1" aria-hidden="true">
           <div class="services-card__frame">
-            <img src="assets/images/service-manicure.webp" alt="Manikir" loading="lazy">
+            <img width="900" height="1117" src="assets/images/service-manicure.webp" alt="Manikir" loading="lazy">
           </div>
         </a>
         <h3 class="services-card__caption">Manikir</h3>
@@ -331,7 +335,7 @@
         <span class="services-card__num">04</span>
         <a href="#cenovnik" data-open-tab="nokti" class="block" data-cursor-nav tabindex="-1" aria-hidden="true">
           <div class="services-card__frame">
-            <img src="assets/images/salon-logo-wall.webp" style="object-position:30% center" alt="Pedikir" loading="lazy">
+            <img width="1494" height="1053" src="assets/images/salon-logo-wall.webp" style="object-position:30% center" alt="Pedikir" loading="lazy">
           </div>
         </a>
         <h3 class="services-card__caption">Pedikir</h3>
@@ -342,7 +346,7 @@
         <span class="services-card__num">05</span>
         <a href="#cenovnik" data-open-tab="maderoterapija" class="block" data-cursor-nav tabindex="-1" aria-hidden="true">
           <div class="services-card__frame">
-            <img src="assets/images/salon-treatment-room.webp" alt="Maderoterapija" loading="lazy">
+            <img width="1494" height="1053" src="assets/images/salon-treatment-room.webp" alt="Maderoterapija" loading="lazy">
           </div>
         </a>
         <h3 class="services-card__caption">Maderoterapija</h3>
@@ -370,7 +374,7 @@
 <section id="cenovnik" class="bg-dark py-24">
   <div class="mx-auto max-w-5xl px-6 lg:px-10">
     <div class="text-center" data-reveal>
-      <p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-light">Transparentne Cene</p>
+      <p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-light">Transparentne cene</p>
       <h2 class="mt-3 font-display text-4xl sm:text-5xl">Cenovnik</h2>
       <svg class="mx-auto mt-5 h-10 w-10 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
         <path d="M12 21c0-6-4-9-9-9 5 0 9-3 9-9 0 6 4 9 9 9-5 0-9 3-9 9z" stroke-linejoin="round"/>
@@ -409,7 +413,7 @@
 
     <div class="mt-12 text-center">
       <button type="button" data-open-booking data-cursor-nav class="rounded-full bg-primary px-8 py-4 text-xs font-semibold uppercase tracking-wider transition hover:bg-primary-dark">
-        Zakažite Termin
+        Zakažite termin
       </button>
     </div>
   </div>
@@ -417,10 +421,10 @@
 
 <!-- ============ WHY US ============ -->
 <section id="why" class="relative overflow-hidden bg-dark py-24">
-  <img src="assets/images/salon-lounge-wide.webp" alt="" loading="lazy" class="absolute inset-0 h-full w-full object-cover opacity-40">
+  <img width="1891" height="832" src="assets/images/salon-lounge-wide.webp" alt="" loading="lazy" class="absolute inset-0 h-full w-full object-cover opacity-40">
   <div class="absolute inset-0 bg-gradient-to-br from-wine/90 via-dark/85 to-dark/95"></div>
   <div class="relative mx-auto max-w-7xl px-6 text-center lg:px-10" data-reveal>
-    <p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-light">Zašto Mi</p>
+    <p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-light">Zašto mi</p>
     <h2 class="mt-3 font-display text-4xl sm:text-5xl">Zašto Lounge Veličkovski</h2>
     <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
       <div class="rounded-3xl border border-white/10 bg-dark/60 p-8 text-left backdrop-blur-sm">
@@ -452,8 +456,8 @@
   <div class="mx-auto grid max-w-7xl gap-14 px-6 lg:grid-cols-5 lg:px-10">
 
     <div class="lg:col-span-2" data-reveal>
-      <p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-light">Online Zakazivanje</p>
-      <h2 class="mt-3 font-display text-4xl sm:text-5xl">Zakažite Svoj Termin</h2>
+      <p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-light">Online zakazivanje</p>
+      <h2 class="mt-3 font-display text-4xl sm:text-5xl">Zakažite svoj termin</h2>
       <p class="mt-5 text-white/70">Izaberite uslugu i željeni termin, a mi ćemo vam se javiti da potvrdimo tačno vreme.</p>
 
       <ol class="mt-8 space-y-5">
@@ -465,7 +469,7 @@
       <div class="mt-8">
         <p class="mb-3 text-sm text-white/60">Ili nas kontaktirajte direktno:</p>
         <div class="flex flex-wrap gap-4">
-        <a data-phone-link href="tel:+381692121966" data-cursor-nav class="rounded-full border border-white/40 px-8 py-4 text-xs font-semibold uppercase tracking-wider transition hover:border-primary hover:text-primary-light ">Pozovite Nas</a>
+        <a data-phone-link href="tel:+381692121966" data-cursor-nav class="rounded-full border border-white/40 px-8 py-4 text-xs font-semibold uppercase tracking-wider transition hover:border-primary hover:text-primary-light ">Pozovite nas</a>
         <a href="https://wa.me/381692121966?text=Zdravo!%20%C5%BDelim%20da%20zaka%C5%BEem%20termin." target="_blank" rel="noopener" data-cursor-nav class="rounded-full border border-white/40 px-8 py-4 text-xs font-semibold uppercase tracking-wider transition hover:border-primary hover:text-primary-light">WhatsApp</a>
         <a href="viber://chat?number=%2B381692121966" data-cursor-nav class="rounded-full border border-white/40 px-8 py-4 text-xs font-semibold uppercase tracking-wider transition hover:border-primary hover:text-primary-light">Viber</a>
       </div>
@@ -522,7 +526,7 @@
           </div>
           <fieldset>
             <legend class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-white/60">Željeno vreme</legend>
-            <div class="flex flex-wrap gap-2">
+            <div class="vreme-grid">
             <label class="service-pill"><input type="radio" name="vreme" value="Prepodne" class="sr-only peer" checked><span class="service-pill__label">Prepodne</span></label>
             <label class="service-pill"><input type="radio" name="vreme" value="Popodne" class="sr-only peer"><span class="service-pill__label">Popodne</span></label>
             <label class="service-pill"><input type="radio" name="vreme" value="Veče" class="sr-only peer"><span class="service-pill__label">Veče</span></label>
@@ -534,7 +538,7 @@
           </div>
 
           <div class="sm:col-span-2">
-            <button type="submit" class="mx-auto w-full rounded-full bg-primary px-8 py-4 text-xs font-semibold uppercase tracking-wider transition hover:bg-primary-dark" data-cursor-nav>Pošaljite Zahtev</button>
+            <button type="submit" class="mx-auto w-full rounded-full bg-primary px-8 py-4 text-xs font-semibold uppercase tracking-wider transition hover:bg-primary-dark" data-cursor-nav>Pošaljite zahtev</button>
             <p class="mt-3 text-center text-xs text-white/45">Ovo je zahtev, a ne potvrđen termin — javićemo vam se da ga potvrdimo.</p>
             <p id="booking-feedback" role="status" class="mt-3 hidden rounded-2xl px-4 py-3 text-center text-sm"></p>
           </div>
@@ -548,13 +552,21 @@
 <section id="faq" class="bg-dark py-24">
   <div class="mx-auto max-w-3xl px-6 lg:px-10">
     <div class="text-center" data-reveal>
-      <p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-light">Korisne Informacije</p>
-      <h2 class="mt-3 font-display text-4xl sm:text-5xl">Česta Pitanja</h2>
+      <p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-light">Korisne informacije</p>
+      <h2 class="mt-3 font-display text-4xl sm:text-5xl">Česta pitanja</h2>
     </div>
     <div class="mt-12 space-y-4" data-reveal>
       <details class="faq-item group rounded-2xl border border-white/10 bg-dark-soft px-6 py-5">
         <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-display text-lg" data-cursor-nav>Kako da zakažem termin?<span class="faq-plus text-primary-light" aria-hidden="true">+</span></summary>
         <p class="mt-3 text-sm leading-relaxed text-white/70">Popunite formu za online zakazivanje na ovoj stranici. Kada primimo zahtev, javićemo vam se i potvrditi slobodan termin.</p>
+      </details>
+      <details class="faq-item group rounded-2xl border border-white/10 bg-dark-soft px-6 py-5">
+        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-display text-lg" data-cursor-nav>Od čega zavisi cena farbanja i tretmana kose?<span class="faq-plus text-primary-light" aria-hidden="true">+</span></summary>
+        <p class="mt-3 text-sm leading-relaxed text-white/70">Konačna cena zavisi od dužine, gustine i stanja kose, kao i od količine utrošenog materijala. Zato u cenovniku za većinu usluga stoje posebne cene za srednju i dugu kosu, a za neke i raspon. Ako niste sigurni u koju kategoriju spada vaša kosa, napišite nam to u napomeni pri zakazivanju ili nas pozovite.</p>
+      </details>
+      <details class="faq-item group rounded-2xl border border-white/10 bg-dark-soft px-6 py-5">
+        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-display text-lg" data-cursor-nav>Koja je razlika između balayage-a, pramenova i AirTouch tehnike?<span class="faq-plus text-primary-light" aria-hidden="true">+</span></summary>
+        <p class="mt-3 text-sm leading-relaxed text-white/70">Balayage se nanosi slobodnom rukom i daje mekan, prirodan prelaz, pa izrastak ne upada u oči. Klasični pramenovi su ravnomerniji i izraženiji. AirTouch koristi fen da izdvoji kraće vlasi pre posvetljavanja, pa je prelaz najblaži, ali postupak traje duže. Više o tome pročitajte u <a href="blog/balayage-pramenovi-airtouch.html" class="text-primary-light underline underline-offset-4 hover:text-primary" data-cursor-nav>našem članku na blogu</a>.</p>
       </details>
       <details class="faq-item group rounded-2xl border border-white/10 bg-dark-soft px-6 py-5">
         <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-display text-lg" data-cursor-nav>Šta je korekcija i koliko košta?<span class="faq-plus text-primary-light" aria-hidden="true">+</span></summary>
@@ -584,12 +596,21 @@
 <section id="blog" class="overflow-hidden bg-dark-soft py-24">
   <div class="mx-auto max-w-7xl px-6 lg:px-10">
     <div class="text-center" data-reveal>
-      <p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-light">Saveti i Vodiči</p>
-      <h2 class="mt-3 font-display text-4xl sm:text-5xl">Iz Našeg Salona</h2>
+      <p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-light">Saveti i vodiči</p>
+      <h2 class="mt-3 font-display text-4xl sm:text-5xl">Iz našeg salona</h2>
     </div>
-    <div class="mt-14 grid gap-6 md:grid-cols-3" data-reveal>
+    <div class="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-4" data-reveal>
+      <a href="blog/balayage-pramenovi-airtouch.html" class="group block overflow-hidden rounded-3xl border border-white/10 bg-dark-soft transition hover:border-primary/50" data-cursor-nav>
+        <img width="734" height="1053" src="assets/images/salon-frizerski.webp" alt="" loading="lazy" class="aspect-[4/3] w-full object-cover object-[center_70%] transition duration-500 group-hover:scale-105">
+        <div class="p-7">
+          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-primary-light">Frizerske usluge</p>
+          <h3 class="mt-3 font-display text-xl leading-snug">Balayage, pramenovi ili AirTouch: koju tehniku posvetljivanja izabrati</h3>
+          <p class="mt-3 text-sm text-white/65">Kako se razlikuju tri najtraženije tehnike posvetljivanja, koliko se održavaju i kome koja najviše odgovara.</p>
+          <span class="mt-5 inline-block text-xs font-semibold uppercase tracking-wider text-primary-light">Pročitajte više →</span>
+        </div>
+      </a>
       <a href="blog/lash-lift-i-brow-lift.html" class="group block overflow-hidden rounded-3xl border border-white/10 bg-dark-soft transition hover:border-primary/50" data-cursor-nav>
-        <img src="assets/images/hero-1.webp" alt="" loading="lazy" class="aspect-[4/3] w-full object-cover transition duration-500 group-hover:scale-105">
+        <img width="576" height="1024" src="assets/images/hero-1.webp" alt="" loading="lazy" class="aspect-[4/3] w-full object-cover transition duration-500 group-hover:scale-105">
         <div class="p-7">
           <p class="text-xs font-semibold uppercase tracking-[0.2em] text-primary-light">Obrve i trepavice</p>
           <h3 class="mt-3 font-display text-xl leading-snug">Lash lift i brow lift: šta su, koliko traju i kako ih negovati</h3>
@@ -598,7 +619,7 @@
         </div>
       </a>
       <a href="blog/gel-lak-ili-izlivanje-noktiju.html" class="group block overflow-hidden rounded-3xl border border-white/10 bg-dark-soft transition hover:border-primary/50" data-cursor-nav>
-        <img src="assets/images/service-manicure.webp" alt="" loading="lazy" class="aspect-[4/3] w-full object-cover transition duration-500 group-hover:scale-105">
+        <img width="900" height="1117" src="assets/images/service-manicure.webp" alt="" loading="lazy" class="aspect-[4/3] w-full object-cover transition duration-500 group-hover:scale-105">
         <div class="p-7">
           <p class="text-xs font-semibold uppercase tracking-[0.2em] text-primary-light">Manikir</p>
           <h3 class="mt-3 font-display text-xl leading-snug">Gel lak ili izlivanje noktiju: koja je razlika i šta izabrati</h3>
@@ -607,7 +628,7 @@
         </div>
       </a>
       <a href="blog/maderoterapija-sta-je-i-kome-je-namenjena.html" class="group block overflow-hidden rounded-3xl border border-white/10 bg-dark-soft transition hover:border-primary/50" data-cursor-nav>
-        <img src="assets/images/salon-treatment-room.webp" alt="" loading="lazy" class="aspect-[4/3] w-full object-cover transition duration-500 group-hover:scale-105">
+        <img width="1494" height="1053" src="assets/images/salon-treatment-room.webp" alt="" loading="lazy" class="aspect-[4/3] w-full object-cover transition duration-500 group-hover:scale-105">
         <div class="p-7">
           <p class="text-xs font-semibold uppercase tracking-[0.2em] text-primary-light">Maderoterapija</p>
           <h3 class="mt-3 font-display text-xl leading-snug">Maderoterapija: šta je, kako izgleda tretman i koliko ih je potrebno</h3>
@@ -623,8 +644,8 @@
 <section id="contact" class="bg-dark-soft py-24">
   <div class="mx-auto grid max-w-7xl items-stretch gap-10 px-6 lg:grid-cols-2 lg:px-10" data-reveal>
     <div class="flex flex-col justify-center">
-      <p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-light">Gde Se Nalazimo</p>
-      <h2 class="mt-3 font-display text-4xl sm:text-5xl">Posetite Nas</h2>
+      <p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-light">Gde se nalazimo</p>
+      <h2 class="mt-3 font-display text-4xl sm:text-5xl">Posetite nas</h2>
       <p class="mt-5 text-white/70">Dobrodošli u naš novi salon. Najlakše ćete do slobodnog termina doći putem online forme za zakazivanje.</p>
       <div class="mt-8 flex items-start gap-4">
         <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/15 text-primary-light">
@@ -633,17 +654,17 @@
         <div><p class="font-semibold">Adresa</p><p class="text-sm text-white/70">Omladinskih brigada 86E, West 65</p></div>
       </div>
       <div class="mt-6 flex items-start gap-4">
-        <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/15 text-primary-light"><img src="assets/images/icon-whatsapp.webp" alt="" aria-hidden="true" class="h-5 w-5 object-contain"></span>
+        <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/15 text-primary-light"><img width="96" height="96" src="assets/images/icon-whatsapp.webp" alt="" aria-hidden="true" class="h-5 w-5 object-contain"></span>
         <div><p class="font-semibold">WhatsApp i Viber</p><p class="text-sm text-white/70"><a href="https://wa.me/381692121966?text=Zdravo!%20%C5%BDelim%20da%20zaka%C5%BEem%20termin." target="_blank" rel="noopener" class="transition hover:text-primary-light" data-cursor-nav>WhatsApp</a> · <a href="viber://chat?number=%2B381692121966" class="transition hover:text-primary-light" data-cursor-nav>Viber</a> — +381 69 212 1966</p></div>
       </div>
       <div class="mt-6 flex items-start gap-4">
-        <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/15 text-primary-light"><img src="assets/images/icon-instagram.webp" alt="" aria-hidden="true" class="h-5 w-5 object-contain"></span>
+        <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/15 text-primary-light"><img width="96" height="96" src="assets/images/icon-instagram.webp" alt="" aria-hidden="true" class="h-5 w-5 object-contain"></span>
         <div><p class="font-semibold">Instagram</p><a href="https://www.instagram.com/lounge.velickovski/" target="_blank" rel="noopener" class="text-sm text-white/70 transition hover:text-primary-light" data-cursor-nav>@lounge.velickovski</a></div>
       </div>
       <div class="mt-10 flex flex-wrap gap-4">
-        <button type="button" data-open-booking data-cursor-nav class="rounded-full bg-primary px-8 py-4 text-xs font-semibold uppercase tracking-wider transition hover:bg-primary-dark">Zakažite Termin</button>
-        <a data-phone-link href="tel:+381692121966" data-cursor-nav class="rounded-full border border-white/40 px-8 py-4 text-xs font-semibold uppercase tracking-wider transition hover:border-primary hover:text-primary-light ">Pozovite Nas <span data-phone-text>· 069 212 1966</span></a>
-        <a href="https://www.google.com/maps/search/?api=1&amp;query=Omladinskih+brigada+86E+West+65" target="_blank" rel="noopener" data-cursor-nav class="rounded-full border border-white/40 px-8 py-4 text-xs font-semibold uppercase tracking-wider transition hover:border-primary hover:text-primary-light">Otvori Mapu</a>
+        <button type="button" data-open-booking data-cursor-nav class="rounded-full bg-primary px-8 py-4 text-xs font-semibold uppercase tracking-wider transition hover:bg-primary-dark">Zakažite termin</button>
+        <a data-phone-link href="tel:+381692121966" data-cursor-nav class="rounded-full border border-white/40 px-8 py-4 text-xs font-semibold uppercase tracking-wider transition hover:border-primary hover:text-primary-light ">Pozovite nas <span data-phone-text>· 069 212 1966</span></a>
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Omladinskih+brigada+86E+West+65" target="_blank" rel="noopener" data-cursor-nav class="rounded-full border border-white/40 px-8 py-4 text-xs font-semibold uppercase tracking-wider transition hover:border-primary hover:text-primary-light">Otvori mapu</a>
       </div>
     </div>
     <div class="min-h-[320px] overflow-hidden rounded-3xl border border-white/10">
@@ -660,24 +681,24 @@
 
       <div>
         <a href="#home" class="flex items-center gap-3" data-cursor-nav>
-          <img src="assets/images/logo.webp" alt="Lounge Veličkovski logo" class="h-12 w-12 shrink-0 rounded-full object-cover">
+          <img width="640" height="640" src="assets/images/logo.webp" alt="Lounge Veličkovski logo" class="h-12 w-12 shrink-0 rounded-full object-cover">
           <span class="font-display text-lg">Lounge Veličkovski</span>
         </a>
         <p class="mt-4 text-sm text-white/60">
           Novi salon za kosu i lepotu — nega, pažnja i opuštanje u toplom, elegantnom ambijentu.
         </p>
-        <a href="https://www.instagram.com/lounge.velickovski/" target="_blank" rel="noopener" aria-label="Instagram" class="mt-5 flex h-11 w-11 items-center justify-center rounded-full border border-primary/40 transition hover:border-primary hover:bg-primary/10" data-cursor-nav><img src="assets/images/icon-instagram.webp" alt="" aria-hidden="true" class="h-6 w-6 object-contain"></a>
+        <a href="https://www.instagram.com/lounge.velickovski/" target="_blank" rel="noopener" aria-label="Instagram" class="mt-5 flex h-11 w-11 items-center justify-center rounded-full border border-primary/40 transition hover:border-primary hover:bg-primary/10" data-cursor-nav><img width="96" height="96" src="assets/images/icon-instagram.webp" alt="" aria-hidden="true" class="h-6 w-6 object-contain"></a>
       </div>
 
       <div>
-        <h5 class="font-display text-lg">Brzi Linkovi</h5>
+        <h5 class="font-display text-lg">Brzi linkovi</h5>
         <ul class="mt-4 space-y-3 text-sm text-white/60">
           <li><a href="#home" class="transition hover:text-primary-light" data-cursor-nav>Početna</a></li>
-          <li><a href="#about" class="transition hover:text-primary-light" data-cursor-nav>O Nama</a></li>
+          <li><a href="#about" class="transition hover:text-primary-light" data-cursor-nav>O nama</a></li>
           <li><a href="#services" class="transition hover:text-primary-light" data-cursor-nav>Usluge</a></li>
           <li><a href="#cenovnik" class="transition hover:text-primary-light" data-cursor-nav>Cenovnik</a></li>
           <li><a href="#booking" class="transition hover:text-primary-light" data-cursor-nav>Zakazivanje</a></li>
-          <li><a href="#faq" class="transition hover:text-primary-light" data-cursor-nav>Česta Pitanja</a></li>
+          <li><a href="#faq" class="transition hover:text-primary-light" data-cursor-nav>Česta pitanja</a></li>
           <li><a href="#blog" class="transition hover:text-primary-light" data-cursor-nav>Saveti</a></li>
           <li><a href="#contact" class="transition hover:text-primary-light" data-cursor-nav>Kontakt</a></li>
         </ul>
@@ -687,7 +708,7 @@
         <h5 class="font-display text-lg">Usluge</h5>
         <ul class="mt-4 space-y-3 text-sm text-white/60">
           <li><a href="#services" class="transition hover:text-primary-light" data-cursor-nav>Frizerske usluge</a></li>
-          <li><a href="#services" class="transition hover:text-primary-light" data-cursor-nav>Obrve i Trepavice</a></li>
+          <li><a href="#services" class="transition hover:text-primary-light" data-cursor-nav>Obrve i trepavice</a></li>
           <li><a href="#services" class="transition hover:text-primary-light" data-cursor-nav>Manikir</a></li>
           <li><a href="#services" class="transition hover:text-primary-light" data-cursor-nav>Pedikir</a></li>
           <li><a href="#services" class="transition hover:text-primary-light" data-cursor-nav>Maderoterapija</a></li>

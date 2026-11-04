@@ -7,7 +7,8 @@
     "check:cenovnik": "node scripts/check-cenovnik.mjs",
     "build:css": "tailwindcss -i ./assets/css/input.css -o ./assets/css/style.css --minify",
     "build:dist": "node scripts/prepare-dist.mjs",
-    "build": "npm run build:cenovnik && npm run check:cenovnik && npm run build:css && npm run build:dist",
+    "check:dist": "node scripts/check-dist.mjs",
+    "build": "npm run build:cenovnik && npm run check:cenovnik && npm run build:css && npm run build:dist && npm run check:dist",
     "watch:css": "tailwindcss -i ./assets/css/input.css -o ./assets/css/style.css --watch"
   },
   "devDependencies": {

@@ -272,6 +272,14 @@ html.has-custom-cursor button {
   cursor: pointer;
   transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
 }
+/* "Željeno vreme": three equal pills across the full field width */
+.vreme-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+.vreme-grid .service-pill { display: block; min-width: 0; }
+.vreme-grid .service-pill__label {
+  display: flex; align-items: center; justify-content: center;
+  width: 100%; height: 100%; min-height: 2.75rem; padding: 0.55rem 0.25rem;
+  text-align: center; white-space: nowrap;
+}
 .service-pill input:checked + .service-pill__label {
   border-color: var(--color-primary);
   background: var(--color-primary);
@@ -300,6 +308,7 @@ html.has-custom-cursor button {
   width: 19rem;
 }
 .services-card__frame {
+  aspect-ratio: 3 / 4;
   overflow: hidden;
   border-radius: 1.5rem;
   box-shadow: 0 20px 35px -15px rgba(0, 0, 0, 0.6);
@@ -478,3 +487,8 @@ html.js .cena-panel__title { display: none; }
 .services-card__btn { align-self: center; margin-top: auto; }
 .services-card__text + .services-card__btn { margin-top: auto; }
 .services-card__text { padding-bottom: 1.1rem; }
+
+/* Fixed header: anchored sections stop below it (JS sets --header-h to the measured height) */
+:root { --header-h: 5.5rem; }
+@media (min-width: 640px) { :root { --header-h: 7.125rem; } }
+section[id]:not(#home) { scroll-margin-top: var(--header-h); }

@@ -9,6 +9,39 @@ const onScrollHeader = () => {
 document.addEventListener('scroll', onScrollHeader, { passive: true });
 onScrollHeader();
 
+/* ---------- Header height -> --header-h (used by scroll-margin-top on sections) ---------- */
+const syncHeaderHeight = () =>
+  document.documentElement.style.setProperty('--header-h', `${header.offsetHeight}px`);
+syncHeaderHeight();
+window.addEventListener('resize', syncHeaderHeight);
+
+/* ---------- Anchor links (/#booking, /#cenovnik, ?tab=kosa#cenovnik) ----------
+   Backup only: web fonts and lazy images can still change section heights after
+   the browser has scrolled to the hash. Once the page has loaded (and again when
+   fonts are ready) jump to the target once more, without animation — unless the
+   user has already started scrolling. */
+(() => {
+  if (!location.hash || location.hash.length < 2) return;
+  let target = null;
+  try { target = document.querySelector(location.hash); } catch { return; }
+  if (!target) return;
+  let touched = false;
+  ['wheel', 'touchstart', 'keydown', 'pointerdown'].forEach((ev) =>
+    window.addEventListener(ev, () => { touched = true; }, { once: true, passive: true })
+  );
+  const align = () => {
+    if (touched) return;
+    syncHeaderHeight();
+    target.scrollIntoView({ behavior: 'instant', block: 'start' });
+  };
+  const onLoad = () => {
+    align();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(align);
+  };
+  if (document.readyState === 'complete') onLoad();
+  else window.addEventListener('load', onLoad, { once: true });
+})();
+
 /* ---------- Header panel: nav menu (mobile) vs. blog preview (desktop) ----------
    Both share the same trigger button. Below the xl: breakpoint the header nav is
    hidden, so the grid-icon button opens the navigation menu; at xl: and up the nav
