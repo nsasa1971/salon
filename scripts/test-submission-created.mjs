@@ -46,6 +46,7 @@ const restore = () => {
 
 try {
   process.env.RESEND_API_KEY = 'test-kljuc-nije-pravi';
+  delete process.env.NOTIFY_EMAIL;
 
   // 1) uspešan zahtev
   mock(200);
@@ -82,6 +83,23 @@ try {
   const b2 = JSON.parse(calls[0].init.body);
   assert.equal(b2.reply_to, undefined);
   assert.ok(!b2.html.includes('<b>Ana</b>') && b2.html.includes('&lt;b&gt;Ana&lt;/b&gt;'));
+
+  // 2b) primalac: NOTIFY_EMAIL postoji / prazan / ne postoji
+  for (const [value, expected] of [
+    ['test@primer.rs', 'test@primer.rs'],
+    ['  test@primer.rs  ', 'test@primer.rs'],
+    ['', 'loungevelickovski@gmail.com'],
+    ['   ', 'loungevelickovski@gmail.com'],
+    [undefined, 'loungevelickovski@gmail.com'],
+  ]) {
+    if (value === undefined) delete process.env.NOTIFY_EMAIL;
+    else process.env.NOTIFY_EMAIL = value;
+    mock(200);
+    await handler({ body: payload() });
+    assert.deepEqual(JSON.parse(calls[0].init.body).to, [expected], `NOTIFY_EMAIL=${JSON.stringify(value)}`);
+  }
+  delete process.env.NOTIFY_EMAIL;
+  console.log('primalac (NOTIFY_EMAIL sa/bez vrednosti): OK');
 
   // 3) druga forma se ignoriše
   mock(200);

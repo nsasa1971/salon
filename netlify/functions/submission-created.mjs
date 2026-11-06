@@ -1,8 +1,10 @@
 // Netlify poziva ovu funkciju sam posle svakog primljenog (ne-spam) zahteva iz Netlify Forms.
 // Za formu „zakazivanje“ šalje mejl salonu preko Resend API-ja. Bez npm zavisnosti.
-// Potrebna env promenljiva: RESEND_API_KEY (podešava se u Netlify-ju, nikad u repou).
+// Env promenljive (podešavaju se u Netlify-ju, nikad u repou):
+//   RESEND_API_KEY — obavezna
+//   NOTIFY_EMAIL   — primalac mejla; ako nedostaje ili je prazna, koristi se DEFAULT_NOTIFY_EMAIL
 
-const SALON_EMAIL = 'loungevelickovski@gmail.com';
+const DEFAULT_NOTIFY_EMAIL = 'loungevelickovski@gmail.com'; // koristi se kad NOTIFY_EMAIL nije podešen ili je prazan
 const FROM = 'Lounge Veličkovski – zakazivanje <zakazivanje@loungevelickovski.com>';
 const FORM_NAME = 'zakazivanje';
 
@@ -158,7 +160,7 @@ export const handler = async (event) => {
 
   try {
     const { subject, html, text, replyTo } = buildEmail(payload.data || {}, payload.created_at);
-    const body = { from: FROM, to: [SALON_EMAIL], subject, html, text };
+    const body = { from: FROM, to: [process.env.NOTIFY_EMAIL?.trim() || DEFAULT_NOTIFY_EMAIL], subject, html, text };
     if (replyTo) body.reply_to = replyTo;
 
     const res = await fetch('https://api.resend.com/emails', {
