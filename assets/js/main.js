@@ -109,7 +109,7 @@ const heroDots = Array.from(document.querySelectorAll('[data-hero-dot]'));
 const narrowHero = window.matchMedia('(max-width: 767px)').matches;
 const HERO_DIR = 'assets/images/salon/';
 const heroSlides = [
-  { src: 'assets/images/hero-1.webp', focusY: 0.32 },
+  { src: 'assets/images/hero-1.webp', focusY: 0.28 },
   { src: 'assets/images/hero-2.webp', focusY: 0.3 },
   { src: 'assets/images/hero-3.webp', focusY: 0.3 },
   narrowHero
