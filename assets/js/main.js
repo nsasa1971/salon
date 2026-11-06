@@ -667,23 +667,15 @@ if (bookingForm) {
   });
 }
 
-/* ---------- Custom cursor: ring + dot, text-color reveal, nav hand-pointer ---------- */
+/* ---------- Custom cursor: gold dot, nav hand-pointer ---------- */
 if (window.matchMedia('(pointer: fine)').matches) {
   const cursorDot = document.getElementById('cursor-dot');
-  const cursorRing = document.getElementById('cursor-ring');
   const cursorHand = document.getElementById('cursor-hand');
-  const revealTargets = Array.from(document.querySelectorAll('[data-cursor-text]'));
 
-  const DOT_RADIUS = 4;
-  const RING_RADIUS = 16;
-  const RING_RADIUS_HOVER = 58;
-  const RING_EASE = 0.18;
+  const DOT_RADIUS = 5;
 
   let mouseX = -100;
   let mouseY = -100;
-  let ringX = mouseX;
-  let ringY = mouseY;
-  let isHovering = false;
   let isNavHovering = false;
 
   document.addEventListener('mousemove', (e) => {
@@ -692,45 +684,22 @@ if (window.matchMedia('(pointer: fine)').matches) {
     // Unconditional (not one-time-gated): self-heals if a stray mouseleave
     // — e.g. from dragging the native scrollbar — ever hides the cursor.
     cursorDot.classList.add('is-active');
-    cursorRing.classList.add('is-active');
   });
 
   document.addEventListener('mouseover', (e) => {
     isNavHovering = !!e.target.closest('[data-cursor-nav]');
-    isHovering = !isNavHovering && !!e.target.closest('[data-cursor-text]');
-    cursorRing.classList.toggle('is-hover', isHovering);
     cursorDot.classList.toggle('is-nav-hover', isNavHovering);
-    cursorRing.classList.toggle('is-nav-hover', isNavHovering);
     cursorHand.classList.toggle('is-visible', isNavHovering);
   });
 
   document.addEventListener('mouseleave', () => {
     cursorDot.classList.remove('is-active');
-    cursorRing.classList.remove('is-active');
     cursorHand.classList.remove('is-visible');
   });
 
   const tick = () => {
     cursorDot.style.transform = `translate3d(${mouseX - DOT_RADIUS}px, ${mouseY - DOT_RADIUS}px, 0)`;
     cursorHand.style.transform = `translate3d(${mouseX - 3}px, ${mouseY - 4}px, 0) scale(${isNavHovering ? 1 : 0.6})`;
-
-    ringX += (mouseX - ringX) * RING_EASE;
-    ringY += (mouseY - ringY) * RING_EASE;
-    const ringRadius = isHovering ? RING_RADIUS_HOVER : RING_RADIUS;
-    cursorRing.style.width = `${ringRadius * 2}px`;
-    cursorRing.style.height = `${ringRadius * 2}px`;
-    cursorRing.style.transform = `translate3d(${ringX - ringRadius}px, ${ringY - ringRadius}px, 0)`;
-
-    revealTargets.forEach((el) => {
-      const reveal = el.querySelector('.cursor-text__reveal');
-      if (!reveal) return;
-      const rect = el.getBoundingClientRect();
-      const inside =
-        mouseX >= rect.left && mouseX <= rect.right && mouseY >= rect.top && mouseY <= rect.bottom;
-      const radius = inside ? RING_RADIUS_HOVER : 0;
-      reveal.style.clipPath = `circle(${radius}px at ${mouseX - rect.left}px ${mouseY - rect.top}px)`;
-    });
-
     requestAnimationFrame(tick);
   };
 
