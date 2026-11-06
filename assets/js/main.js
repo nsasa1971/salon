@@ -104,21 +104,18 @@ let heroCanvas = document.getElementById('hero-ripple');
 const heroFallbackImgs = Array.from(document.querySelectorAll('[data-hero-fallback-slide]'));
 const heroDots = Array.from(document.querySelectorAll('[data-hero-dot]'));
 
-// Same choice as the <picture> sources in the HTML: portrait photos below 768px,
-// the wide panorama + two interior shots (cropped wide) from 768px up.
+// Slides 1-3 are the same photos on every device; the 4th follows the <picture> in the
+// HTML: the wide panorama from 768px up, the portrait reception photo below.
 const narrowHero = window.matchMedia('(max-width: 767px)').matches;
 const HERO_DIR = 'assets/images/salon/';
-const heroSlides = narrowHero
-  ? [
-      { src: `${HERO_DIR}enterijer-recepcija.webp`, focusY: 0.45 },
-      { src: `${HERO_DIR}enterijer-logo-zid.webp`, focusY: 0.4 },
-      { src: `${HERO_DIR}frizura-talasi.webp`, focusY: 0.35 },
-    ]
-  : [
-      { src: `${HERO_DIR}spolja-panorama-2.webp`, focusY: 0.5 },
-      { src: `${HERO_DIR}enterijer-logo-zid.webp`, focusY: 0.45 },
-      { src: `${HERO_DIR}enterijer-recepcija.webp`, focusY: 0.5 },
-    ];
+const heroSlides = [
+  { src: 'assets/images/hero-1.webp', focusY: 0.32 },
+  { src: 'assets/images/hero-2.webp', focusY: 0.3 },
+  { src: 'assets/images/hero-3.webp', focusY: 0.3 },
+  narrowHero
+    ? { src: `${HERO_DIR}enterijer-recepcija.webp`, focusY: 0.45 }
+    : { src: `${HERO_DIR}spolja-panorama-2.webp`, focusY: 0.5 },
+];
 
 // The ripple needs a mouse to react to and is pure visual flourish, so it's
 // desktop-only: skipped on touch devices for battery/performance, and it also
@@ -234,15 +231,15 @@ const goToHeroSlide = (index) => {
   heroTransitioning = true;
 
   if (rippleSupported) {
-    ripple.drop(0.5, 0.5, 0.55, 0.9);
-    ripple.drop(0.22, 0.62, 0.35, 0.6);
-    ripple.drop(0.78, 0.4, 0.35, 0.6);
+    ripple.drop(0.5, 0.5, 0.55, 0.45);
+    ripple.drop(0.22, 0.62, 0.35, 0.3);
+    ripple.drop(0.78, 0.4, 0.35, 0.3);
 
     window.setTimeout(() => {
       paintHeroSlide(index);
       heroIndex = index;
       updateHeroDots();
-      ripple.drop(0.5, 0.5, 0.6, 0.65);
+      ripple.drop(0.5, 0.5, 0.6, 0.33);
       heroTransitioning = false;
     }, 260);
   } else {
@@ -288,13 +285,13 @@ if (rippleSupported && heroSection) {
 
   heroSection.addEventListener(
     'mousemove',
-    throttle((e) => dropAtEvent(e.clientX, e.clientY, 0.05, 0.22), 55)
+    throttle((e) => dropAtEvent(e.clientX, e.clientY, 0.05, 0.11), 55)
   );
 
   window.setInterval(() => {
     if (!document.hasFocus()) return;
-    ripple.drop(0.15 + Math.random() * 0.7, 0.15 + Math.random() * 0.7, 0.07 + Math.random() * 0.05, 0.3 + Math.random() * 0.2);
-  }, 2600);
+    ripple.drop(0.15 + Math.random() * 0.7, 0.15 + Math.random() * 0.7, 0.07 + Math.random() * 0.05, 0.15 + Math.random() * 0.1);
+  }, 5200);
 
   let heroResizeTimer;
   window.addEventListener('resize', () => {
