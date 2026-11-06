@@ -3,3 +3,7 @@
 [build]
   command = "npm run build"
   publish = "dist"
+
+# Netlify funkcije (submission-created šalje mejl preko Resend-a). Direktorijum je van dist/.
+[functions]
+  directory = "netlify/functions"
