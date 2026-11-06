@@ -104,8 +104,8 @@ let heroCanvas = document.getElementById('hero-ripple');
 const heroFallbackImgs = Array.from(document.querySelectorAll('[data-hero-fallback-slide]'));
 const heroDots = Array.from(document.querySelectorAll('[data-hero-dot]'));
 
-// Slide 1 is the same photo on every device; slides 2-4 and 5 follow the <picture> elements in
-// the HTML (desktop 16:9 / mobile 3:4 crops; slide 5: panorama from 768px up, reception below).
+// Slides 1, 4 and 5 are the same photo on every device; slides 2-3 (shminka, talasi) and 6 follow the
+// <picture> elements in the HTML (desktop 16:9 / mobile 3:4 crops; slide 6: panorama from 768px up, reception below).
 const narrowHero = window.matchMedia('(max-width: 767px)').matches;
 const HERO_DIR = 'assets/images/salon/';
 // Photo for the canvas texture: the mobile crop below 768px, otherwise the 16:9 desktop crop
@@ -119,7 +119,8 @@ const heroSlides = [
   { src: 'assets/images/hero-1.webp', focusY: 0.28 },
   { src: heroPhoto('sminka'), focusY: 0.5, focusX: 0 },
   { src: heroPhoto('talasi'), focusY: 0.5, focusX: 0 },
-  { src: heroPhoto('cvece'), focusY: 0.5, focusX: 0 },
+  { src: 'assets/images/hero-2.webp', focusY: 0.3 },
+  { src: 'assets/images/hero-3.webp', focusY: 0.3 },
   narrowHero
     ? { src: `${HERO_DIR}enterijer-recepcija.webp`, focusY: 0.45 }
     : { src: `${HERO_DIR}spolja-panorama-2.webp`, focusY: 0.5 },
