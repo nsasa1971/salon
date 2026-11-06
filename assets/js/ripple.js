@@ -7,7 +7,7 @@
  * texture lookup by the height field's gradient — the classic "water surface" look.
  */
 class RippleCanvas {
-  constructor(canvas, { resolution = 300, damping = 0.985, refraction = 0.006 } = {}) {
+  constructor(canvas, { resolution = 300, damping = 0.975, refraction = 0.003 } = {}) {
     this.canvas = canvas;
     this.resolution = resolution;
     this.damping = damping;
@@ -181,13 +181,26 @@ class RippleCanvas {
       uniform float u_refraction;
       varying vec2 v_uv;
       ${codec}
+      // The height texture is read with NEAREST (exact simulation texels); the render pass
+      // interpolates bilinearly by hand so the displayed surface is smooth, not blocky.
+      float heightAt(vec2 uv) {
+        vec2 st = uv / u_delta - 0.5;
+        vec2 i = floor(st);
+        vec2 f = st - i;
+        vec2 o = (i + 0.5) * u_delta;
+        float a = decode(texture2D(u_heightTexture, o).r);
+        float b = decode(texture2D(u_heightTexture, o + vec2(u_delta.x, 0.0)).r);
+        float c = decode(texture2D(u_heightTexture, o + vec2(0.0, u_delta.y)).r);
+        float d = decode(texture2D(u_heightTexture, o + u_delta).r);
+        return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
+      }
       void main() {
         vec2 dx = vec2(u_delta.x, 0.0);
         vec2 dy = vec2(0.0, u_delta.y);
-        float hL = decode(texture2D(u_heightTexture, v_uv - dx).r);
-        float hR = decode(texture2D(u_heightTexture, v_uv + dx).r);
-        float hD = decode(texture2D(u_heightTexture, v_uv - dy).r);
-        float hU = decode(texture2D(u_heightTexture, v_uv + dy).r);
+        float hL = heightAt(v_uv - dx);
+        float hR = heightAt(v_uv + dx);
+        float hD = heightAt(v_uv - dy);
+        float hU = heightAt(v_uv + dy);
         // Central-difference derivative: divide by the sample spacing so the
         // gradient represents an actual slope, not a texel-to-texel delta
         // that shrinks as simulation resolution increases.

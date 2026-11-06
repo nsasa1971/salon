@@ -176,15 +176,17 @@
        of being cropped through the ripple's fixed-aspect canvas texture. -->
   <div id="hero-bg-fallback" class="absolute inset-0">
     <picture>
+      <img width="576" height="1024" data-hero-fallback-slide src="assets/images/hero-1.webp" alt="" fetchpriority="high" class="hero-fallback-img is-active" style="--pos-m: center 28%; --pos-d: center 28%;">
+    </picture>
+    <picture>
+      <img width="736" height="1104" data-hero-fallback-slide src="assets/images/hero-2.webp" alt="" loading="lazy" class="hero-fallback-img" style="--pos-m: center 25%; --pos-d: center 25%;">
+    </picture>
+    <picture>
+      <img width="736" height="1308" data-hero-fallback-slide src="assets/images/hero-3.webp" alt="" loading="lazy" class="hero-fallback-img" style="--pos-m: center 25%; --pos-d: center 25%;">
+    </picture>
+    <picture>
       <source media="(min-width: 768px)" srcset="assets/images/salon/spolja-panorama-2-600.webp 900w, assets/images/salon/spolja-panorama-2.webp 1774w" sizes="100vw">
-      <img width="1086" height="1448" data-hero-fallback-slide src="assets/images/salon/enterijer-recepcija.webp" srcset="assets/images/salon/enterijer-recepcija-600.webp 600w, assets/images/salon/enterijer-recepcija.webp 1086w" sizes="100vw" alt="Prostor salona Lounge Veličkovski" fetchpriority="high" class="hero-fallback-img is-active" style="--pos-m: center 45%; --pos-d: center 50%;">
-    </picture>
-    <picture>
-      <img width="1086" height="1448" data-hero-fallback-slide src="assets/images/salon/enterijer-logo-zid.webp" srcset="assets/images/salon/enterijer-logo-zid-600.webp 600w, assets/images/salon/enterijer-logo-zid.webp 1086w" sizes="100vw" alt="Zid sa zlatnim logoom Lounge Veličkovski u enterijeru salona" loading="lazy" class="hero-fallback-img" style="--pos-m: center 40%; --pos-d: center 45%;">
-    </picture>
-    <picture>
-      <source media="(min-width: 768px)" srcset="assets/images/salon/enterijer-recepcija-600.webp 600w, assets/images/salon/enterijer-recepcija.webp 1086w" sizes="100vw">
-      <img width="1200" height="1600" data-hero-fallback-slide src="assets/images/salon/frizura-talasi.webp" srcset="assets/images/salon/frizura-talasi-600.webp 600w, assets/images/salon/frizura-talasi.webp 1200w" sizes="100vw" alt="Frizura i enterijer salona Lounge Veličkovski" loading="lazy" class="hero-fallback-img" style="--pos-m: center 35%; --pos-d: center 50%;">
+      <img width="1086" height="1448" data-hero-fallback-slide src="assets/images/salon/enterijer-recepcija.webp" srcset="assets/images/salon/enterijer-recepcija-600.webp 600w, assets/images/salon/enterijer-recepcija.webp 1086w" sizes="100vw" alt="Prostor salona Lounge Veličkovski" loading="lazy" class="hero-fallback-img" style="--pos-m: center 45%; --pos-d: center 50%;">
     </picture>
   </div>
   <canvas id="hero-ripple" class="absolute inset-0 h-full w-full"></canvas>
@@ -220,6 +222,7 @@
     <button data-hero-dot class="hero-dot" aria-label="Idi na slajd 1" data-cursor-nav><span class="hero-dot__fill"></span></button>
     <button data-hero-dot class="hero-dot" aria-label="Idi na slajd 2" data-cursor-nav><span class="hero-dot__fill"></span></button>
     <button data-hero-dot class="hero-dot" aria-label="Idi na slajd 3" data-cursor-nav><span class="hero-dot__fill"></span></button>
+    <button data-hero-dot class="hero-dot" aria-label="Idi na slajd 4" data-cursor-nav><span class="hero-dot__fill"></span></button>
   </div>
 </section>
 
@@ -688,7 +691,7 @@
 <!-- ============ CONTACT ============ -->
 <section id="contact" class="bg-dark-soft py-24">
   <div class="mx-auto grid max-w-7xl items-stretch gap-10 px-6 lg:grid-cols-2 lg:px-10" data-reveal>
-    <div class="flex flex-col justify-center">
+    <div class="order-1 flex flex-col justify-center">
       <p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-light">Gde se nalazimo</p>
       <h2 class="mt-3 font-display text-4xl sm:text-5xl">Posetite nas</h2>
       <p class="mt-5 text-white/70">Dobrodošli u naš novi salon. Najlakše ćete do slobodnog termina doći putem online forme za zakazivanje.</p>
@@ -706,19 +709,19 @@
         <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/15 text-primary-light"><img width="96" height="96" src="assets/images/icon-instagram.webp" alt="" aria-hidden="true" class="h-5 w-5 object-contain"></span>
         <div><p class="font-semibold">Instagram</p><a href="https://www.instagram.com/lounge.velickovski/" target="_blank" rel="noopener" class="text-sm text-white/70 transition hover:text-primary-light" data-cursor-nav>@lounge.velickovski</a></div>
       </div>
-      <div class="mt-10 flex flex-wrap gap-4">
-        <button type="button" data-open-booking data-cursor-nav class="rounded-full bg-primary px-8 py-4 text-xs font-semibold uppercase tracking-wider transition hover:bg-primary-dark">Zakažite termin</button>
-        <a data-phone-link href="tel:+381692121966" data-cursor-nav class="rounded-full border border-white/40 px-8 py-4 text-xs font-semibold uppercase tracking-wider transition hover:border-primary hover:text-primary-light ">Pozovite nas <span data-phone-text>· 069 212 1966</span></a>
-        <a href="https://www.google.com/maps/search/?api=1&amp;query=Omladinskih+brigada+86E+West+65" target="_blank" rel="noopener" data-cursor-nav class="rounded-full border border-white/40 px-8 py-4 text-xs font-semibold uppercase tracking-wider transition hover:border-primary hover:text-primary-light">Otvori mapu</a>
-      </div>
     </div>
-    <div class="flex flex-col gap-4">
+    <div class="order-3 flex flex-col gap-4 lg:order-2">
       <img width="1086" height="1448" src="assets/images/salon/spolja-ulaz-600.webp" srcset="assets/images/salon/spolja-ulaz-600.webp 600w, assets/images/salon/spolja-ulaz.webp 1086w" sizes="(min-width: 1024px) 560px, 100vw" alt="Ulaz u salon Lounge Veličkovski sa logoom iznad vrata" loading="lazy" class="aspect-[16/10] w-full rounded-3xl border border-white/10 object-cover" style="object-position: center 42%;">
       <div class="min-h-[260px] flex-1 overflow-hidden rounded-3xl border border-white/10">
         <iframe title="Mapa — Lounge Veličkovski" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="h-full min-h-[260px] w-full grayscale-[30%]"
           src="https://www.google.com/maps?q=Omladinskih+brigada+86E+West+65&amp;output=embed"></iframe>
       </div>
     </div>
+  <div class="order-2 grid gap-4 md:grid-cols-3 lg:order-3 lg:col-span-2">
+        <button type="button" data-open-booking data-cursor-nav class="rounded-full px-4 py-4 text-xs font-semibold uppercase tracking-wider transition flex min-h-[3.5rem] items-center justify-center whitespace-nowrap text-center bg-primary hover:bg-primary-dark">Zakažite termin</button>
+        <a data-phone-link href="tel:+381692121966" data-cursor-nav class="rounded-full px-4 py-4 text-xs font-semibold uppercase tracking-wider transition flex min-h-[3.5rem] items-center justify-center whitespace-nowrap text-center border border-white/40 hover:border-primary hover:text-primary-light">Pozovite nas <span data-phone-text class="ml-1">· 069 212 1966</span></a>
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Omladinskih+brigada+86E+West+65" target="_blank" rel="noopener" data-cursor-nav class="rounded-full px-4 py-4 text-xs font-semibold uppercase tracking-wider transition flex min-h-[3.5rem] items-center justify-center whitespace-nowrap text-center border border-white/40 hover:border-primary hover:text-primary-light">Otvori mapu</a>
+  </div>
   </div>
 </section>
 
