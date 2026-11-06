@@ -104,11 +104,21 @@ let heroCanvas = document.getElementById('hero-ripple');
 const heroFallbackImgs = Array.from(document.querySelectorAll('[data-hero-fallback-slide]'));
 const heroDots = Array.from(document.querySelectorAll('[data-hero-dot]'));
 
-const heroSlides = [
-  { src: 'assets/images/hero-1.webp', focusY: 0.32 },
-  { src: 'assets/images/hero-2.webp', focusY: 0.3 },
-  { src: 'assets/images/hero-3.webp', focusY: 0.3 },
-];
+// Same choice as the <picture> sources in the HTML: portrait photos below 768px,
+// the wide panorama + two interior shots (cropped wide) from 768px up.
+const narrowHero = window.matchMedia('(max-width: 767px)').matches;
+const HERO_DIR = 'assets/images/salon/';
+const heroSlides = narrowHero
+  ? [
+      { src: `${HERO_DIR}enterijer-recepcija.webp`, focusY: 0.45 },
+      { src: `${HERO_DIR}enterijer-logo-zid.webp`, focusY: 0.4 },
+      { src: `${HERO_DIR}frizura-talasi.webp`, focusY: 0.35 },
+    ]
+  : [
+      { src: `${HERO_DIR}spolja-panorama-2.webp`, focusY: 0.5 },
+      { src: `${HERO_DIR}enterijer-logo-zid.webp`, focusY: 0.45 },
+      { src: `${HERO_DIR}enterijer-recepcija.webp`, focusY: 0.5 },
+    ];
 
 // The ripple needs a mouse to react to and is pure visual flourish, so it's
 // desktop-only: skipped on touch devices for battery/performance, and it also
@@ -139,57 +149,83 @@ const rippleSupported = !!ripple && ripple.supported;
 
 let slideCanvas;
 let slideCtx;
-let heroImages;
+const heroImages = [];
+
+// Photos are requested on demand (the first one at once, the others shortly after the
+// page has loaded), so the first paint only pays for the first slide.
+const getHeroImage = (i) => {
+  if (!heroImages[i]) {
+    const img = new Image();
+    img.src = heroSlides[i].src;
+    heroImages[i] = img;
+  }
+  return heroImages[i];
+};
 
 if (rippleSupported) {
   slideCanvas = document.createElement('canvas');
-  slideCanvas.width = 1600;
-  slideCanvas.height = 900;
   slideCtx = slideCanvas.getContext('2d');
-
-  heroImages = heroSlides.map((slide) => {
-    const img = new Image();
-    img.src = slide.src;
-    return img;
-  });
+  getHeroImage(0);
 }
 
 // Mimics CSS `background-size: cover` with a per-image vertical focus point,
 // since a WebGL texture is sampled 0..1 across the canvas and would otherwise
 // stretch non-uniformly if drawn at the source photo's own aspect ratio.
 const drawImageCover = (img, focusY) => {
-  const cw = slideCanvas.width;
-  const ch = slideCanvas.height;
-  const scale = Math.max(cw / img.width, ch / img.height);
-  const drawW = img.width * scale;
-  const drawH = img.height * scale;
-  const dx = (cw - drawW) / 2;
-  const dy = (ch - drawH) * focusY;
+  // The texture has the aspect ratio of the real canvas (so it is never stretched) and
+  // is never larger than the photo itself (so the photo is never upscaled).
+  ripple.resize();
+  const cw0 = Math.max(2, heroCanvas.width || 1600);
+  const ch0 = Math.max(2, heroCanvas.height || 900);
+  const fit = Math.min(1, 1 / Math.max(cw0 / img.naturalWidth, ch0 / img.naturalHeight));
+  const cw = Math.max(2, Math.round(cw0 * fit));
+  const ch = Math.max(2, Math.round(ch0 * fit));
+  if (slideCanvas.width !== cw || slideCanvas.height !== ch) {
+    slideCanvas.width = cw;
+    slideCanvas.height = ch;
+  }
+  const scale = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
+  const drawW = img.naturalWidth * scale;
+  const drawH = img.naturalHeight * scale;
   slideCtx.clearRect(0, 0, cw, ch);
-  slideCtx.drawImage(img, dx, dy, drawW, drawH);
+  slideCtx.drawImage(img, (cw - drawW) / 2, (ch - drawH) * focusY, drawW, drawH);
 };
 
 const paintHeroSlide = (index) => {
   if (rippleSupported && ripple.supported) {
     const slide = heroSlides[index];
-    const img = heroImages[index];
+    const img = getHeroImage(index);
     const apply = () => {
       drawImageCover(img, slide.focusY);
       ripple.setBackground(slideCanvas);
     };
     if (img.complete && img.naturalWidth) apply();
     else img.addEventListener('load', apply, { once: true });
-  } else {
-    // (handled below)
   }
-  heroFallbackImgs.forEach((el, i) => el.classList.toggle('is-active', i === index));
+  heroFallbackImgs.forEach((el, i) => {
+    if (i === index) el.loading = 'eager';
+    el.classList.toggle('is-active', i === index);
+  });
+};
+
+// Requests a slide's photo ahead of time: the canvas photo in ripple mode, otherwise
+// the (until then display:none) fallback <img>.
+const warmHeroSlide = (i) => {
+  const idx = i % heroSlides.length;
+  if (rippleSupported && ripple.supported) getHeroImage(idx);
+  else if (heroFallbackImgs[idx]) {
+    heroFallbackImgs[idx].loading = 'eager';
+    heroFallbackImgs[idx].classList.add('is-ready');
+  }
 };
 
 let heroIndex = 0;
 let heroTimer;
 let heroTransitioning = false;
 
+let heroWarmEnabled = false; // set shortly after the page has loaded
 const updateHeroDots = () => {
+  if (heroWarmEnabled) warmHeroSlide(heroIndex + 1);
   heroDots.forEach((dot, i) => dot.classList.toggle('is-active', i === heroIndex));
 };
 
@@ -260,7 +296,12 @@ if (rippleSupported && heroSection) {
     ripple.drop(0.15 + Math.random() * 0.7, 0.15 + Math.random() * 0.7, 0.07 + Math.random() * 0.05, 0.3 + Math.random() * 0.2);
   }, 2600);
 
-  window.addEventListener('resize', () => ripple.resize());
+  let heroResizeTimer;
+  window.addEventListener('resize', () => {
+    ripple.resize();
+    clearTimeout(heroResizeTimer);
+    heroResizeTimer = setTimeout(() => paintHeroSlide(heroIndex), 200); // redraw the texture for the new aspect ratio
+  });
 
   // A canvas left off-screen for a while (e.g. the user reading all the way
   // down a long page) is a classic trigger for the GPU silently reclaiming
@@ -319,6 +360,31 @@ if (heroDots.length) {
   updateHeroDots();
   startHeroAutoplay();
   if (rippleSupported) ripple.start();
+
+  // Fetch the next slide once the page is loaded and idle (not during the first paint).
+  const enableHeroWarmup = () =>
+    setTimeout(() => {
+      heroWarmEnabled = true;
+      warmHeroSlide(heroIndex + 1);
+    }, 2500);
+  if (document.readyState === 'complete') enableHeroWarmup();
+  else window.addEventListener('load', enableHeroWarmup, { once: true });
+}
+
+/* ---------- Gallery filter ---------- */
+const galleryFilter = document.querySelector('.gal-filter');
+if (galleryFilter) {
+  const filterButtons = Array.from(galleryFilter.querySelectorAll('[data-filter]'));
+  const galleryItems = Array.from(document.querySelectorAll('#gallery-grid .gal-item'));
+  filterButtons.forEach((btn) =>
+    btn.addEventListener('click', () => {
+      const wanted = btn.dataset.filter;
+      filterButtons.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+      galleryItems.forEach((item) => {
+        item.hidden = wanted !== 'sve' && item.dataset.cat !== wanted;
+      });
+    })
+  );
 }
 
 /* ---------- Services slider ---------- */
