@@ -184,6 +184,16 @@ const CENOVNIK = [
     napomene: [],
   },
   {
+    id: 'sminkanje',
+    naziv: 'Šminkanje',
+    grupe: [
+      {
+        stavke: [{ naziv: 'Šminkanje', cena: '8.000 RSD' }],
+      },
+    ],
+    napomene: [],
+  },
+  {
     id: 'maderoterapija',
     naziv: 'Maderoterapija',
     grupe: [
@@ -314,7 +324,7 @@ const CENOVNIK = [
       if (g.naslov && !g.pojedinacno) {
         picker.append(option(`${kat.naziv} — ${g.naslov}`, g.naslov));
       } else {
-        g.stavke.forEach((s) => picker.append(option(`${kat.naziv} — ${s.naziv}`, s.naziv)));
+        g.stavke.forEach((s) => picker.append(option(s.naziv === kat.naziv ? s.naziv : `${kat.naziv} — ${s.naziv}`, s.naziv)));
       }
     });
   });
