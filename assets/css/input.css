@@ -380,7 +380,8 @@ html.has-custom-cursor button {
   object-fit: cover;
   object-position: var(--pos-m, center);
   opacity: 0;
-  transition: opacity 1s var(--ease-out-soft);
+  transform: scale(1);
+  transition: opacity 2s ease-in-out;
 }
 @media (min-width: 768px) {
   .hero-fallback-img { object-position: var(--pos-d, center); }
@@ -389,6 +390,14 @@ html.has-custom-cursor button {
 .hero-fallback-img:not(.is-active):not(.is-ready) { display: none; }
 .hero-fallback-img.is-active {
   opacity: 1;
+  animation: hero-zoom 6s ease-out forwards;
+}
+/* Slow, subtle zoom while a slide is on screen (the previous one keeps its zoom while fading out) */
+.hero-fallback-img:not(.is-active) { transform: scale(1.05); }
+@keyframes hero-zoom { from { transform: scale(1); } to { transform: scale(1.05); } }
+@media (prefers-reduced-motion: reduce) {
+  .hero-fallback-img.is-active { animation: none; }
+  .hero-fallback-img:not(.is-active) { transform: none; }
 }
 
 /* Price list leader dots */

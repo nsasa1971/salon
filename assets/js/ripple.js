@@ -7,11 +7,14 @@
  * texture lookup by the height field's gradient — the classic "water surface" look.
  */
 class RippleCanvas {
-  constructor(canvas, { resolution = 300, damping = 0.975, refraction = 0.003 } = {}) {
+  constructor(canvas, { resolution = 300, damping = 0.975, refraction = 0.003, fadeMs = 2000, zoomMs = 9000, zoomAmount = 0.05 } = {}) {
     this.canvas = canvas;
     this.resolution = resolution;
     this.damping = damping;
     this.refraction = refraction;
+    this.fadeMs = fadeMs; // crossfade between slides
+    this.zoomMs = zoomMs; // duration of the slow zoom on each slide
+    this.zoomAmount = zoomAmount; // final extra scale of the zoom (5 %)
     this.pendingDrops = [];
     this.supported = false;
 
@@ -177,6 +180,9 @@ class RippleCanvas {
       precision highp float;
       uniform sampler2D u_heightTexture;
       uniform sampler2D u_backgroundTexture;
+      uniform sampler2D u_backgroundTextureB;
+      uniform float u_mix;
+      uniform vec2 u_zoom;
       uniform vec2 u_delta;
       uniform float u_refraction;
       varying vec2 v_uv;
@@ -207,7 +213,10 @@ class RippleCanvas {
         vec2 grad = vec2(hR - hL, hU - hD) / (2.0 * u_delta);
 
         vec2 uv = clamp(v_uv + grad * u_refraction, 0.001, 0.999);
-        vec3 color = texture2D(u_backgroundTexture, uv).rgb;
+        // Slow zoom towards the centre; the water surface itself is not scaled.
+        vec3 colorA = texture2D(u_backgroundTexture, (uv - 0.5) / u_zoom.x + 0.5).rgb;
+        vec3 colorB = texture2D(u_backgroundTextureB, (uv - 0.5) / u_zoom.y + 0.5).rgb;
+        vec3 color = mix(colorA, colorB, u_mix);
         float highlight = clamp((grad.x - grad.y) * 1.2, -1.0, 1.0) * 0.12;
         gl_FragColor = vec4(color + highlight, 1.0);
       }
@@ -301,25 +310,54 @@ class RippleCanvas {
     throw new Error('No renderable simulation texture format available');
   }
 
-  _initBackgroundTexture() {
+  _makeBackgroundTexture() {
     const gl = this.gl;
-    this.backgroundTexture = gl.createTexture();
-    gl.bindTexture(gl.TEXTURE_2D, this.backgroundTexture);
+    const texture = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, texture);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([20, 10, 12, 255]));
+    return texture;
   }
 
-  setBackground(source) {
-    this._lastBackground = source;
-    if (!this.supported) return;
+  _initBackgroundTexture() {
+    // A = the slide on screen, B = the slide fading in.
+    this.backgroundTexture = this._makeBackgroundTexture();
+    this.backgroundTextureB = this._makeBackgroundTexture();
+    this._hasBackground = false;
+    this._fading = false;
+    this._slideStart = performance.now();
+  }
+
+  _upload(texture, source) {
     const gl = this.gl;
-    gl.bindTexture(gl.TEXTURE_2D, this.backgroundTexture);
+    gl.bindTexture(gl.TEXTURE_2D, texture);
     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, source);
     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+  }
+
+  // `fade: true` crossfades from the current slide to `source` (with the slow zoom restarting
+  // for the new slide); otherwise the photo replaces the current one in place (first paint,
+  // resize, recovery) without touching the zoom or an ongoing fade.
+  setBackground(source, { fade = false } = {}) {
+    this._lastBackground = source;
+    if (!this.supported) return;
+    const now = performance.now();
+    if (fade && this._hasBackground && !this._fading) {
+      this._upload(this.backgroundTextureB, source);
+      this._fading = true;
+      this._fadeStart = now;
+      this._slideStartB = now;
+      return;
+    }
+    this._upload(this._fading ? this.backgroundTextureB : this.backgroundTexture, source);
+    if (!this._hasBackground) {
+      this._hasBackground = true;
+      this._slideStart = now;
+    }
   }
 
   drop(x, y, radius = 0.06, strength = 0.5) {
@@ -406,12 +444,33 @@ class RippleCanvas {
 
     gl.activeTexture(gl.TEXTURE0);
     gl.bindTexture(gl.TEXTURE_2D, this.simBuffers[this.simIndex].texture);
+    const now = performance.now();
+    let mix = 0;
+    if (this._fading) {
+      const t = (now - this._fadeStart) / this.fadeMs;
+      if (t >= 1) {
+        [this.backgroundTexture, this.backgroundTextureB] = [this.backgroundTextureB, this.backgroundTexture];
+        this._slideStart = this._slideStartB;
+        this._fading = false;
+      } else {
+        mix = t * t * (3 - 2 * t);
+      }
+    }
+    const zoomAt = (start) => {
+      const t = Math.min(1, Math.max(0, (now - start) / this.zoomMs));
+      return 1 + this.zoomAmount * (1 - (1 - t) * (1 - t));
+    };
     gl.activeTexture(gl.TEXTURE1);
     gl.bindTexture(gl.TEXTURE_2D, this.backgroundTexture);
+    gl.activeTexture(gl.TEXTURE2);
+    gl.bindTexture(gl.TEXTURE_2D, this.backgroundTextureB);
 
     gl.useProgram(this.renderProgram.program);
     gl.uniform1i(this.renderProgram.uniforms.u_heightTexture, 0);
     gl.uniform1i(this.renderProgram.uniforms.u_backgroundTexture, 1);
+    gl.uniform1i(this.renderProgram.uniforms.u_backgroundTextureB, 2);
+    gl.uniform1f(this.renderProgram.uniforms.u_mix, mix);
+    gl.uniform2f(this.renderProgram.uniforms.u_zoom, zoomAt(this._slideStart), zoomAt(this._fading ? this._slideStartB : this._slideStart));
     gl.uniform2f(this.renderProgram.uniforms.u_delta, delta, delta);
     gl.uniform1f(this.renderProgram.uniforms.u_refraction, this.refraction);
     this._drawQuad(this.renderProgram);
