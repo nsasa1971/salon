@@ -1,7 +1,7 @@
 'use strict';
 
 // Broj na koji stižu WhatsApp/SMS zahtevi posle slanja forme za zakazivanje.
-const BROJ_ZA_ZAHTEVE = '381646758050'; // privremeno broj za test, kasnije menjamo na broj salona
+const BROJ_ZA_ZAHTEVE = '381692121966'; // broj salona za WhatsApp/SMS posle slanja forme
 
 /* ---------- Sticky header ---------- */
 const header = document.getElementById('site-header');
