@@ -188,13 +188,13 @@ const drawImageCover = (img, focusY) => {
   slideCtx.drawImage(img, (cw - drawW) / 2, (ch - drawH) * focusY, drawW, drawH);
 };
 
-const paintHeroSlide = (index) => {
+const paintHeroSlide = (index, fade = false) => {
   if (rippleSupported && ripple.supported) {
     const slide = heroSlides[index];
     const img = getHeroImage(index);
     const apply = () => {
       drawImageCover(img, slide.focusY);
-      ripple.setBackground(slideCanvas);
+      ripple.setBackground(slideCanvas, { fade });
     };
     if (img.complete && img.naturalWidth) apply();
     else img.addEventListener('load', apply, { once: true });
@@ -231,17 +231,13 @@ const goToHeroSlide = (index) => {
   heroTransitioning = true;
 
   if (rippleSupported) {
-    ripple.drop(0.5, 0.5, 0.55, 0.45);
-    ripple.drop(0.22, 0.62, 0.35, 0.3);
-    ripple.drop(0.78, 0.4, 0.35, 0.3);
-
+    // Gentle crossfade with a slow zoom; the water only moves when the cursor does.
+    paintHeroSlide(index, true);
+    heroIndex = index;
+    updateHeroDots();
     window.setTimeout(() => {
-      paintHeroSlide(index);
-      heroIndex = index;
-      updateHeroDots();
-      ripple.drop(0.5, 0.5, 0.6, 0.33);
       heroTransitioning = false;
-    }, 260);
+    }, ripple.fadeMs);
   } else {
     paintHeroSlide(index);
     heroIndex = index;
@@ -287,11 +283,6 @@ if (rippleSupported && heroSection) {
     'mousemove',
     throttle((e) => dropAtEvent(e.clientX, e.clientY, 0.05, 0.11), 55)
   );
-
-  window.setInterval(() => {
-    if (!document.hasFocus()) return;
-    ripple.drop(0.15 + Math.random() * 0.7, 0.15 + Math.random() * 0.7, 0.07 + Math.random() * 0.05, 0.15 + Math.random() * 0.1);
-  }, 5200);
 
   let heroResizeTimer;
   window.addEventListener('resize', () => {
