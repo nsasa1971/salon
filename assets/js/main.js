@@ -104,14 +104,22 @@ let heroCanvas = document.getElementById('hero-ripple');
 const heroFallbackImgs = Array.from(document.querySelectorAll('[data-hero-fallback-slide]'));
 const heroDots = Array.from(document.querySelectorAll('[data-hero-dot]'));
 
-// Slides 1-3 are the same photos on every device; the 4th follows the <picture> in the
-// HTML: the wide panorama from 768px up, the portrait reception photo below.
+// Slide 1 is the same photo on every device; slides 2-4 and 5 follow the <picture> elements in
+// the HTML (desktop 16:9 / mobile 3:4 crops; slide 5: panorama from 768px up, reception below).
 const narrowHero = window.matchMedia('(max-width: 767px)').matches;
 const HERO_DIR = 'assets/images/salon/';
+// Photo for the canvas texture: the mobile crop below 768px, otherwise the 16:9 desktop crop
+// (1600w for ordinary canvases, 2400w for large / hi-dpi ones).
+const heroPhoto = (name) => {
+  const w = window.innerWidth * Math.min(window.devicePixelRatio || 1, 2);
+  if (narrowHero) return `assets/images/hero/hero-${name}-mobile${w > 720 ? '' : '-720'}.webp`;
+  return `assets/images/hero/hero-${name}-desktop${w > 1600 ? '' : '-1600'}.webp`;
+};
 const heroSlides = [
   { src: 'assets/images/hero-1.webp', focusY: 0.28 },
-  { src: 'assets/images/hero-2.webp', focusY: 0.3 },
-  { src: 'assets/images/hero-3.webp', focusY: 0.3 },
+  { src: heroPhoto('sminka'), focusY: 0.5, focusX: 0 },
+  { src: heroPhoto('talasi'), focusY: 0.5, focusX: 0 },
+  { src: heroPhoto('cvece'), focusY: 0.5, focusX: 0 },
   narrowHero
     ? { src: `${HERO_DIR}enterijer-recepcija.webp`, focusY: 0.45 }
     : { src: `${HERO_DIR}spolja-panorama-2.webp`, focusY: 0.5 },
@@ -168,7 +176,7 @@ if (rippleSupported) {
 // Mimics CSS `background-size: cover` with a per-image vertical focus point,
 // since a WebGL texture is sampled 0..1 across the canvas and would otherwise
 // stretch non-uniformly if drawn at the source photo's own aspect ratio.
-const drawImageCover = (img, focusY) => {
+const drawImageCover = (img, focusY, focusX = 0.5) => {
   // The texture has the aspect ratio of the real canvas (so it is never stretched) and
   // is never larger than the photo itself (so the photo is never upscaled).
   ripple.resize();
@@ -185,7 +193,7 @@ const drawImageCover = (img, focusY) => {
   const drawW = img.naturalWidth * scale;
   const drawH = img.naturalHeight * scale;
   slideCtx.clearRect(0, 0, cw, ch);
-  slideCtx.drawImage(img, (cw - drawW) / 2, (ch - drawH) * focusY, drawW, drawH);
+  slideCtx.drawImage(img, (cw - drawW) * focusX, (ch - drawH) * focusY, drawW, drawH);
 };
 
 const paintHeroSlide = (index, fade = false) => {
@@ -193,7 +201,7 @@ const paintHeroSlide = (index, fade = false) => {
     const slide = heroSlides[index];
     const img = getHeroImage(index);
     const apply = () => {
-      drawImageCover(img, slide.focusY);
+      drawImageCover(img, slide.focusY, slide.focusX);
       ripple.setBackground(slideCanvas, { fade });
     };
     if (img.complete && img.naturalWidth) apply();
